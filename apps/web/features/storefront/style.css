@@ -2,9 +2,9 @@
 @layer components {
 /* Scoped port of approved reference; preserve rule order. */
 .carbignite {
-  --font-size-caption: 12px;
-  --font-size-label: 13px;
-  --font-size-supporting: 14px;
+  --font-size-caption: 10px;
+  --font-size-label: 14px;
+  --font-size-supporting: 12px;
   --paper: #f3f2ed;
   --ink: #222420;
   --muted: #6c6e66;
@@ -122,7 +122,7 @@
 .carbignite > header nav {
   display: flex;
   gap: 32px;
-  font-size: 12px;
+  font-size: var(--font-size-label);
 }
 .carbignite > header nav a {
   position: relative;
@@ -151,7 +151,7 @@
   padding: 6px;
 }
 .carbignite .bag-button {
-  font-size: 12px;
+  font-size: var(--font-size-label);
   background: none;
 }
 .carbignite .bag-button span {
@@ -203,7 +203,7 @@
   color: var(--orange);
 }
 .carbignite .hero-copy > p {
-  font-size: 13px;
+  font-size: var(--font-size-label);
   line-height: 1.8;
   color: var(--muted);
 }
