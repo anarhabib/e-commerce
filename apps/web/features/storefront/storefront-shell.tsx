@@ -13,6 +13,11 @@ import { Footer } from "./components/footer";
 import { BagDialog } from "./components/bag-dialog";
 import { Dialog } from "./components/dialog";
 import { parseSelection, selectionKey } from "./selection";
+import {
+  NotificationProvider,
+  NotificationViewport,
+  useNotifications,
+} from "@/components/ui/notifications";
 import type { StoreProduct, BagSelection } from "./types";
 
 const StorefrontContext = createContext<{
@@ -28,7 +33,7 @@ export function useStorefront() {
   return value;
 }
 
-export function StorefrontShell({
+function StorefrontContent({
   children,
   products,
   catalogError,
@@ -42,7 +47,7 @@ export function StorefrontShell({
   const [ready, setReady] = useState(false);
   const [product, setProduct] = useState<StoreProduct | null>(null);
   const [panel, setPanel] = useState<"bag" | "account" | null>(null);
-  const [toast, setToast] = useState("");
+  const { notify } = useNotifications();
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -67,11 +72,6 @@ export function StorefrontShell({
       localStorage.setItem("carbignite-theme", theme);
     } catch {}
   }, [ready, bag, theme, catalogError]);
-  useEffect(() => {
-    if (!toast) return;
-    const timer = setTimeout(() => setToast(""), 2800);
-    return () => clearTimeout(timer);
-  }, [toast]);
   useEffect(() => {
     const element = root.current!;
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
@@ -131,22 +131,22 @@ export function StorefrontShell({
 
   function add(selection: BagSelection) {
     if (!parseSelection(JSON.stringify([selection]), products).length) {
-      setToast("This product or option is no longer available.");
+      notify("This product or option is no longer available.", "error");
       return;
     }
     if (bag.length >= 50) {
-      setToast("Your bag is full. Remove a part first.");
+      notify("Your bag is full. Remove a part first.", "info");
       return;
     }
     setBag((current) => [...current, selection]);
     setProduct(null);
-    setToast("Added to your bag");
+    notify("Added to your bag");
   }
   return (
     <StorefrontContext.Provider
       value={{
         openProduct: setProduct,
-        notify: setToast,
+        notify,
         products,
         catalogError,
       }}
@@ -200,10 +200,20 @@ export function StorefrontShell({
             </button>
           </Dialog>
         )}
-        <div className={`toast z-50 ${toast ? "visible" : ""}`} role="status">
-          {toast}
-        </div>
+        <NotificationViewport />
       </div>
     </StorefrontContext.Provider>
+  );
+}
+
+export function StorefrontShell(props: {
+  children: ReactNode;
+  products: StoreProduct[];
+  catalogError: boolean;
+}) {
+  return (
+    <NotificationProvider>
+      <StorefrontContent {...props} />
+    </NotificationProvider>
   );
 }

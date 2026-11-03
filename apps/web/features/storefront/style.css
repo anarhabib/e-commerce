@@ -58,9 +58,7 @@
 }
 .carbignite button:focus-visible,
 .carbignite a:focus-visible,
-.carbignite select:focus-visible,
-.carbignite input:focus-visible,
-.carbignite textarea:focus-visible {
+.carbignite select:focus-visible {
   outline: 2px solid var(--orange);
   outline-offset: 5px;
 }
@@ -841,24 +839,6 @@
   margin-top: 25px;
   width: 100%;
 }
-.carbignite .toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translate(-50%, 20px);
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 12px;
-  padding: 16px 25px;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.25s;
-  z-index: 10;
-}
-.carbignite .toast.visible {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
 @media (min-width: 1550px) {
   .carbignite {
     max-width: 1800px;
@@ -1113,11 +1093,6 @@
   }
   .carbignite .detail-copy h2 {
     font-size: 28px;
-  }
-  .carbignite .toast {
-    width: max-content;
-    max-width: 90%;
-    text-align: center;
   }
 }
 @media (prefers-reduced-motion: reduce) {

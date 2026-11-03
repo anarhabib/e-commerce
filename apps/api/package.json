@@ -4,10 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "admin:setup": "tsx scripts/admin-credentials.ts --save",
+    "admin:credentials": "tsx scripts/admin-credentials.ts",
+    "test:admin": "node --env-file=.env --import tsx --test tests/admin.integration.test.ts",
+    "test:gallery": "node --env-file=.env --import tsx --test tests/gallery.integration.test.ts",
     "dev": "tsx watch --env-file=.env src/server.ts",
     "build": "tsc",
     "seed:demo": "tsx --env-file=.env prisma/seed.ts",
-    "test": "node --import tsx --test tests/product-schema.test.ts",
+    "test": "node --import tsx --test tests/product-schema.test.ts tests/admin-setup.test.ts",
     "test:integration": "node --env-file=.env --import tsx --test tests/products.integration.test.ts",
     "start": "node --env-file=.env dist/src/server.js"
   },

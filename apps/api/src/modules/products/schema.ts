@@ -1,7 +1,30 @@
 import { z } from "zod";
 
 export const productCategories = ["PADDLES", "CONSOLE", "TRIM"] as const;
+export const imageUrlSchema = z
+  .string()
+  .max(2048)
+  .refine((value) => {
+    if (
+      value.startsWith("/") &&
+      !value.startsWith("//") &&
+      !value.includes("\\")
+    )
+      return true;
+    try {
+      return ["http:", "https:"].includes(new URL(value).protocol);
+    } catch {
+      return false;
+    }
+  }, "Use a local asset path or HTTP(S) image URL");
 const productFields = {
+  imageUrls: z
+    .array(imageUrlSchema)
+    .max(12)
+    .refine(
+      (urls) => new Set(urls).size === urls.length,
+      "Remove duplicate images",
+    ),
   name: z.string().trim().min(1).max(200),
   slug: z
     .string()
@@ -13,8 +36,9 @@ const productFields = {
   description: z.string().trim().min(1),
   sku: z.string().trim().min(1).max(50),
   category: z.enum(productCategories),
-  priceCents: z.number().int().positive(),
-  stock: z.number().int().min(0),
+  priceCents: z.number().int().positive().max(10000000),
+  stock: z.number().int().min(0).max(2147483647),
+  active: z.boolean(),
   currency: z.literal("USD"),
   photoIndex: z.number().int().min(0).max(3).nullable(),
   isSample: z.boolean(),
@@ -66,12 +90,14 @@ export const createProductSchema = z
     category: productFields.category,
     priceCents: productFields.priceCents,
     stock: productFields.stock.default(0),
+    active: productFields.active.default(true),
     currency: productFields.currency.default("USD"),
     photoIndex: productFields.photoIndex.optional(),
     isSample: productFields.isSample.default(false),
     patterns: productFields.patterns.default(["Woven", "Forged"]),
     finishes: productFields.finishes.default(["Gloss", "Satin", "Matte"]),
     imageUrl: productFields.imageUrl.optional(),
+    imageUrls: productFields.imageUrls.optional(),
     make: productFields.make.optional(),
     model: productFields.model.optional(),
     yearFrom: productFields.yearFrom.optional(),

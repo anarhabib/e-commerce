@@ -10,6 +10,7 @@ import type {
 function vehicleWhere(q: FacetsQuery): Prisma.ProductWhereInput {
   const { make, model, year, search } = q;
   return {
+    active: true,
     ...(make && { make: { equals: make, mode: "insensitive" } }),
     ...(model && { model: { equals: model, mode: "insensitive" } }),
     ...(year && { yearFrom: { lte: year }, yearTo: { gte: year } }),
@@ -50,7 +51,7 @@ export const productRepository = {
         _count: { _all: true },
       }),
       prisma.product.findMany({
-        where: { make: { not: null }, model: { not: null } },
+        where: { active: true, make: { not: null }, model: { not: null } },
         select: { make: true, model: true, yearFrom: true, yearTo: true },
         distinct: ["make", "model", "yearFrom", "yearTo"],
       }),

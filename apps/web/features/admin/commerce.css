@@ -1,0 +1,933 @@
+.carbignite:has(.admin-main) {
+  [hidden] {
+    display: none !important;
+  }
+  .commerce-main {
+    padding: 36px 6% 85px;
+    max-width: 1500px;
+    margin: auto;
+  }
+  .breadcrumb {
+    display: flex;
+    gap: 13px;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 48px;
+  }
+  .page-intro {
+    margin-bottom: 48px;
+  }
+  .page-intro h1 {
+    font-size: clamp(40px, 4.6vw, 68px);
+    letter-spacing: -3px;
+    margin: 20px 0 16px;
+    line-height: 1.08;
+  }
+  .page-intro > p,
+  .page-intro > div > p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .page-intro h1 em {
+    color: var(--muted);
+  }
+  .checkout-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(290px, 1fr);
+    gap: 8%;
+    align-items: start;
+  }
+  .step-heading {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 19px;
+  }
+  .step-heading > span {
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .step-heading h2 {
+    font-size: 24px;
+    letter-spacing: -0.8px;
+  }
+  .identity-bar {
+    padding: 15px 18px;
+    background: var(--soft);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+  }
+  .identity-bar a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 20px;
+  }
+  .field-grid label,
+  .notes-label {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .field-grid input,
+  .notes-label textarea {
+    background: transparent;
+    padding: 13px;
+    border: 1px solid var(--line);
+    font-size: 14px;
+    margin-top: 7px;
+    min-height: 43px;
+  }
+  .field-wide {
+    grid-column: 1/-1;
+  }
+  .notes-label {
+    margin-top: 20px;
+  }
+  .review-heading {
+    margin-top: 40px;
+  }
+  .notice {
+    padding: 19px 20px;
+    background: var(--soft);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .notice-dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .notice strong {
+    font-weight: 500;
+  }
+  .notice p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 23px 0;
+  }
+  .consent input {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    margin: 2px 0 0;
+    accent-color: var(--orange);
+  }
+  .form-error {
+    color: #d45132;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 16px 0;
+  }
+  .form-error:empty {
+    display: none;
+  }
+  .submit-request {
+    width: 100%;
+  }
+  .microcopy {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-top: 15px;
+  }
+  .order-summary {
+    padding: 28px;
+    background: var(--soft);
+    position: sticky;
+    top: 110px;
+  }
+  .order-summary h2 {
+    font-size: 36px;
+    margin: 13px 0 25px;
+    letter-spacing: -1.5px;
+  }
+  .checkout-line {
+    display: flex;
+    gap: 15px;
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+    position: relative;
+  }
+  .summary-image {
+    position: relative;
+    flex-shrink: 0;
+    width: 74px;
+    height: 80px;
+    background-image: url("/assets/products.webp");
+    background-size: 200% 200%;
+    background-color: #e8e7e2;
+  }
+  .checkout-line h3 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .checkout-line p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-top: 4px;
+  }
+  .checkout-line strong {
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+    margin-top: 5px;
+  }
+  .checkout-line button {
+    background: none;
+    text-decoration: underline;
+    font-size: 14px;
+    color: var(--muted);
+    padding: 5px 0;
+  }
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    font-size: 14px;
+    margin-top: 24px;
+  }
+  .summary-line strong {
+    font-weight: 500;
+  }
+  .summary-line.small {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 16px;
+  }
+  .summary-line.total {
+    font-size: 17px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    margin-top: 23px;
+  }
+  .back-link {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 24px;
+  }
+  .empty-panel {
+    border: 1px solid var(--line);
+    padding: 35px 28px;
+  }
+  .empty-panel h3 {
+    font-size: 20px;
+    font-weight: 450;
+    letter-spacing: -0.5px;
+  }
+  .empty-panel p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin: 14px 0 24px;
+  }
+  .success-icon {
+    width: 50px;
+    height: 50px;
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+  .success-panel h2 {
+    font-size: 38px;
+    margin-bottom: 18px;
+  }
+  .success-panel p {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+  .success-panel .button {
+    margin-top: 27px;
+  }
+  .account-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .account-intro .text-button {
+    white-space: nowrap;
+    margin-bottom: 7px;
+  }
+  .account-layout {
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 8%;
+  }
+  .account-sidebar {
+    padding-right: 25px;
+    border-right: 1px solid var(--line);
+    position: sticky;
+    top: 115px;
+    align-self: start;
+  }
+  .avatar {
+    background: var(--soft);
+    width: 53px;
+    height: 53px;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .account-sidebar h3 {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .account-sidebar > p {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 9px 0 32px;
+    overflow-wrap: anywhere;
+  }
+  .sidebar-link {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .sidebar-link span {
+    color: var(--muted);
+  }
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 24px;
+  }
+  .section-title h2 {
+    font-size: 28px;
+    letter-spacing: -1px;
+  }
+  .section-title > span {
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .profile-section {
+    margin-top: 55px;
+    padding-top: 35px;
+    border-top: 1px solid var(--line);
+  }
+  .profile-section > .muted {
+    margin-bottom: 25px;
+    font-size: 14px;
+  }
+  .profile-section form > .button {
+    margin-top: 24px;
+  }
+  .order-card {
+    padding: 23px 0;
+    border-top: 1px solid var(--line);
+  }
+  .order-card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+  }
+  .order-card-top strong {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .order-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-top: 10px;
+  }
+  .order-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 14px;
+  }
+  .status {
+    display: inline-block;
+    padding: 6px 9px;
+    background: var(--soft);
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+  }
+  .status.requested {
+    color: var(--orange);
+  }
+  .status.shipped {
+    color: #719263;
+  }
+  .signin-panel {
+    max-width: 560px;
+    padding: 40px;
+    background: var(--soft);
+  }
+  .signin-panel h2 {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+  .signin-panel p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 25px;
+  }
+  .admin-main {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    min-height: 650px;
+  }
+  .admin-sidebar {
+    padding: 45px 30px;
+    border-right: 1px solid var(--line);
+  }
+  .admin-sidebar .eyebrow {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .admin-sidebar h2 {
+    font-size: 38px;
+    margin: 25px 0 40px;
+    letter-spacing: -2px;
+  }
+  .admin-nav {
+    display: grid;
+  }
+  .admin-nav button {
+    background: none;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .admin-nav button.active {
+    color: var(--ink);
+  }
+  .admin-nav span {
+    font-size: 14px;
+  }
+  .admin-sidebar > .back-link {
+    margin-top: 35px;
+  }
+  .admin-note {
+    margin-top: 60px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    line-height: 2;
+  }
+  .admin-note span {
+    letter-spacing: 0;
+  }
+  .admin-workspace {
+    padding: 45px 4.5%;
+    min-width: 0;
+  }
+  .admin-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .admin-title h1 {
+    font-size: 38px;
+    letter-spacing: -2px;
+    margin: 13px 0 0;
+  }
+  .owner-badge {
+    border: 1px solid var(--line);
+    padding: 8px 12px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 45px;
+  }
+  .metric-grid article {
+    padding: 23px;
+    background: var(--soft);
+  }
+  .metric-grid article > span {
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+  .metric-grid strong {
+    display: block;
+    font-size: 44px;
+    font-weight: 450;
+    letter-spacing: -2px;
+    margin: 17px 0;
+  }
+  .metric-grid p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .admin-workspace .section-title h2 {
+    font-size: 24px;
+  }
+  .admin-help {
+    background: var(--soft);
+    padding: 26px;
+    margin-top: 35px;
+  }
+  .admin-help h3 {
+    font-size: 24px;
+    font-weight: 450;
+    letter-spacing: -0.7px;
+    margin: 13px 0;
+  }
+  .admin-help p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.9;
+    max-width: 500px;
+  }
+  .table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+  }
+  .table-toolbar h2 {
+    font-size: 26px;
+    letter-spacing: -1px;
+  }
+  .table-toolbar label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .table-toolbar > div {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  .table-toolbar input {
+    max-width: 220px;
+    font-size: 14px;
+    margin: 0;
+    background: none;
+  }
+  .table-toolbar .button {
+    padding: 13px 17px;
+    min-height: 42px;
+    font-size: 14px;
+    gap: 15px;
+  }
+  .table-wrap {
+    overflow-x: auto;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+  }
+  th {
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    padding: 17px 12px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  td {
+    padding: 18px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  td small {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .table-product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 165px;
+  }
+  .table-product .summary-image {
+    width: 45px;
+    height: 48px;
+  }
+  .edit-button {
+    background: none;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    padding: 5px 0;
+  }
+  .order-detail-button {
+    background: none;
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    padding: 4px 0;
+  }
+  .order-detail-lines {
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin: 22px 0;
+  }
+  .order-detail-lines > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .order-detail-lines small {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-top: 5px;
+  }
+  .address-block {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--muted);
+    white-space: pre-line;
+  }
+  .order-detail-status {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 25px;
+  }
+  .order-detail-status select {
+    border-bottom: 1px solid var(--line);
+    max-width: none;
+    flex: 1;
+  }
+  .order-detail-status .button {
+    padding: 13px 17px;
+    min-height: 42px;
+  }
+  #edit-product {
+    max-width: 600px;
+  }
+  #edit-product h2 {
+    font-size: 34px;
+    margin: 18px 0;
+  }
+  #edit-product form > label {
+    font-size: 14px;
+    margin: 17px 0;
+  }
+  #edit-product .field-grid {
+    margin-top: 20px;
+  }
+  #edit-product select {
+    display: block;
+    width: 100%;
+    max-width: none;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    padding: 12px;
+    margin-top: 7px;
+  }
+  #edit-product form > .button {
+    width: 100%;
+  }
+  #order-detail h2 {
+    font-size: 34px;
+    margin: 18px 0;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  button[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  @media (max-width: 1050px) {
+    .admin-main {
+      grid-template-columns: 210px minmax(0, 1fr);
+    }
+    .admin-sidebar {
+      padding: 35px 22px;
+    }
+    .admin-workspace {
+      padding: 35px 25px;
+    }
+    .metric-grid {
+      gap: 10px;
+    }
+    .metric-grid article {
+      padding: 17px;
+    }
+    .admin-title h1 {
+      font-size: 32px;
+    }
+    .table-toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .table-toolbar > div {
+      width: 100%;
+    }
+    .checkout-layout {
+      gap: 5%;
+    }
+    .order-summary {
+      padding: 22px;
+    }
+    .account-layout {
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 5%;
+    }
+  }
+  @media (max-width: 700px) {
+    .commerce-main {
+      padding: 27px 6% 50px;
+    }
+    .commerce-main .breadcrumb {
+      margin-bottom: 35px;
+    }
+    .page-intro {
+      margin-bottom: 32px;
+    }
+    .page-intro h1 {
+      font-size: 43px;
+      letter-spacing: -2px;
+      line-height: 1.1;
+    }
+    .page-intro > p,
+    .page-intro > div > p {
+      font-size: 14px;
+    }
+    .checkout-layout {
+      grid-template-columns: 1fr;
+      gap: 35px;
+    }
+    .order-summary {
+      position: static;
+      grid-row: 1;
+      padding: 23px;
+    }
+    .order-summary h2 {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+    .checkout-line {
+      padding: 13px 0;
+    }
+    .summary-image {
+      width: 58px;
+      height: 63px;
+    }
+    .step-heading h2 {
+      font-size: 23px;
+    }
+    .field-grid {
+      gap: 17px 13px;
+    }
+    .field-grid input {
+      padding: 11px;
+      font-size: 14px;
+    }
+    .field-grid label {
+      font-size: 14px;
+    }
+    .notice {
+      padding: 16px;
+    }
+    .account-intro {
+      align-items: flex-start;
+      gap: 18px;
+      flex-direction: column;
+    }
+    .account-intro h1 {
+      max-width: 350px;
+    }
+    .account-layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .account-sidebar {
+      position: static;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 0 0 20px;
+    }
+    .account-sidebar .avatar {
+      float: left;
+      margin-right: 15px;
+      width: 43px;
+      height: 43px;
+    }
+    .account-sidebar > p {
+      margin-bottom: 20px;
+    }
+    .sidebar-link {
+      padding: 13px 0;
+    }
+    .section-title h2 {
+      font-size: 25px;
+    }
+    .profile-section {
+      margin-top: 35px;
+    }
+    .signin-panel {
+      padding: 27px;
+    }
+    .signin-panel h2 {
+      font-size: 29px;
+    }
+    .admin-main {
+      grid-template-columns: 1fr;
+    }
+    .admin-sidebar {
+      padding: 27px 6% 0;
+      border-right: 0;
+    }
+    .admin-sidebar h2 {
+      font-size: 29px;
+      line-height: 1.1;
+      margin: 15px 0 22px;
+    }
+    .admin-sidebar h2 br {
+      display: none;
+    }
+    .admin-nav {
+      display: flex;
+      gap: 23px;
+      border-bottom: 1px solid var(--line);
+    }
+    .admin-nav button {
+      border: 0;
+      padding: 16px 0;
+      font-size: 14px;
+      gap: 12px;
+    }
+    .admin-nav button.active {
+      border-bottom: 2px solid var(--ink);
+    }
+    .admin-sidebar > .back-link,
+    .admin-note {
+      display: none;
+    }
+    .admin-workspace {
+      padding: 30px 6%;
+    }
+    .admin-title {
+      margin-bottom: 27px;
+      align-items: flex-start;
+    }
+    .admin-title h1 {
+      font-size: 30px;
+      letter-spacing: -1.2px;
+    }
+    .owner-badge {
+      font-size: 14px;
+      padding: 7px;
+    }
+    .admin-title .eyebrow {
+      font-size: 14px;
+    }
+    .metric-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .metric-grid article {
+      padding: 15px 11px;
+    }
+    .metric-grid article > span {
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+    .metric-grid strong {
+      font-size: 33px;
+      margin: 13px 0;
+    }
+    .metric-grid p {
+      font-size: 14px;
+    }
+    .table-toolbar h2 {
+      font-size: 24px;
+    }
+    .table-toolbar input {
+      max-width: none;
+      min-width: 0;
+    }
+    .table-toolbar .button {
+      white-space: nowrap;
+      font-size: 14px;
+      padding: 12px;
+      gap: 10px;
+    }
+    td {
+      padding: 15px 8px;
+    }
+    th {
+      padding: 14px 8px;
+    }
+    .admin-help {
+      padding: 22px;
+    }
+    .order-card-top {
+      align-items: flex-start;
+    }
+    .order-detail-status {
+      flex-wrap: wrap;
+    }
+    .order-detail-status .button {
+      flex-shrink: 0;
+    }
+    header nav {
+      display: none;
+    }
+    .header-actions {
+      gap: 10px;
+    }
+  }
+}

@@ -1,78 +1,123 @@
 /* Reference styles sit below Tailwind utilities in the cascade. */
+/* Input focus stays inside the field; it never adds an outside ring or changes size. */
+.carbignite input:focus,
+.carbignite textarea:focus {
+  outline: none;
+  outline-offset: 0;
+  box-shadow: inset 0 -2px 0 var(--orange);
+}
+.carbignite input:is([type="checkbox"], [type="radio"]):focus {
+  box-shadow: none;
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+.carbignite #product-dialog .product-gallery-viewer .detail-image::before {
+  content: none;
+}
+.carbignite .product-gallery-viewer {
+  min-width: 0;
+}
+.carbignite .product-gallery-thumbnails {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 2px;
+}
+.carbignite .product-gallery-thumbnails button {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--line);
+  background-repeat: no-repeat;
+}
+.carbignite .product-gallery-thumbnails button[aria-pressed="true"] {
+  outline: 2px solid var(--orange);
+  outline-offset: 1px;
+}
+.carbignite #product-dialog:has(.product-gallery-thumbnails) {
+  max-height: 92dvh;
+  overflow-y: auto;
+}
 @layer components {
-/* React/Next integration only. Visual authority: style.css, then interactions.css. */
-.carbignite :is(h1, h2, h3, h4) {
-  font-family: var(--font-dm-sans), Arial, sans-serif;
-}
-.carbignite .account-link {
-  padding: 0;
-  background: none;
-}
-/* Top-layer dialogs must remain usable in short landscape windows and at zoom. */
-@media (max-height: 440px) {
-  .carbignite #product-dialog {
-    max-height: calc(100dvh - 24px);
-    overflow: auto;
+  /* React/Next integration only. Visual authority: style.css, then interactions.css. */
+  .carbignite :is(h1, h2, h3, h4) {
+    font-family: var(--font-dm-sans), Arial, sans-serif;
   }
-  .carbignite #product-dialog .detail-grid {
-    grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
+  .carbignite .account-link {
+    padding: 0;
+    background: none;
   }
-  .carbignite #product-dialog .detail-image {
-    height: 100px;
+  /* Top-layer dialogs must remain usable in short landscape windows and at zoom. */
+  @media (max-height: 440px) {
+    .carbignite #product-dialog {
+      max-height: calc(100dvh - 24px);
+      overflow: auto;
+    }
+    .carbignite #product-dialog .detail-grid {
+      grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
+    }
+    .carbignite #product-dialog .detail-image {
+      height: 100px;
+    }
   }
-}
-@media (max-width: 360px) {
-  .carbignite > header {
-    gap: 8px;
-    padding-inline: 3%;
+  @media (max-width: 360px) {
+    .carbignite > header {
+      gap: 8px;
+      padding-inline: 3%;
+    }
+    .carbignite > header .wordmark {
+      font-size: 19px;
+    }
+    .carbignite .header-actions {
+      gap: 5px;
+    }
+    .carbignite .icon-button {
+      padding: 4px;
+    }
+    .carbignite .hero h1 {
+      font-size: 58px;
+    }
   }
-  .carbignite > header .wordmark {
-    font-size: 19px;
-  }
-  .carbignite .header-actions {
-    gap: 5px;
-  }
-  .carbignite .icon-button {
-    padding: 4px;
-  }
-  .carbignite .hero h1 {
-    font-size: 58px;
-  }
-}
-html:has(.carbignite) {
-  scroll-behavior: smooth;
-  scroll-padding-top: 85px;
-}
-body:has(.carbignite) {
-  background: #f3f2ed;
-}
-body:has(.carbignite[data-theme="dark"]) {
-  background: #1b1d1b;
-}
-@media (prefers-reduced-motion: reduce) {
   html:has(.carbignite) {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
   }
-}
+  body:has(.carbignite) {
+    background: #f3f2ed;
+  }
+  body:has(.carbignite[data-theme="dark"]) {
+    background: #1b1d1b;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html:has(.carbignite) {
+      scroll-behavior: auto;
+    }
+  }
 
-/* Keyframes stay in CSS; Tailwind applies them with motion-safe:animate-[...]. */
-@keyframes carbignite-filter-in {
-  from { opacity: 0.35; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+  /* Keyframes stay in CSS; Tailwind applies them with motion-safe:animate-[...]. */
+  @keyframes carbignite-filter-in {
+    from {
+      opacity: 0.35;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-/* Different visibility timing preserves the close animation without JS timers. */
-@media (max-width: 700px) {
-  .carbignite > header nav {
-    transition:
-      opacity 280ms ease,
-      translate 280ms cubic-bezier(0.22, 1, 0.36, 1),
-      visibility 0s linear 280ms;
+  /* Different visibility timing preserves the close animation without JS timers. */
+  @media (max-width: 700px) {
+    .carbignite > header nav {
+      transition:
+        opacity 280ms ease,
+        translate 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 280ms;
+    }
   }
-}
-@media (prefers-reduced-motion: reduce) {
-  .carbignite > header nav {
-    transition: none;
+  @media (prefers-reduced-motion: reduce) {
+    .carbignite > header nav {
+      transition: none;
+    }
   }
-}
 }

@@ -9,6 +9,7 @@ export type Product = {
   category: ProductCategory;
   priceCents: number;
   imageUrl: string | null;
+  imageUrls?: string[];
   stock: number;
   currency: string;
   photoIndex: number | null;

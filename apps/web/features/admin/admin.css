@@ -1,0 +1,435 @@
+/* Scoped additions to the approved commerce reference. Shared tokens and chrome
+   continue to come from StorefrontShell. */
+.carbignite .owner-login-page {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 64px 6%;
+}
+.carbignite .owner-login-card {
+  width: 100%;
+  max-width: 520px;
+  padding: 36px;
+  background: var(--soft);
+}
+.carbignite .owner-login-card h1 {
+  font-size: 36px;
+  letter-spacing: -1.5px;
+  margin: 18px 0;
+}
+.carbignite .owner-login-card :is(p, label) {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.carbignite .owner-login-card .eyebrow {
+  font-size: 14px;
+}
+.carbignite .owner-login-card input {
+  box-sizing: border-box;
+  font-size: 16px;
+  min-height: 48px;
+  background: var(--paper);
+}
+.carbignite .owner-login-card .button {
+  min-height: 48px;
+  font-size: 15px;
+}
+.carbignite .owner-login-card .form-error:not(:empty) {
+  color: var(--orange);
+  margin-top: 16px;
+}
+.carbignite .owner-login-card > .back-link {
+  display: inline-block;
+  margin-top: 24px;
+  font-size: 14px;
+}
+.carbignite .admin-main {
+  flex: 1;
+}
+.carbignite .admin-main label,
+.carbignite :is(#edit-product, #new-request) label {
+  display: block;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 16px 0;
+}
+.carbignite
+  :is(.admin-main, #edit-product, #new-request)
+  :is(input:not([type="checkbox"]), textarea, select) {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  padding: 12px;
+  margin-top: 7px;
+  border-radius: 0;
+  min-height: 43px;
+  font-size: 14px;
+}
+.carbignite :is(.admin-main, #edit-product, #new-request) select {
+  background: var(--paper);
+}
+.carbignite :is(#edit-product, #new-request) fieldset {
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.carbignite #edit-product {
+  max-height: 90dvh;
+  overflow-y: auto;
+  width: min(600px, 92vw);
+}
+.carbignite :is(#new-request, #order-detail) {
+  width: min(640px, 92vw);
+  max-width: 640px;
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+.carbignite #new-request h2 {
+  font-size: 34px;
+  margin: 18px 0;
+}
+.carbignite :is(#edit-product, #new-request) .field-grid label {
+  margin: 0;
+}
+.carbignite #edit-product .option-group {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+.carbignite #edit-product .option-group label,
+.carbignite #edit-product .consent {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+.carbignite #edit-product .option-group input {
+  accent-color: var(--orange);
+}
+.carbignite #edit-product small {
+  color: var(--muted);
+  font-size: 14px;
+}
+.carbignite :is(#edit-product, #new-request) fieldset > .button {
+  width: 100%;
+}
+.carbignite .admin-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  font-size: 14px;
+  margin: 25px 0;
+}
+.carbignite .admin-pagination button {
+  background: transparent;
+  padding: 10px 0;
+}
+.carbignite .admin-session {
+  display: flex;
+  justify-content: flex-end;
+  margin: -18px 0 25px;
+}
+.carbignite .admin-loading {
+  font-size: 14px;
+  color: var(--muted);
+  padding: 20px 0;
+}
+.carbignite .admin-nav button {
+  transition: color 180ms ease;
+}
+.carbignite .admin-nav button:hover {
+  color: var(--ink);
+}
+.carbignite .admin-workspace .table-toolbar label {
+  margin: 0;
+}
+.carbignite .admin-workspace .table-toolbar input {
+  margin: 0;
+}
+.carbignite .admin-workspace .table-toolbar select {
+  margin: 0;
+}
+.carbignite .address-block {
+  overflow-wrap: anywhere;
+}
+.carbignite .status {
+  text-transform: capitalize;
+}
+.carbignite:has(.admin-main) .product-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+.carbignite:has(.admin-main) .delete-product-button {
+  color: var(--orange);
+}
+.carbignite #delete-product {
+  width: min(520px, 92vw);
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+.carbignite #delete-product h2 {
+  margin: 18px 0 22px;
+  font-size: 32px;
+  letter-spacing: -1px;
+}
+.carbignite #delete-product p,
+.carbignite .duplicate-product-note {
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 16px 0;
+}
+.carbignite #delete-product .delete-product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+.carbignite #delete-product .button {
+  flex: 1;
+  min-height: 48px;
+  justify-content: center;
+  padding: 12px 16px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.carbignite #delete-product .button.secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.carbignite:has(.admin-main) .status.product-active {
+  color: #315d39;
+  background: #e1eade;
+}
+.carbignite:has(.admin-main) .status.product-hidden {
+  color: #65675f;
+  background: var(--soft);
+}
+.carbignite[data-theme="dark"] .status.product-active {
+  color: #b7d6ac;
+  background: #2c3c2e;
+}
+.carbignite[data-theme="dark"] .status.product-hidden {
+  color: #b1b4a9;
+  background: var(--soft);
+}
+@media (max-width: 700px) {
+  .carbignite .admin-session {
+    margin: 0 0 20px;
+  }
+  .carbignite .table-toolbar > div {
+    flex-wrap: wrap;
+  }
+  .carbignite .table-toolbar input[type="search"] {
+    flex: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite .admin-nav button {
+    transition: none;
+  }
+}
+
+/* Readable management UI at normal zoom, including the reference's mobile rules. */
+.carbignite:has(.admin-main) {
+  :is(#edit-product, #new-request, #order-detail)
+    :is(
+      input:not(
+        :where(
+          [type="checkbox"],
+          [type="radio"],
+          [type="file"],
+          [type="hidden"]
+        )
+      ),
+      .dropdown-trigger
+    ) {
+    box-sizing: border-box;
+    height: 48px;
+    min-height: 48px;
+    padding: 11px 12px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  /* Keep toolbar controls on one baseline, regardless of a filter's label. */
+  .admin-workspace .table-toolbar > div {
+    align-items: flex-end;
+  }
+  .admin-workspace
+    .table-toolbar
+    :is(input[type="search"], .dropdown-trigger, .button) {
+    box-sizing: border-box;
+    height: 48px;
+    min-height: 48px;
+    margin-block: 0;
+  }
+  .admin-workspace .table-toolbar > div > .button {
+    flex: 0 0 auto;
+    width: auto;
+    white-space: nowrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  /* The shared form button rule must not consume the dropdown's flex space. */
+  #order-detail .order-detail-status {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    align-items: stretch;
+    gap: 15px;
+  }
+  #order-detail .order-detail-status > .brand-dropdown {
+    min-width: 0;
+    width: 100%;
+  }
+  #order-detail .order-detail-status > .button {
+    width: auto;
+    min-height: 48px;
+    margin: 0;
+    white-space: nowrap;
+  }
+  #order-detail .order-detail-status .dropdown-trigger {
+    height: 48px;
+  }
+  @media (max-width: 480px) {
+    #order-detail .order-detail-status {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    #order-detail .order-detail-status > .button {
+      width: 100%;
+    }
+  }
+  #edit-product :is(.option-group label, label.consent) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  #edit-product .option-group label {
+    margin: 12px 0;
+  }
+  #edit-product input[type="checkbox"] {
+    display: block;
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    accent-color: var(--orange);
+  }
+  .table-product .summary-image {
+    display: block;
+    background-repeat: no-repeat;
+  }
+  .product-gallery-editor {
+    margin: 24px 0;
+    border-block: 1px solid var(--line);
+    padding: 22px 0;
+  }
+  .product-gallery-editor h3 {
+    font-size: 20px;
+  }
+  .product-gallery-editor p {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  .gallery-previews {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+  }
+  .gallery-previews article {
+    min-width: 0;
+  }
+  .gallery-image {
+    aspect-ratio: 4/3;
+    background-color: var(--soft);
+    background-repeat: no-repeat;
+    border: 1px solid var(--line);
+  }
+  .gallery-previews article > span {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+  }
+  .gallery-image-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .gallery-image-actions :is(button, a) {
+    background: none;
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 6px 0;
+  }
+  .gallery-empty {
+    color: var(--muted);
+  }
+  .admin-main {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .admin-main :is(h1, h2, h3) {
+    line-height: 1.15;
+  }
+  > header :is(nav a, .account-link, .bag-button),
+  > footer :is(.footer-top > span, .footer-top > a:last-child, .footer-bottom) {
+    font-size: 14px;
+  }
+  :is(.admin-main, #edit-product, #new-request, #order-detail) .eyebrow {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  :is(.admin-main, #edit-product, #new-request, #order-detail)
+    :is(input:not([type="checkbox"]), textarea, select) {
+    font-size: 16px;
+  }
+  :is(.admin-main, #edit-product, #new-request, #order-detail) .button {
+    font-size: 15px;
+    min-height: 44px;
+  }
+  .admin-nav button {
+    min-height: 48px;
+  }
+  .admin-sidebar .eyebrow,
+  .metric-grid article > span {
+    letter-spacing: 0.5px;
+    overflow-wrap: anywhere;
+  }
+  .order-card-top,
+  .order-card-bottom,
+  .admin-title {
+    flex-wrap: wrap;
+  }
+  @media (max-width: 700px) {
+    .metric-grid {
+      grid-template-columns: 1fr;
+    }
+    .metric-grid article {
+      padding: 20px;
+    }
+    .admin-nav {
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .admin-workspace {
+      padding-inline: 5%;
+    }
+  }
+  @media (max-width: 480px) {
+    :is(#edit-product, #new-request) .field-grid {
+      grid-template-columns: 1fr;
+    }
+    #edit-product .option-group {
+      flex-wrap: wrap;
+    }
+  }
+}

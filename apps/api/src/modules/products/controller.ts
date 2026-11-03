@@ -22,9 +22,15 @@ export const productController = {
     return productService.getFacets(query);
   },
 
-  getProductById(request: FastifyRequest<{ Params: ProductIdParams }>) {
+  async getProductById(
+    request: FastifyRequest<{ Params: ProductIdParams }>,
+    reply: FastifyReply,
+  ) {
     const { id } = request.params;
-    return productService.getProductById(id);
+    const product = await productService.getProductById(id);
+    if (!product.active)
+      return reply.status(404).send({ error: "Product not found" });
+    return product;
   },
 
   async deleteProduct(

@@ -1,0 +1,123 @@
+.carbignite .notification-viewport {
+  position: fixed;
+  right: max(28px, env(safe-area-inset-right));
+  top: max(104px, calc(env(safe-area-inset-top) + 16px));
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(380px, calc(100vw - 32px));
+  pointer-events: none;
+}
+.carbignite .notification-card {
+  --notification-accent: var(--orange);
+  --notification-icon-surface: var(--soft);
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 19px 16px 19px 19px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--notification-accent);
+  border-radius: 2px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgb(0 0 0 / 0.12);
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 160ms cubic-bezier(0.4, 0, 1, 1),
+    transform 160ms cubic-bezier(0.4, 0, 1, 1);
+}
+.carbignite .notification-card[data-kind="success"] {
+  --notification-accent: #315d39;
+  --notification-icon-surface: #e1eade;
+}
+.carbignite .notification-card[data-kind="error"] {
+  --notification-accent: #a83535;
+  --notification-icon-surface: #f4e2df;
+}
+.carbignite[data-theme="dark"] .notification-card[data-kind="success"] {
+  --notification-accent: #b7d6ac;
+  --notification-icon-surface: #2c3c2e;
+}
+.carbignite[data-theme="dark"] .notification-card[data-kind="error"] {
+  --notification-accent: #f0aaa1;
+  --notification-icon-surface: #402c2a;
+}
+.carbignite .notification-card[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: 240ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.carbignite .notification-card[data-closing="true"] {
+  transform: translateY(4px);
+}
+.carbignite .notification-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  margin-top: 1px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--notification-accent);
+  background: var(--notification-icon-surface);
+  font-size: 16px;
+  line-height: 1;
+}
+.carbignite .notification-copy {
+  flex: 1;
+  min-width: 0;
+}
+.carbignite .notification-copy strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.15px;
+}
+.carbignite .notification-copy p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.carbignite .notification-card .notification-dismiss {
+  display: grid;
+  place-items: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  margin: -5px -5px 0 0;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  border: 0;
+  border-radius: 0;
+}
+.carbignite .notification-card .notification-dismiss:hover {
+  background: var(--soft);
+  color: var(--ink);
+}
+.carbignite .notification-card .notification-dismiss:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: -1px;
+}
+@media (max-width: 700px) {
+  .carbignite .notification-viewport {
+    right: 16px;
+    top: max(88px, calc(env(safe-area-inset-top) + 12px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite .notification-card,
+  .carbignite .notification-card[data-visible="true"],
+  .carbignite .notification-card[data-closing="true"] {
+    transition: none;
+    transform: none;
+  }
+}

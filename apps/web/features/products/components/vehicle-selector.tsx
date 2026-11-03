@@ -1,4 +1,5 @@
 "use client";
+import { Dropdown } from "@/components/ui/dropdown";
 
 import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -12,8 +13,7 @@ type Props = {
   initialVehicle?: { make: string; model: string; year: string };
 };
 
-const selectStyles =
-  "w-full rounded-sm border border-secondary/20 bg-[var(--paper)] p-2.5 font-mono text-xs text-[var(--ink)] focus:border-primary focus:outline-none disabled:opacity-50";
+const selectStyles = "w-full";
 
 export function VehicleSelector({
   vehicles,
@@ -82,7 +82,7 @@ export function VehicleSelector({
   return (
     <form onSubmit={handleSubmit} className={className}>
       <div className={`grid gap-2 ${columns ?? ""}`}>
-        <select
+        <Dropdown
           aria-label="Make"
           value={make}
           onChange={(e) => handleMakeChange(e.target.value)}
@@ -94,9 +94,9 @@ export function VehicleSelector({
               {m}
             </option>
           ))}
-        </select>
+        </Dropdown>
 
-        <select
+        <Dropdown
           aria-label="Model"
           value={model}
           onChange={(e) => handleModelChange(e.target.value)}
@@ -109,9 +109,9 @@ export function VehicleSelector({
               {m}
             </option>
           ))}
-        </select>
+        </Dropdown>
 
-        <select
+        <Dropdown
           aria-label="Year"
           value={year}
           onChange={(e) => setYear(e.target.value)}
@@ -124,7 +124,7 @@ export function VehicleSelector({
               {y}
             </option>
           ))}
-        </select>
+        </Dropdown>
       </div>
 
       <Button type="submit" disabled={!make} className="mt-3 w-full">
