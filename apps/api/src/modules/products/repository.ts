@@ -24,27 +24,17 @@ function vehicleWhere(q: FacetsQuery): Prisma.ProductWhereInput {
 
 export const productRepository = {
   findMany(query: ListProductsQuery) {
-    const { category, make, model, year, search, page, limit } = query;
+    const { category, page, limit } = query;
 
     const where: Prisma.ProductWhereInput = {
       ...vehicleWhere(query),
       ...(category && category.length > 0 && { category: { in: category } }),
-      ...(make && { make: { equals: make, mode: "insensitive" } }),
-      ...(model && { model: { equals: model, mode: "insensitive" } }),
-      // "fits a 2007 car": yearFrom <= 2007 <= yearTo
-      ...(year && { yearFrom: { lte: year }, yearTo: { gte: year } }),
-      ...(search && {
-        OR: [
-          { name: { contains: search, mode: "insensitive" } },
-          { sku: { contains: search, mode: "insensitive" } },
-        ],
-      }),
     };
 
     return prisma.$transaction([
       prisma.product.findMany({
         where,
-        orderBy: { createdAt: "desc" },
+        orderBy: { sku: "asc" },
         skip: (page - 1) * limit,
         take: limit,
       }),

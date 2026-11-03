@@ -22,11 +22,11 @@
   }
 }
 @media (max-width: 360px) {
-  .carbignite header {
+  .carbignite > header {
     gap: 8px;
     padding-inline: 3%;
   }
-  .carbignite header .wordmark {
+  .carbignite > header .wordmark {
     font-size: 19px;
   }
   .carbignite .header-actions {
@@ -63,7 +63,7 @@ body:has(.carbignite[data-theme="dark"]) {
 
 /* Different visibility timing preserves the close animation without JS timers. */
 @media (max-width: 700px) {
-  .carbignite header nav {
+  .carbignite > header nav {
     transition:
       opacity 280ms ease,
       translate 280ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -71,7 +71,7 @@ body:has(.carbignite[data-theme="dark"]) {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .carbignite header nav {
+  .carbignite > header nav {
     transition: none;
   }
 }

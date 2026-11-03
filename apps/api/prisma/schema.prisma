@@ -15,11 +15,20 @@ datasource db {
 }
 
 enum ProductCategory {
-  HEADLIGHT
-  TAILLIGHT
-  SIDE_MARKER
-  STOP_LIGHT
-  FOG_LIGHT
+  PADDLES
+  CONSOLE
+  TRIM
+}
+
+enum CarbonPattern {
+  Woven
+  Forged
+}
+
+enum CarbonFinish {
+  Gloss
+  Satin
+  Matte
 }
 
 model Product {
@@ -32,14 +41,17 @@ model Product {
   priceCents  Int
   imageUrl    String?
   stock       Int             @default(0)
+  currency    String          @default("USD")
+  photoIndex  Int?
+  isSample    Boolean         @default(false)
+  patterns    CarbonPattern[] @default([Woven, Forged])
+  finishes    CarbonFinish[]  @default([Gloss, Satin, Matte])
 
   make        String?
   model       String?
   yearFrom    Int?
   yearTo      Int?
 
-  color       String?
-  side        String?
 
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt

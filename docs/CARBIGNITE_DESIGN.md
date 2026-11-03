@@ -1,3 +1,5 @@
+> Historical record of merged design PR #17. The current API/structure follow-up is documented in API_MIGRATION.md.
+
 # CARBIGNITE design review
 
 This branch contains the approved homepage design, light/dark themes, native product and bag dialogs, six material previews, glass navigation, final hover exceptions, reduced-motion support and filter/mobile-menu animations. The reveal effect handles Strict Mode cleanup, Fast Refresh, dynamically inserted cards and motion-preference changes.

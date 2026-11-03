@@ -1,0 +1,290 @@
+[
+  {
+    "sku": "CBG-DEMO-001",
+    "slug": "ferrari-extended-paddle-shifters-1",
+    "name": "Extended paddle shifters",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "PADDLES",
+    "make": "Ferrari",
+    "model": "458 / 488",
+    "priceCents": 49500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 0,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-002",
+    "slug": "lamborghini-center-console-surround-2",
+    "name": "Center console surround",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "CONSOLE",
+    "make": "Lamborghini",
+    "model": "Huracán",
+    "priceCents": 69500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 1,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-003",
+    "slug": "ferrari-twin-cupholder-insert-3",
+    "name": "Twin cupholder insert",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "CONSOLE",
+    "make": "Ferrari",
+    "model": "458",
+    "priceCents": 38500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 2,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-004",
+    "slug": "porsche-lower-steering-wheel-trim-4",
+    "name": "Lower steering wheel trim",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "TRIM",
+    "make": "Porsche",
+    "model": "991 / 981",
+    "priceCents": 29500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 3,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-005",
+    "slug": "mclaren-extended-shift-paddles-5",
+    "name": "Extended shift paddles",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "PADDLES",
+    "make": "McLaren",
+    "model": "570S / 600LT",
+    "priceCents": 54500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 0,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-006",
+    "slug": "ferrari-f1-control-panel-surround-6",
+    "name": "F1 control panel surround",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "CONSOLE",
+    "make": "Ferrari",
+    "model": "488 / F8",
+    "priceCents": 42500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 1,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-007",
+    "slug": "lamborghini-cupholder-replacement-7",
+    "name": "Cupholder replacement",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "CONSOLE",
+    "make": "Lamborghini",
+    "model": "Huracán",
+    "priceCents": 39500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 2,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-008",
+    "slug": "ferrari-steering-wheel-spoke-trim-8",
+    "name": "Steering wheel spoke trim",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "TRIM",
+    "make": "Ferrari",
+    "model": "458 / 488",
+    "priceCents": 34500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 3,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-009",
+    "slug": "porsche-pdk-paddle-shifters-9",
+    "name": "PDK paddle shifters",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "PADDLES",
+    "make": "Porsche",
+    "model": "991.2",
+    "priceCents": 32500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 0,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-010",
+    "slug": "porsche-center-console-surround-10",
+    "name": "Center console surround",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "CONSOLE",
+    "make": "Porsche",
+    "model": "991 / 981",
+    "priceCents": 64500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 1,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-011",
+    "slug": "mclaren-console-storage-insert-11",
+    "name": "Console storage insert",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "CONSOLE",
+    "make": "McLaren",
+    "model": "720S",
+    "priceCents": 46500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 2,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  },
+  {
+    "sku": "CBG-DEMO-012",
+    "slug": "lamborghini-steering-wheel-lower-trim-12",
+    "name": "Steering wheel lower trim",
+    "description": "Demonstration carbon replacement part. Illustrative fitment and price; confirm compatibility, manufacturing and availability before ordering.",
+    "category": "TRIM",
+    "make": "Lamborghini",
+    "model": "Huracán",
+    "priceCents": 37500,
+    "stock": 0,
+    "imageUrl": "/carbignite/products.webp",
+    "photoIndex": 3,
+    "currency": "USD",
+    "isSample": true,
+    "patterns": [
+      "Woven",
+      "Forged"
+    ],
+    "finishes": [
+      "Gloss",
+      "Satin",
+      "Matte"
+    ]
+  }
+]

@@ -5,7 +5,7 @@ import { runInNewContext } from "node:vm";
 import ts from "typescript";
 
 // Exercise the actual effect body without requiring a browser or mounting the whole app.
-const source = readFileSync(new URL("../features/carbignite/storefront-shell.tsx", import.meta.url), "utf8");
+const source = readFileSync(new URL("../features/storefront/storefront-shell.tsx", import.meta.url), "utf8");
 const start = source.indexOf("    const element = root.current!;");
 assert.ok(start >= 0);
 const end = source.indexOf("  }, []);", start);

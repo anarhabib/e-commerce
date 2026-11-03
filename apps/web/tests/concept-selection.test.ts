@@ -1,28 +1,38 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseSelection } from "../features/carbignite/selection";
+import { parseSelection } from "../features/storefront/selection";
+import type { StoreProduct } from "../features/storefront/types";
 
-const valid = { productId: "concept-1", pattern: "Woven", finish: "Gloss" };
+const products: Pick<StoreProduct, "id" | "patterns" | "finishes">[] = [
+  {
+    id: "database-product-a",
+    patterns: ["Woven", "Forged"],
+    finishes: ["Gloss", "Satin", "Matte"],
+  },
+  { id: "database-product-b", patterns: ["Forged"], finishes: ["Matte"] },
+];
+const valid = { productId: products[0].id, pattern: "Woven", finish: "Gloss" };
+const parse = (value: string | null) => parseSelection(value, products);
 
-test("corrupted browser storage never prevents the homepage from loading", () => {
+test("corrupted storage never prevents the homepage from loading", () => {
   for (const value of [null, "{", "null", "42", "{}", '"hello"'])
-    assert.deepEqual(parseSelection(value), []);
+    assert.deepEqual(parse(value), []);
 });
-test("rejects real/unknown product IDs and unsupported material options", () => {
+test("accepts database IDs and rejects removed IDs and unsupported product options", () => {
   const invalid = [
     null,
     {},
-    { ...valid, productId: "real-prisma-cuid" },
+    { ...valid, productId: "deleted-product" },
     { ...valid, pattern: "Plastic" },
     { ...valid, finish: "Chrome" },
+    { ...valid, productId: products[1].id },
   ];
-  assert.deepEqual(parseSelection(JSON.stringify([...invalid, valid])), [
-    valid,
-  ]);
+  assert.deepEqual(parse(JSON.stringify([...invalid, valid])), [valid]);
+  assert.deepEqual(parseSelection(JSON.stringify([valid]), []), []);
 });
-test("never restores injected prices, quantities, stock, or customer fields", () => {
+test("stored prices, quantities, stock and customer fields are never trusted", () => {
   assert.deepEqual(
-    parseSelection(
+    parse(
       JSON.stringify([
         {
           ...valid,
@@ -36,11 +46,11 @@ test("never restores injected prices, quantities, stock, or customer fields", ()
     [valid],
   );
 });
-test("caps restored selections and keeps distinct finish/pattern combinations", () => {
-  assert.equal(
-    parseSelection(JSON.stringify(Array(1000).fill(valid))).length,
-    50,
-  );
-  const variants = [valid, { ...valid, pattern: "Forged", finish: "Matte" }];
-  assert.deepEqual(parseSelection(JSON.stringify(variants)), variants);
+test("caps selection size and preserves distinct supported database variants", () => {
+  assert.equal(parse(JSON.stringify(Array(1000).fill(valid))).length, 50);
+  const variants = [
+    valid,
+    { productId: products[1].id, pattern: "Forged", finish: "Matte" },
+  ];
+  assert.deepEqual(parse(JSON.stringify(variants)), variants);
 });

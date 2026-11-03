@@ -30,3 +30,12 @@ export function getProducts(params: SearchParams = {}) {
 export function getProductFilters(params: SearchParams = {}) {
   return apiGet<ProductFacets>(`/products/filters${toQueryString(params)}`);
 }
+
+export async function getStorefrontProducts(): Promise<Product[]> {
+  const products: Product[] = [];
+  for (let page = 1; ; page += 1) {
+    const result = await getProducts({ page: String(page), limit: "100" });
+    products.push(...result.products);
+    if (page >= result.totalPages) return products;
+  }
+}

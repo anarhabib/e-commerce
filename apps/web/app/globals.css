@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
-/* Exact breakpoints for the approved homepage design. */
+/* Match the approved design breakpoints exactly. */
 @custom-variant carb-mobile (@media (max-width: 700px));
 @custom-variant carb-wide (@media (min-width: 1550px));
 
 @theme {
   /* Brand colors */
-  --color-primary: #0066ff;
-  --color-primary-hover: #0052cc;
-  --color-primary-soft: #e5efff;
-  --color-secondary: #1a1a1b;
-  --color-tertiary: #f4f4f7;
-  --color-muted: #6b7280;
+  --color-primary: #d34d29;
+  --color-primary-hover: #b63e20;
+  --color-primary-soft: #f4e4dc;
+  --color-secondary: #222420;
+  --color-tertiary: #f3f2ed;
+  --color-muted: #6c6e66;
 
   /* Corners: small and sharp, like the design */
   --radius-sm: 0.125rem;
