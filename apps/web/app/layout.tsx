@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 
 const hanken = Hanken_Grotesk({
   subsets: ["latin"],
@@ -15,8 +13,8 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Flame Lenses",
-  description: "Tail lights, headlights and side markers.",
+  title: "CARBIGNITE",
+  description: "Carbon fiber replacement parts, made with intention.",
 };
 
 export default function RootLayout({
@@ -29,11 +27,7 @@ export default function RootLayout({
       lang="en"
       className={`${hanken.variable} ${inter.variable} ${jetbrains.variable}`}
     >
-      <body className="flex min-h-screen flex-col">
-        <Header />
-        <div className="flex-1">{children}</div>
-        <Footer />
-      </body>
+      <body className="flex min-h-screen flex-col">{children}</body>
     </html>
   );
 }

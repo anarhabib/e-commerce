@@ -1,0 +1,316 @@
+/* Reference styles sit below Tailwind utilities in the cascade. */
+@layer components {
+/* Scoped port of approved reference; preserve rule order. */
+/* One interaction vocabulary shared by the storefront, checkout, account and admin. */
+.carbignite {
+  --interaction-duration: 0.24s;
+  --interaction-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.carbignite a,
+.carbignite button {
+  transition:
+    color var(--interaction-duration) ease,
+    background-color var(--interaction-duration) ease,
+    border-color var(--interaction-duration) ease,
+    box-shadow var(--interaction-duration) ease;
+}
+.carbignite
+  :is(
+    .account-link,
+    .breadcrumb a,
+    .back-link,
+    .announcement a,
+    footer a:not(.wordmark),
+    .identity-bar a
+  ) {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0 1px;
+  transition:
+    background-size var(--interaction-duration) var(--interaction-ease),
+    color var(--interaction-duration) ease;
+  text-underline-offset: 4px;
+}
+.carbignite
+  :is(
+    .account-link,
+    .breadcrumb a,
+    .back-link,
+    .announcement a,
+    footer a:not(.wordmark),
+    .identity-bar a
+  ):is(:hover, :focus-visible) {
+  color: var(--orange);
+  background-size: 100% 1px;
+}
+.carbignite .sidebar-link,
+.carbignite .admin-nav button {
+  transition:
+    color var(--interaction-duration) ease,
+    background-color var(--interaction-duration) ease;
+}
+.carbignite .sidebar-link span,
+.carbignite .admin-nav button span {
+  transition:
+    transform var(--interaction-duration) var(--interaction-ease),
+    color var(--interaction-duration) ease;
+}
+.carbignite .sidebar-link:is(:hover, :focus-visible),
+.carbignite .admin-nav button:not(:disabled):is(:hover, :focus-visible) {
+  color: var(--orange);
+  background-color: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+.carbignite .sidebar-link:is(:hover, :focus-visible) span,
+.carbignite .admin-nav button:not(:disabled):is(:hover, :focus-visible) span {
+  color: var(--orange);
+  transform: translate(2px, -2px);
+}
+.carbignite .text-button,
+.carbignite .edit-button,
+.carbignite .order-detail-button {
+  transition:
+    color var(--interaction-duration) ease,
+    border-color var(--interaction-duration) ease,
+    text-decoration-color var(--interaction-duration) ease;
+}
+.carbignite
+  :is(.text-button, .edit-button, .order-detail-button):not(:disabled):is(
+    :hover,
+    :focus-visible
+  ) {
+  color: var(--orange);
+  border-color: var(--orange);
+  text-decoration-color: var(--orange);
+}
+.carbignite .button:not(:disabled) {
+  transition:
+    background-color var(--interaction-duration) ease,
+    color var(--interaction-duration) ease,
+    box-shadow var(--interaction-duration) ease;
+}
+.carbignite .button:not(:disabled):is(:hover, :focus-visible) {
+  background: var(--orange);
+  color: white;
+}
+.carbignite .button:not(#add-bag) > span {
+  transition: transform var(--interaction-duration) var(--interaction-ease);
+}
+.carbignite
+  .button:not(#add-bag):not(:disabled):is(:hover, :focus-visible)
+  > span {
+  transform: translate(2px, -2px);
+}
+.carbignite
+  button:not(.button):not(.product-image):not(:disabled):is(
+    :hover,
+    :focus-visible
+  ) {
+  color: var(--orange);
+}
+.carbignite input,
+.carbignite textarea,
+.carbignite select {
+  transition:
+    border-color var(--interaction-duration) ease,
+    box-shadow var(--interaction-duration) ease;
+}
+.carbignite input:not(:disabled):hover,
+.carbignite textarea:not(:disabled):hover,
+.carbignite select:not(:disabled):hover {
+  border-color: var(--muted);
+}
+.carbignite input:focus,
+.carbignite textarea:focus,
+.carbignite select:focus {
+  border-color: var(--orange);
+}
+
+/* The price stays anchored. Only its short underline animates. */
+.carbignite #product-dialog #add-bag:before {
+  display: none;
+}
+.carbignite #product-dialog #add-bag {
+  animation: none;
+  box-shadow: none;
+}
+.carbignite #product-dialog #add-bag:is(:hover, :focus-visible) {
+  background: var(--orange);
+  color: white;
+  animation: none;
+  box-shadow: none;
+}
+.carbignite #product-dialog #add-bag > span {
+  position: relative;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+.carbignite #product-dialog #add-bag > span:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--interaction-duration) var(--interaction-ease);
+  pointer-events: none;
+}
+.carbignite #product-dialog #add-bag:is(:hover, :focus-visible) > span:after {
+  transform: scaleX(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite *,
+  .carbignite *:before,
+  .carbignite *:after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Account navigation keeps its surface; only the text/arrow responds. */
+.carbignite .sidebar-link:is(:hover, :focus-visible) {
+  background-color: transparent;
+}
+.carbignite .account-page main .button:is(:hover, :focus-visible) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Header actions share the navbar's quiet, ink-colored underline. */
+.carbignite
+  header
+  .header-actions
+  :is(.account-link, .bag-button, .icon-button) {
+  position: relative;
+  background-image: none;
+  color: var(--ink);
+}
+.carbignite
+  header
+  .header-actions
+  :is(.account-link, .bag-button, .icon-button):not(:disabled):is(
+    :hover,
+    :focus-visible
+  ) {
+  color: var(--ink);
+  background-color: transparent;
+  background-image: none;
+}
+.carbignite
+  header
+  .header-actions
+  :is(.account-link, .bag-button, .icon-button):after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -5px;
+  height: 1px;
+  background: var(--ink);
+  pointer-events: none;
+  transition: right var(--interaction-duration) var(--interaction-ease);
+}
+.carbignite
+  header
+  .header-actions
+  :is(.account-link, .bag-button, .icon-button):is(
+    :hover,
+    :focus-visible
+  ):after {
+  right: 0;
+}
+.carbignite header .bag-button:is(:hover, :focus-visible) span {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+/* More of the page remains visible through the scrolling glass layer. */
+.carbignite header.is-scrolled {
+  background: rgba(243, 242, 237, 0.32);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  backdrop-filter: blur(12px) saturate(130%);
+}
+.carbignite[data-theme="dark"] header.is-scrolled {
+  background: rgba(27, 29, 27, 0.3);
+}
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .carbignite header.is-scrolled,
+  .carbignite[data-theme="dark"] header.is-scrolled {
+    background: var(--paper);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite
+    header
+    .header-actions
+    :is(.account-link, .bag-button, .icon-button):after {
+    transition: none;
+  }
+}
+
+/* Theme switching has no hover decoration; keyboard focus stays visible. */
+.carbignite header #theme {
+  transition: none;
+}
+.carbignite header #theme:after {
+  display: none;
+}
+.carbignite header #theme:is(:hover, :focus-visible) {
+  color: var(--ink);
+  background: transparent;
+  transform: none;
+  animation: none;
+  box-shadow: none;
+}
+
+/* These account actions retain the standard primary-button color response. */
+.carbignite
+  .account-page
+  #account-orders
+  .button:not(:disabled):is(:hover, :focus-visible),
+.carbignite
+  .account-page
+  #profile-form
+  > button:not(:disabled):is(:hover, :focus-visible) {
+  background: var(--orange);
+  color: white;
+}
+
+/* The footer collection link uses the same ink underline as the navbar. */
+.carbignite footer .footer-top > a:last-child {
+  position: relative;
+  background-image: none;
+  color: var(--ink);
+}
+.carbignite footer .footer-top > a:last-child:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -5px;
+  height: 1px;
+  background: var(--ink);
+  transition: right var(--interaction-duration) var(--interaction-ease);
+  pointer-events: none;
+}
+.carbignite footer .footer-top > a:last-child:is(:hover, :focus-visible) {
+  background-image: none;
+  color: var(--ink);
+}
+.carbignite footer .footer-top > a:last-child:is(:hover, :focus-visible):after {
+  right: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite footer .footer-top > a:last-child:after {
+    transition: none;
+  }
+}
+
+}

@@ -1,9 +1,7 @@
 "use client";
 
-"use client";
-
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import type { VehicleOption } from "../types";
 
@@ -11,16 +9,24 @@ type Props = {
   vehicles: VehicleOption[];
   className?: string;
   columns?: string;
+  initialVehicle?: { make: string; model: string; year: string };
 };
 
 const selectStyles =
   "w-full rounded-sm border border-secondary/20 bg-white p-2.5 font-mono text-xs text-secondary focus:border-primary focus:outline-none disabled:opacity-50";
 
-export function VehicleSelector({ vehicles, className, columns }: Props) {
+export function VehicleSelector({
+  vehicles,
+  className,
+  columns,
+  initialVehicle = { make: "", model: "", year: "" },
+}: Props) {
   const router = useRouter();
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
-  const [year, setYear] = useState("");
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [make, setMake] = useState(initialVehicle.make);
+  const [model, setModel] = useState(initialVehicle.model);
+  const [year, setYear] = useState(initialVehicle.year);
 
   // Distinct makes, sorted
   const makes = useMemo(
@@ -64,12 +70,13 @@ export function VehicleSelector({ vehicles, className, columns }: Props) {
     event.preventDefault();
     if (!make) return;
 
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
+    ["make", "model", "year", "page"].forEach((key) => params.delete(key));
     params.set("make", make);
     if (model) params.set("model", model);
     if (year) params.set("year", year);
 
-    router.push(`/products?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (
@@ -108,7 +115,7 @@ export function VehicleSelector({ vehicles, className, columns }: Props) {
           aria-label="Year"
           value={year}
           onChange={(e) => setYear(e.target.value)}
-          disabled={!model}
+          disabled={!model || years.length === 0}
           className={selectStyles}
         >
           <option value="">Year</option>

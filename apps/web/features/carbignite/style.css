@@ -1,0 +1,1652 @@
+/* Reference styles sit below Tailwind utilities in the cascade. */
+@layer components {
+/* Scoped port of approved reference; preserve rule order. */
+.carbignite {
+  --paper: #f3f2ed;
+  --ink: #222420;
+  --muted: #6c6e66;
+  --line: #d7d8d0;
+  --soft: #e8e8e1;
+  --orange: #d34d29;
+  --contrast: #fff;
+  --hero-image: #dcded7;
+  color-scheme: light;
+}
+.carbignite[data-theme="dark"] {
+  --paper: #1b1d1b;
+  --ink: #eeeee5;
+  --muted: #b1b4a9;
+  --line: #3a3e37;
+  --soft: #282c27;
+  --contrast: #20231f;
+  --hero-image: #dcded7;
+  color-scheme: dark;
+}
+.carbignite * {
+  box-sizing: border-box;
+}
+.carbignite {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
+}
+.carbignite {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.carbignite button,
+.carbignite input,
+.carbignite select,
+.carbignite textarea {
+  font: inherit;
+}
+.carbignite button,
+.carbignite a {
+  -webkit-tap-highlight-color: transparent;
+}
+.carbignite button {
+  cursor: pointer;
+}
+.carbignite a {
+  color: inherit;
+  text-decoration: none;
+}
+.carbignite button {
+  color: inherit;
+}
+.carbignite button:focus-visible,
+.carbignite a:focus-visible,
+.carbignite select:focus-visible,
+.carbignite input:focus-visible,
+.carbignite textarea:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 5px;
+}
+.carbignite button {
+  border: 0;
+}
+.carbignite button:disabled {
+  cursor: default;
+}
+.carbignite h1,
+.carbignite h2,
+.carbignite h3,
+.carbignite p {
+  margin: 0;
+}
+.carbignite em {
+  font-style: normal;
+  color: var(--muted);
+}
+.carbignite .announcement {
+  background: #282b25;
+  color: #eeeee7;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  padding: 10px 20px;
+}
+.carbignite .announcement a {
+  margin-left: 20px;
+  color: #c4c6bb;
+}
+.carbignite .announcement span {
+  margin-left: 12px;
+}
+.carbignite header {
+  height: 87px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4.3%;
+  border-bottom: 1px solid var(--line);
+  gap: 30px;
+}
+.carbignite .wordmark {
+  font-size: 26px;
+  letter-spacing: -1.8px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.carbignite .wordmark span {
+  font-size: 10px;
+  vertical-align: top;
+  letter-spacing: 0;
+  margin-left: 3px;
+  display: inline-block;
+  padding-top: 4px;
+}
+.carbignite nav {
+  display: flex;
+  gap: 32px;
+  font-size: 12px;
+}
+.carbignite nav a {
+  position: relative;
+}
+.carbignite nav a:after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background: var(--ink);
+  left: 0;
+  right: 100%;
+  bottom: -5px;
+  transition: right 0.2s;
+}
+.carbignite nav a:hover:after {
+  right: 0;
+}
+.carbignite .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.carbignite .icon-button {
+  background: none;
+  font-size: 24px;
+  padding: 6px;
+}
+.carbignite .bag-button {
+  font-size: 12px;
+  background: none;
+}
+.carbignite .bag-button span {
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 10px;
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-left: 8px;
+}
+.carbignite .mobile-menu {
+  display: none;
+}
+.carbignite .hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 590px;
+}
+.carbignite .hero-copy {
+  padding: 65px 8.6% 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.carbignite .eyebrow {
+  font-size: 9px;
+  font-weight: 550;
+  letter-spacing: 1.5px;
+  line-height: 1.6;
+}
+.carbignite .orange-dot {
+  display: inline-block;
+  background: var(--orange);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.carbignite h1 {
+  font-weight: 450;
+  font-size: clamp(50px, 5.8vw, 90px);
+  letter-spacing: -5px;
+  line-height: 1.02;
+  margin: 36px 0 25px;
+}
+.carbignite h1 em {
+  color: var(--orange);
+}
+.carbignite .hero-copy > p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.carbignite .button {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 38px;
+  padding: 18px 23px;
+  font-size: 11px;
+  font-weight: 500;
+  min-height: 50px;
+}
+.carbignite .primary {
+  background: var(--ink);
+  color: var(--paper);
+  transition: background 0.2s;
+}
+.carbignite .primary:hover {
+  background: var(--orange);
+  color: white;
+}
+.carbignite .hero .button {
+  margin-top: 30px;
+}
+.carbignite .hero-foot {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: auto;
+  padding-top: 65px;
+  font-size: 8px;
+  letter-spacing: 1px;
+  line-height: 1.7;
+}
+.carbignite .scroll-note {
+  color: var(--muted);
+  align-self: flex-end;
+}
+.carbignite .hero-visual {
+  position: relative;
+  background: var(--hero-image);
+  overflow: hidden;
+}
+.carbignite .hero-visual > img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
+}
+.carbignite .image-index {
+  position: absolute;
+  left: 30px;
+  top: 28px;
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  color: #41463e;
+}
+.carbignite .image-caption {
+  position: absolute;
+  bottom: 26px;
+  left: 30px;
+  right: 30px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 0.9px;
+  color: #41463e;
+}
+.carbignite .vertical-label {
+  position: absolute;
+  right: 22px;
+  top: 28px;
+  writing-mode: vertical-rl;
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  color: #41463e;
+}
+.carbignite .principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 23px 4.3%;
+  font-size: 11px;
+}
+.carbignite .principles span:nth-child(2) {
+  text-align: center;
+}
+.carbignite .principles span:last-child {
+  text-align: right;
+}
+.carbignite .principles i {
+  font-style: normal;
+  font-size: 9px;
+  color: var(--muted);
+  margin-right: 20px;
+}
+.carbignite .section {
+  padding: 88px 4.3%;
+}
+.carbignite .section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 43px;
+}
+.carbignite h2 {
+  font-weight: 450;
+  font-size: clamp(35px, 3.5vw, 54px);
+  letter-spacing: -2.5px;
+  line-height: 1.12;
+}
+.carbignite .section-heading h2 {
+  margin-top: 18px;
+}
+.carbignite .heading-note p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.carbignite .sample-label {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  margin-top: 20px;
+}
+.carbignite .filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 30px;
+  gap: 12px;
+}
+.carbignite .filter-tabs {
+  display: flex;
+  gap: 27px;
+  align-items: stretch;
+}
+.carbignite .filter-tabs button {
+  background: none;
+  font-size: 11px;
+  padding: 21px 0;
+  position: relative;
+  color: var(--muted);
+}
+.carbignite .filter-tabs button.active {
+  color: var(--ink);
+}
+.carbignite .filter-tabs button.active:after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ink);
+}
+.carbignite sup {
+  font-size: 8px;
+  margin-left: 5px;
+}
+.carbignite .vehicle-filter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.carbignite .vehicle-filter > span {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+.carbignite select {
+  background: none;
+  border: 0;
+  color: var(--ink);
+  padding: 12px 15px 12px 0;
+  font-size: 11px;
+  max-width: 150px;
+}
+.carbignite select option {
+  background: var(--paper);
+}
+.carbignite .product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 23px;
+}
+.carbignite .product-card {
+  min-width: 0;
+}
+.carbignite .product-image {
+  display: block;
+  position: relative;
+  background-color: #e5e5de;
+  width: 100%;
+  aspect-ratio: 1/1.08;
+  padding: 0;
+  overflow: hidden;
+}
+.carbignite .product-photo {
+  position: absolute;
+  inset: 0;
+  background-image: url("/carbignite/products.webp");
+  background-size: 200% 200%;
+  transition: transform 0.5s;
+}
+.carbignite .product-image:hover .product-photo {
+  transform: scale(1.06);
+}
+.carbignite .photo-0 {
+  background-position: 0 0;
+}
+.carbignite .photo-1 {
+  background-position: 100% 0;
+}
+.carbignite .photo-2 {
+  background-position: 0 100%;
+}
+.carbignite .photo-3 {
+  background-position: 100% 100%;
+}
+.carbignite .product-label {
+  position: absolute;
+  left: 12px;
+  top: 13px;
+  color: #464a41;
+  font-size: 7px;
+  letter-spacing: 0.8px;
+  background: #f4f3edc7;
+  padding: 5px 6px;
+}
+.carbignite .product-plus {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  border-radius: 50%;
+  background: #f8f7f0e8;
+  color: #292e25;
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+.carbignite .product-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  margin: 18px 0 8px;
+}
+.carbignite .product-title {
+  font-size: 14px;
+  letter-spacing: -0.3px;
+  font-weight: 500;
+  background: none;
+  padding: 0;
+  text-align: left;
+  line-height: 1.4;
+}
+.carbignite .product-price {
+  font-size: 11px;
+  margin-top: 9px;
+  color: var(--muted);
+}
+.carbignite .product-price strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+.carbignite .collection-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 35px;
+  font-size: 9px;
+  color: var(--muted);
+}
+.carbignite .text-button {
+  background: none;
+  border-bottom: 1px solid var(--ink);
+  padding: 0 0 8px;
+  font-size: 11px;
+  color: var(--ink);
+}
+.carbignite .text-button span {
+  margin-left: 35px;
+}
+.carbignite .empty-state {
+  grid-column: 1/-1;
+  padding: 50px;
+  text-align: center;
+  color: var(--muted);
+}
+.carbignite .material-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 515px;
+  background: var(--soft);
+}
+.carbignite .material-art {
+  position: relative;
+  overflow: hidden;
+  background-color: #111615;
+  background-image:
+    repeating-linear-gradient(45deg, transparent 0 10px, #ffffff05 10px 20px),
+    repeating-linear-gradient(
+      -45deg,
+      #181e1c 0 7px,
+      #303b35 7px 14px,
+      #0a100d 14px 21px,
+      #26302a 21px 28px
+    );
+  background-size: 100% 100%;
+  isolation: isolate;
+}
+.carbignite .material-art:before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  background: linear-gradient(
+    125deg,
+    transparent 22%,
+    #ccd9c042 42%,
+    #e5eee722 48%,
+    transparent 66%
+  );
+  transform: rotate(-12deg);
+  transition: opacity 0.4s;
+  z-index: -1;
+}
+.carbignite .material-art[data-pattern="forged"] {
+  background-color: #141917;
+  background-image: repeating-conic-gradient(
+    from 35deg at 20% 70%,
+    #101512 0 11deg,
+    #424b43 11deg 19deg,
+    #181e19 19deg 47deg,
+    #2a342c 47deg 52deg,
+    #101512 52deg 89deg
+  );
+  background-size: 65px 79px;
+}
+.carbignite .material-art[data-finish="Satin"]:before {
+  opacity: 0.5;
+}
+.carbignite .material-art[data-finish="Matte"]:before {
+  opacity: 0.15;
+}
+.carbignite .material-code {
+  position: absolute;
+  left: 35px;
+  top: 30px;
+  color: #b9c1b5;
+  font-size: 9px;
+  letter-spacing: 1px;
+  line-height: 1.7;
+}
+.carbignite .material-stamp {
+  position: absolute;
+  left: 35px;
+  bottom: 32px;
+  color: #eef0e7;
+  font-size: 30px;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+.carbignite .material-copy {
+  padding: 60px 12% 45px;
+}
+.carbignite .material-copy h2 {
+  margin: 22px 0;
+  font-size: clamp(34px, 3.3vw, 50px);
+}
+.carbignite .material-copy > p {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+  max-width: 360px;
+}
+.carbignite .material-tabs {
+  display: flex;
+  gap: 28px;
+  border-bottom: 1px solid var(--line);
+  margin-top: 23px;
+}
+.carbignite .material-tabs button {
+  background: none;
+  padding: 17px 0;
+  font-size: 11px;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+}
+.carbignite .material-tabs button.active {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.carbignite .material-copy .pattern-description {
+  font-size: 10px;
+  margin-top: 15px;
+  min-height: 38px;
+}
+.carbignite .finish-line {
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 17px;
+  gap: 10px;
+}
+.carbignite .finish-line > span {
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+.carbignite .finish {
+  font-size: 9px;
+  background: none;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  color: var(--muted);
+}
+.carbignite .finish.active {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.carbignite .atelier {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 12%;
+}
+.carbignite .atelier h2 {
+  margin-top: 26px;
+}
+.carbignite .atelier h2 em {
+  display: block;
+}
+.carbignite .approach > p {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 400px;
+  margin-bottom: 30px;
+}
+.carbignite .approach-row {
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 24px;
+  padding: 21px 0;
+}
+.carbignite .approach-row > span {
+  font-size: 9px;
+  color: var(--muted);
+  padding-top: 3px;
+}
+.carbignite .approach-row h3 {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.carbignite .approach-row p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 340px;
+}
+.carbignite .custom {
+  padding: 62px 4.3%;
+  background: #dcded1;
+  color: #282d24;
+}
+.carbignite .custom h2 {
+  font-size: clamp(35px, 4.5vw, 65px);
+  margin: 20px 0 27px;
+}
+.carbignite .custom h2 em {
+  color: #68705e;
+}
+.carbignite .custom > div:last-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+.carbignite .custom p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #58604f;
+}
+.carbignite .custom .button {
+  background: #282d24;
+  color: #f3f2ed;
+}
+.carbignite .custom .button:hover {
+  background: var(--orange);
+}
+.carbignite footer {
+  padding: 43px 4.3% 23px;
+}
+.carbignite .footer-top,
+.carbignite .footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.carbignite .footer-top > span {
+  font-size: 9px;
+  letter-spacing: 1.4px;
+}
+.carbignite .footer-top > a:last-child {
+  font-size: 11px;
+}
+.carbignite .footer-bottom {
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  font-size: 8px;
+  color: var(--muted);
+}
+.carbignite dialog {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 48px;
+  max-width: 760px;
+  width: calc(100% - 32px);
+  max-height: 90vh;
+  overflow: auto;
+}
+.carbignite dialog::backdrop {
+  background: #0d130db3;
+  backdrop-filter: blur(6px);
+}
+.carbignite .close {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  background: none;
+  font-size: 28px;
+}
+.carbignite .detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.carbignite .detail-image {
+  aspect-ratio: 1;
+  background-image: url("/carbignite/products.webp");
+  background-size: 200% 200%;
+  background-color: #e8e7e2;
+}
+.carbignite .detail-copy h2 {
+  font-size: 32px;
+  letter-spacing: -1.3px;
+  margin: 15px 0;
+}
+.carbignite .detail-copy p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.carbignite .detail-copy label {
+  display: block;
+  font-size: 10px;
+  margin-top: 18px;
+}
+.carbignite .detail-copy select {
+  display: block;
+  border-bottom: 1px solid var(--line);
+  width: 100%;
+  max-width: none;
+}
+.carbignite .detail-copy .button {
+  margin-top: 25px;
+  width: 100%;
+}
+.carbignite .preview-note {
+  font-size: 10px !important;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 18px 0;
+}
+.carbignite .muted {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 15px 0 25px;
+}
+.carbignite .bag-row {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  gap: 20px;
+  padding: 18px 0;
+  font-size: 12px;
+}
+.carbignite .bag-row small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 5px;
+}
+.carbignite .bag-row button {
+  background: none;
+  font-size: 10px;
+  text-decoration: underline;
+  color: var(--muted);
+  padding: 8px 0;
+}
+.carbignite .bag-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+.carbignite #inquiry-dialog {
+  max-width: 520px;
+}
+.carbignite #inquiry-dialog h2 {
+  margin: 16px 0;
+}
+.carbignite #inquiry-dialog > p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.carbignite form label {
+  display: block;
+  font-size: 11px;
+  margin-top: 20px;
+}
+.carbignite input,
+.carbignite textarea {
+  display: block;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 12px;
+  width: 100%;
+  margin-top: 8px;
+  resize: vertical;
+}
+.carbignite form .button {
+  margin-top: 25px;
+  width: 100%;
+}
+.carbignite .toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 12px;
+  padding: 16px 25px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  z-index: 10;
+}
+.carbignite .toast.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+@media (min-width: 1550px) {
+  .carbignite {
+    max-width: 1800px;
+    margin: auto;
+  }
+  .carbignite .hero {
+    min-height: 700px;
+  }
+}
+@media (max-width: 1000px) {
+  .carbignite header {
+    padding: 0 4%;
+    gap: 15px;
+  }
+  .carbignite .wordmark {
+    font-size: 23px;
+  }
+  .carbignite nav {
+    gap: 20px;
+  }
+  .carbignite .hero {
+    min-height: 535px;
+  }
+  .carbignite h1 {
+    letter-spacing: -3.5px;
+  }
+  .carbignite .hero-copy {
+    padding-top: 45px;
+  }
+  .carbignite .hero-foot {
+    padding-top: 50px;
+  }
+  .carbignite .scroll-note {
+    display: none;
+  }
+  .carbignite .product-grid {
+    gap: 15px;
+  }
+  .carbignite .material-copy {
+    padding: 45px 9%;
+  }
+  .carbignite .atelier {
+    gap: 7%;
+  }
+  .carbignite .heading-note {
+    max-width: 260px;
+  }
+  .carbignite .product-title {
+    font-size: 12px;
+  }
+  .carbignite .vehicle-filter > span {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .carbignite .announcement {
+    font-size: 8px;
+  }
+  .carbignite .announcement a {
+    margin-left: 8px;
+  }
+  .carbignite header {
+    height: 72px;
+  }
+  .carbignite .wordmark {
+    font-size: 23px;
+  }
+  .carbignite .header-actions {
+    gap: 13px;
+  }
+  .carbignite .mobile-menu {
+    display: block;
+    font-size: 20px;
+  }
+  .carbignite nav {
+    display: none;
+    position: absolute;
+    top: 105px;
+    left: 0;
+    right: 0;
+    background: var(--paper);
+    padding: 25px 5%;
+    border-bottom: 1px solid var(--line);
+    z-index: 5;
+  }
+  .carbignite nav.open {
+    display: flex;
+    justify-content: space-between;
+  }
+  .carbignite .hero {
+    grid-template-columns: 1fr;
+  }
+  .carbignite .hero-copy {
+    padding: 40px 6% 24px;
+    min-height: 440px;
+  }
+  .carbignite .hero h1 {
+    font-size: 65px;
+    letter-spacing: -4px;
+    margin-top: 25px;
+  }
+  .carbignite .hero-copy > p {
+    font-size: 12px;
+  }
+  .carbignite .hero .button {
+    margin-top: 25px;
+  }
+  .carbignite .hero-foot {
+    padding-top: 35px;
+  }
+  .carbignite .scroll-note {
+    display: block;
+  }
+  .carbignite .hero-visual {
+    min-height: 370px;
+    grid-row: 2;
+  }
+  .carbignite .principles {
+    padding: 20px 6%;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .carbignite .principles span:nth-child(n) {
+    text-align: left;
+  }
+  .carbignite .principles i {
+    margin-right: 15px;
+  }
+  .carbignite .section {
+    padding: 55px 6%;
+  }
+  .carbignite .section-heading {
+    display: block;
+    margin-bottom: 28px;
+  }
+  .carbignite .heading-note {
+    max-width: none;
+    margin-top: 20px;
+  }
+  .carbignite .heading-note p {
+    font-size: 11px;
+  }
+  .carbignite .sample-label {
+    font-size: 7px;
+    margin-top: 12px;
+  }
+  .carbignite h2 {
+    font-size: 39px;
+    letter-spacing: -2px;
+  }
+  .carbignite .filter-tabs {
+    gap: 17px;
+  }
+  .carbignite .filter-tabs button {
+    font-size: 10px;
+    padding: 19px 0;
+  }
+  .carbignite select {
+    font-size: 10px;
+    max-width: 100px;
+  }
+  .carbignite .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 26px 14px;
+  }
+  .carbignite .product-meta {
+    font-size: 7px;
+    margin-top: 13px;
+    letter-spacing: 0.4px;
+  }
+  .carbignite .product-title {
+    font-size: 12px;
+  }
+  .carbignite .product-price {
+    font-size: 10px;
+  }
+  .carbignite .product-label {
+    font-size: 6px;
+    left: 7px;
+    top: 8px;
+  }
+  .carbignite .collection-bottom {
+    font-size: 8px;
+  }
+  .carbignite .text-button {
+    font-size: 10px;
+  }
+  .carbignite .text-button span {
+    margin-left: 12px;
+  }
+  .carbignite .material-section {
+    grid-template-columns: 1fr;
+  }
+  .carbignite .material-art {
+    min-height: 350px;
+  }
+  .carbignite .material-copy {
+    padding: 45px 6%;
+  }
+  .carbignite .material-copy h2 {
+    font-size: 40px;
+  }
+  .carbignite .atelier {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .carbignite .approach > p {
+    font-size: 15px;
+  }
+  .carbignite .custom {
+    padding: 45px 6%;
+  }
+  .carbignite .custom h2 {
+    font-size: 40px;
+  }
+  .carbignite .custom > div:last-child {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .carbignite .custom p {
+    font-size: 11px;
+  }
+  .carbignite .footer-top {
+    flex-wrap: wrap;
+  }
+  .carbignite .footer-top > span {
+    font-size: 8px;
+  }
+  .carbignite .footer-top > a:last-child {
+    display: none;
+  }
+  .carbignite .footer-bottom {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    font-size: 8px;
+    line-height: 1.8;
+  }
+  .carbignite .footer-bottom > span:nth-child(2) {
+    order: 3;
+    width: 100%;
+    max-width: 260px;
+  }
+  .carbignite .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .carbignite .detail-image {
+    max-height: 260px;
+    aspect-ratio: 1.3;
+  }
+  .carbignite dialog {
+    padding: 40px 24px 25px;
+  }
+  .carbignite .detail-copy h2 {
+    font-size: 28px;
+  }
+  .carbignite .toast {
+    width: max-content;
+    max-width: 90%;
+    text-align: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite {
+    scroll-behavior: auto;
+  }
+  .carbignite *,
+  .carbignite *:before {
+    transition: none !important;
+  }
+}
+
+/* Quiet, one-time entrances. Content stays visible without JavaScript. */
+@media (prefers-reduced-motion: no-preference) {
+  .carbignite .hero-copy > .eyebrow {
+    animation: arrive 0.7s 0.05s both;
+  }
+  .carbignite .hero h1 {
+    animation: arrive 0.85s 0.13s both;
+  }
+  .carbignite .hero-copy > p {
+    animation: arrive 0.8s 0.24s both;
+  }
+  .carbignite .hero-copy > .button {
+    animation: arrive 0.8s 0.34s both;
+  }
+  .carbignite .hero-visual > img {
+    animation: image-settle 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  }
+  .carbignite .orange-dot {
+    animation: signal 1.7s 0.8s 2;
+  }
+  .carbignite.motion-ready .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .carbignite.motion-ready .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .carbignite .button span,
+  .carbignite .text-button span,
+  .carbignite .product-plus {
+    transition: transform 0.25s ease;
+  }
+  .carbignite .button:hover span,
+  .carbignite .text-button:hover span {
+    transform: translate(3px, -3px);
+  }
+  .carbignite .product-image:hover .product-plus {
+    transform: rotate(45deg);
+  }
+  .carbignite .product-image:hover .product-photo {
+    transform: scale(1.035);
+  }
+  .carbignite .bag-button span {
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+  }
+  .carbignite .bag-button:hover span {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .carbignite .bag-button span.just-added {
+    animation: bag-tick 0.4s ease;
+  }
+  .carbignite dialog[open] {
+    animation: dialog-arrive 0.25s ease-out;
+  }
+  .carbignite .material-art {
+    transition: filter 0.45s ease;
+  }
+  .carbignite .material-art[data-finish="Matte"] {
+    filter: contrast(0.88);
+  }
+  .carbignite .material-art[data-finish="Satin"] {
+    filter: contrast(0.95);
+  }
+  @keyframes arrive {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes image-settle {
+    from {
+      transform: scale(1.04);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes signal {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 #d34d2900;
+    }
+    45% {
+      box-shadow: 0 0 0 5px #d34d291a;
+    }
+    80% {
+      box-shadow: 0 0 0 9px #d34d2900;
+    }
+  }
+  @keyframes bag-tick {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    45% {
+      transform: scale(1.18);
+    }
+  }
+  @keyframes dialog-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite *,
+  .carbignite *:before,
+  .carbignite *:after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .carbignite.motion-ready .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A single, fully visible product panel rather than an inner scrolling sheet. */
+.carbignite #product-dialog {
+  width: min(900px, calc(100% - 32px));
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+  padding: 40px;
+}
+.carbignite #product-dialog .detail-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+.carbignite #product-dialog .detail-image {
+  width: 100%;
+  max-height: 380px;
+  aspect-ratio: 1;
+}
+.carbignite #product-dialog .detail-copy {
+  min-width: 0;
+}
+.carbignite #product-dialog .detail-copy h2 {
+  margin: 12px 0;
+  font-size: 30px;
+}
+.carbignite #product-dialog .preview-note {
+  margin: 12px 0;
+}
+.carbignite #product-dialog .detail-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.carbignite #product-dialog .detail-options label {
+  margin-top: 10px;
+}
+.carbignite #product-dialog .detail-copy .button {
+  margin-top: 22px;
+  gap: 16px;
+}
+@media (max-width: 700px) {
+  .carbignite #product-dialog {
+    width: calc(100% - 24px);
+    padding: 34px 20px 20px;
+  }
+  .carbignite #product-dialog .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .carbignite #product-dialog .detail-image {
+    height: clamp(80px, 18dvh, 150px);
+    max-height: none;
+    aspect-ratio: auto;
+    background-size: 200% auto;
+  }
+  .carbignite #product-dialog .detail-copy h2 {
+    font-size: 25px;
+    line-height: 1.1;
+    margin: 9px 0;
+  }
+  .carbignite #product-dialog .detail-copy > p {
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .carbignite #product-dialog .preview-note {
+    margin: 8px 0;
+    line-height: 1.5;
+  }
+  .carbignite #product-dialog .detail-copy .button {
+    margin-top: 17px;
+  }
+  .carbignite #product-dialog .detail-options {
+    gap: 18px;
+  }
+  .carbignite #product-dialog .detail-options select {
+    padding: 11px 0;
+  }
+}
+@media (max-height: 560px) {
+  .carbignite #product-dialog {
+    padding: 28px 22px 18px;
+  }
+  .carbignite #product-dialog .detail-grid {
+    gap: 18px;
+  }
+  .carbignite #product-dialog .detail-copy h2 {
+    font-size: 23px;
+    margin: 7px 0;
+  }
+  .carbignite #product-dialog .detail-copy > p {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+  .carbignite #product-dialog .preview-note {
+    margin: 6px 0;
+  }
+  .carbignite #product-dialog .detail-copy .button {
+    margin-top: 12px;
+    padding: 12px 16px;
+    min-height: 42px;
+  }
+  .carbignite #product-dialog .detail-options label {
+    margin-top: 6px;
+  }
+  .carbignite #product-dialog .detail-options select {
+    padding: 8px 0;
+  }
+  .carbignite #product-dialog .detail-image {
+    max-height: calc(100dvh - 70px);
+  }
+}
+html:has(.carbignite #product-dialog[open]) {
+  overflow: hidden;
+}
+.carbignite #product-dialog .detail-image {
+  position: relative;
+  background-size: 0 0;
+  background-color: #e8e7e2;
+}
+.carbignite #product-dialog .detail-image:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  height: 100%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background-image: inherit;
+  background-position: inherit;
+  background-size: 200% 200%;
+  background-repeat: no-repeat;
+}
+@media (max-width: 700px) {
+  .carbignite #product-dialog .detail-image {
+    background-size: 0 0;
+  }
+}
+
+/* The navigation becomes a frosted layer as the page moves behind it. */
+.carbignite header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--paper);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+.carbignite header.is-scrolled {
+  background: rgba(243, 242, 237, 0.82);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 5px 24px #151a1110;
+  border-bottom-color: rgba(140, 145, 130, 0.22);
+}
+.carbignite[data-theme="dark"] header.is-scrolled {
+  background: rgba(27, 29, 27, 0.8);
+  box-shadow: 0 5px 24px #00000026;
+  border-bottom-color: rgba(195, 200, 183, 0.13);
+}
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .carbignite header.is-scrolled {
+    background: var(--paper);
+  }
+}
+@media (max-width: 700px) {
+  .carbignite header nav {
+    top: 100%;
+  }
+  .carbignite header.is-scrolled nav {
+    background: var(--paper);
+  }
+}
+
+/* Keep the price anchored; the button surface catches a brief light instead. */
+.carbignite #add-bag {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.carbignite #add-bag span,
+.carbignite #add-bag:hover span,
+.carbignite #add-bag:focus-visible span {
+  transform: none;
+}
+.carbignite #add-bag:before {
+  content: "";
+  position: absolute;
+  inset: -60% -20%;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    #ffffff24 50%,
+    transparent 60%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.6s cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+.carbignite #add-bag:hover:before,
+.carbignite #add-bag:focus-visible:before {
+  transform: translateX(120%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite header {
+    transition: none;
+  }
+  .carbignite #add-bag:before {
+    display: none;
+  }
+}
+
+/* Animate the button's light and edge, never the price label. */
+.carbignite #product-dialog #add-bag span {
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+.carbignite #product-dialog #add-bag {
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .carbignite #product-dialog #add-bag:hover,
+  .carbignite #product-dialog #add-bag:focus-visible {
+    animation: cart-soft-glow 0.65s ease-out both;
+  }
+  @keyframes cart-soft-glow {
+    0% {
+      box-shadow: 0 0 0 0 #d34d2900;
+    }
+    50% {
+      box-shadow:
+        0 0 0 4px #d34d2926,
+        0 4px 18px #d34d291a;
+    }
+    100% {
+      box-shadow:
+        0 0 0 1px #d34d2940,
+        0 3px 12px #d34d2912;
+    }
+  }
+}
+.carbignite #product-dialog #add-bag:active {
+  box-shadow: inset 0 0 0 1px #ffffff55;
+}
+
+/* Clearer glass, and a quiet moving detail confined to the cart button. */
+.carbignite header.is-scrolled {
+  background: rgba(243, 242, 237, 0.58);
+  -webkit-backdrop-filter: blur(13px) saturate(135%);
+  backdrop-filter: blur(13px) saturate(135%);
+  box-shadow: 0 3px 18px #151a1109;
+}
+.carbignite[data-theme="dark"] header.is-scrolled {
+  background: rgba(27, 29, 27, 0.56);
+  box-shadow: 0 3px 18px #00000016;
+}
+.carbignite #product-dialog #add-bag:hover,
+.carbignite #product-dialog #add-bag:focus-visible {
+  animation: none;
+  box-shadow: none;
+}
+.carbignite #product-dialog #add-bag:before {
+  inset: auto;
+  bottom: 8px;
+  left: 23px;
+  width: 25px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(0.25);
+  transform-origin: left;
+  transition:
+    opacity 0.2s ease,
+    transform 0.3s ease;
+}
+.carbignite #product-dialog #add-bag:hover:before,
+.carbignite #product-dialog #add-bag:focus-visible:before {
+  opacity: 0.6;
+  transform: scaleX(1);
+}
+.carbignite #product-dialog #add-bag:active {
+  box-shadow: none;
+}
+.carbignite .account-link {
+  font-size: 11px;
+}
+.carbignite .texture-note {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #bac0b5;
+}
+.carbignite .bag-checkout {
+  display: flex;
+  width: 100%;
+  margin-top: 16px;
+}
+@media (max-width: 700px) {
+  .carbignite .header-actions {
+    gap: 8px;
+  }
+  .carbignite .account-link {
+    font-size: 9px;
+  }
+  .carbignite header .wordmark {
+    font-size: 21px;
+  }
+  .carbignite .texture-note {
+    right: 20px;
+    bottom: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite #product-dialog #add-bag:before {
+    display: none;
+  }
+}
+
+/* Photographic material studies: woven above, forged below; gloss, satin, matte. */
+.carbignite .material-art,
+.carbignite .material-art[data-pattern="forged"] {
+  background-image: url("/carbignite/carbon-finishes.webp");
+  background-size: 300% 200%;
+  background-position: 0 0;
+  filter: none !important;
+  transition: none;
+}
+.carbignite .material-art:before {
+  display: none;
+}
+.carbignite .material-art[data-finish="Satin"] {
+  background-position: 50% 0;
+}
+.carbignite .material-art[data-finish="Matte"] {
+  background-position: 100% 0;
+}
+.carbignite .material-art[data-pattern="forged"] {
+  background-position: 0 100%;
+}
+.carbignite .material-art[data-pattern="forged"][data-finish="Satin"] {
+  background-position: 50% 100%;
+}
+.carbignite .material-art[data-pattern="forged"][data-finish="Matte"] {
+  background-position: 100% 100%;
+}
+.carbignite .material-code,
+.carbignite .material-stamp,
+.carbignite .texture-note {
+  text-shadow: 0 1px 10px #0009;
+}
+.carbignite #product-dialog #add-bag:hover,
+.carbignite #product-dialog #add-bag:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+.carbignite [hidden] {
+  display: none !important;
+}
+
+}
