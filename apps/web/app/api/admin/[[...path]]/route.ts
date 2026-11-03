@@ -4,6 +4,7 @@ import { catalogCacheTag } from "@/lib/catalog-cache";
 import { NextRequest, NextResponse } from "next/server";
 import { ownerCookieName, ownerCookieOptions } from "@/lib/admin-session";
 import { apiOriginHeaders } from "@/lib/api-origin";
+import { isSameOriginRequest } from "@/lib/same-origin";
 
 const cookieName = ownerCookieName;
 async function handle(
@@ -21,7 +22,11 @@ async function handle(
     return NextResponse.json({ error: "Not found" }, { status: 404, headers });
   if (
     request.method !== "GET" &&
-    request.headers.get("origin") !== request.nextUrl.origin
+    !isSameOriginRequest(
+      request.headers.get("origin"),
+      request.nextUrl.origin,
+      process.env.APP_ORIGIN || process.env.RENDER_EXTERNAL_URL,
+    )
   )
     return NextResponse.json(
       { error: "Same-origin request required" },

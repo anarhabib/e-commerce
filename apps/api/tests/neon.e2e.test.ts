@@ -34,7 +34,19 @@ test(
       readFileSync(resolve(root, "apps/web/.env.local"), "utf8"),
     );
     const apiUrl = neon.NEON_FUNCTION_HELLO_BASE_URL.replace(/\/$/, "");
-    const nextUrl = "http://localhost:4317";
+    const remoteFrontend = process.env.NEON_E2E_WEB_URL;
+    if (remoteFrontend) {
+      const target = new URL(remoteFrontend);
+      assert.equal(target.protocol, "https:");
+      assert.equal(
+        target.origin,
+        process.env.APP_ORIGIN,
+        "Remote test target must match the configured app origin",
+      );
+    }
+    const nextUrl = remoteFrontend
+      ? new URL(remoteFrontend).origin
+      : "http://localhost:4317";
     const originHeaders = {
       "x-carbignite-origin": process.env.API_ORIGIN_SECRET!,
     };
@@ -70,30 +82,33 @@ test(
     let client: ReturnType<typeof createRealtimeClient> | undefined;
     let testSocket: WebSocket | undefined;
     let nextOutput = "";
-    const next = spawn(
-      process.execPath,
-      [
-        resolve(root, "apps/web/node_modules/next/dist/bin/next"),
-        "start",
-        "--port",
-        "4317",
-      ],
-      {
-        cwd: resolve(root, "apps/web"),
-        windowsHide: true,
-        env: {
-          ...process.env,
-          ...web,
-          API_URL: apiUrl,
-          NODE_ENV: "production",
-        },
-        stdio: ["ignore", "pipe", "pipe"],
-      },
-    );
-    next.stdout.on("data", (chunk) => {
+    const next = remoteFrontend
+      ? undefined
+      : spawn(
+          process.execPath,
+          [
+            resolve(root, "apps/web/node_modules/next/dist/bin/next"),
+            "start",
+            "--port",
+            "4317",
+          ],
+          {
+            cwd: resolve(root, "apps/web"),
+            windowsHide: true,
+            env: {
+              ...process.env,
+              ...web,
+              API_URL: apiUrl,
+              APP_ORIGIN: nextUrl,
+              NODE_ENV: "production",
+            },
+            stdio: ["ignore", "pipe", "pipe"],
+          },
+        );
+    next?.stdout?.on("data", (chunk) => {
       nextOutput += chunk;
     });
-    next.stderr.on("data", (chunk) => {
+    next?.stderr?.on("data", (chunk) => {
       nextOutput += chunk;
     });
     const request = (url: string, init: RequestInit = {}) =>
@@ -126,7 +141,7 @@ test(
     try {
       let ready = false;
       for (let attempt = 0; attempt < 50; attempt++) {
-        if (next.exitCode !== null)
+        if (next && next.exitCode !== null)
           throw new Error(
             `Next production server exited: ${nextOutput.slice(-1500)}`,
           );
@@ -140,8 +155,11 @@ test(
       }
       assert.ok(
         ready,
-        "Next production server did not start with the configured customer auth",
+        "Frontend did not respond with the expected signed-out account status",
       );
+      const health = await request(`${nextUrl}/api/health`);
+      assert.equal(health.status, 200);
+      assert.equal((await health.json()).status, "ok");
       assert.equal((await request(`${apiUrl}/health`)).status, 200);
       assert.equal(
         (await request(`${apiUrl}/products`)).status,
@@ -223,7 +241,7 @@ test(
         parsers: nodePostgresParsers,
         webSocketFactory(url, protocols) {
           testSocket = new WebSocket(url, protocols, {
-            origin: "http://localhost:3000",
+            origin: remoteFrontend ? nextUrl : "http://localhost:3000",
           });
           return testSocket;
         },
@@ -362,13 +380,17 @@ test(
       } finally {
         await prisma.$disconnect().catch(() => {});
         closeObjectStorage();
-        next.kill();
-        await new Promise<void>((done) => {
-          if (next.exitCode !== null) return done();
-          next.once("exit", () => done());
-        });
+        if (next) {
+          next.kill();
+          await new Promise<void>((done) => {
+            if (next.exitCode !== null) return done();
+            next.once("exit", () => done());
+          });
+        }
         console.log(
-          "Cleaned up test-only accounts, orders, images and the temporary production server",
+          remoteFrontend
+            ? "Cleaned up test-only accounts, orders and images; public frontend remains running"
+            : "Cleaned up test-only accounts, orders, images and the temporary production server",
         );
       }
     }

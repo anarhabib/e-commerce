@@ -8,7 +8,7 @@
     "build": "pnpm --filter @carbignite/api exec prisma generate && pnpm --filter @carbignite/api build && pnpm --filter @carbignite/web build",
     "neon:sync-env": "node scripts/sync-neon-env.mjs",
     "neon:deploy": "neon deploy --env apps/api/.env",
-    "test": "pnpm --filter @carbignite/web exec node --test tests/scroll-reveal.test.mjs && pnpm --filter @carbignite/api exec node --import tsx --test ../web/tests/concept-selection.test.ts ../web/tests/scroll-lock.test.ts && pnpm --filter @carbignite/api test",
+    "test": "pnpm --filter @carbignite/web exec node --test tests/scroll-reveal.test.mjs && pnpm --filter @carbignite/api exec node --import tsx --test ../web/tests/concept-selection.test.ts ../web/tests/scroll-lock.test.ts ../web/tests/same-origin.test.ts && pnpm --filter @carbignite/api test",
     "dev": "pnpm -r --parallel dev"
   },
   "keywords": [],
