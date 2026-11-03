@@ -6,7 +6,7 @@ export default function CatalogError({ reset }: { reset: () => void }) {
       <h1 className="text-3xl font-semibold">
         Catalog temporarily unavailable
       </h1>
-      <p className="mt-4 text-[var(--muted)]">
+      <p className="mt-4 text-(--muted)">
         We couldn’t load the catalog. Please try again later.
       </p>
       <button className="button primary mt-6" onClick={reset}>

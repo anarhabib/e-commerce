@@ -79,3 +79,11 @@
 - User requested a PR for the completed admin panel and subsequent UI refinements. Target: `main`; head: `feat/carbignite-admin`. Latest fetched main matches the branch base. Local API/web credential files remain ignored and are excluded from the commit.
 - Validation accumulated during implementation: API/web builds, web lint, 19 regression tests, catalog/admin/gallery real-database integration and Next proxy HTTP authorization/upload/deletion checks passed. Final web build/lint rerun for the latest notification position/color changes. Browser visual and keyboard interaction review remains manual.
 - Includes two additive migrations (`20261103140000_admin_requests`, `20261103150000_product_gallery`), locally applied. Owner setup and deployment/testing steps are in `docs/CARBIGNITE_ADMIN.md`. No merge, production migration or deployment is part of this PR task.
+
+## Request status badge colors
+
+- Request badges now have six distinct text/surface palettes shared by dashboard, request list and detail dialog: requested amber, in review blue, quoted purple, in production orange, shipped green and cancelled red. Includes dark-theme variants; status labels remain visible so meaning does not rely on color alone. File: `apps/web/features/admin/admin.css`. Product visibility badges remain separate. No API/schema/status changes; browser visual review remains manual.
+
+## Browser tab icon
+
+- Added the user-supplied CARBIGNITE C monogram as root Next app icons: `apps/web/app/favicon.ico` (16/32/48px), `icon.png` (64px) and `apple-icon.png` (180px). Converted with the installed Sharp dependency without changing the original artwork or source file. Next file-based metadata supplies icon links across storefront and admin routes. Browser favicon caching may require a hard refresh.

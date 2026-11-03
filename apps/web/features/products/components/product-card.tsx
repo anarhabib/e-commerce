@@ -3,21 +3,21 @@ import { formatPrice, productImageStyle } from "../utils";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <article className="flex w-full flex-col overflow-hidden rounded-md border border-[var(--line)] bg-[var(--paper)]">
+    <article className="flex w-full flex-col overflow-hidden rounded-md border border-(--line) bg-(--paper)">
       <div
-        className="relative aspect-3/2 bg-[var(--soft)]"
+        className="relative aspect-3/2 bg-(--soft)"
         role="img"
         aria-label={product.name}
         style={productImageStyle(product)}
       />
-      <div className="flex flex-1 flex-col border-t border-[var(--line)] px-3 py-2.5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--muted)]">
+      <div className="flex flex-1 flex-col border-t border-(--line) px-3 py-2.5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-(--muted)">
           {product.category}
         </p>
         <h3 className="min-h-14 py-2 font-semibold leading-snug">
           {product.name}
         </h3>
-        <p className="mt-2 text-xs text-[var(--muted)]">
+        <p className="mt-2 text-xs text-(--muted)">
           {[
             product.make,
             product.model,

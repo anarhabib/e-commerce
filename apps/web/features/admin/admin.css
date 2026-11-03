@@ -157,6 +157,66 @@
 .carbignite .status {
   text-transform: capitalize;
 }
+.carbignite:has(.admin-main)
+  .status:is(
+    .requested,
+    .in_review,
+    .quoted,
+    .in_production,
+    .shipped,
+    .cancelled
+  ) {
+  color: var(--request-status-ink);
+  background: var(--request-status-surface);
+}
+.carbignite .status.requested {
+  --request-status-ink: #795010;
+  --request-status-surface: #f3e8cd;
+}
+.carbignite .status.in_review {
+  --request-status-ink: #285878;
+  --request-status-surface: #dfeaf2;
+}
+.carbignite .status.quoted {
+  --request-status-ink: #67488a;
+  --request-status-surface: #ece4f2;
+}
+.carbignite .status.in_production {
+  --request-status-ink: #963e20;
+  --request-status-surface: #f6e1d6;
+}
+.carbignite .status.shipped {
+  --request-status-ink: #315d39;
+  --request-status-surface: #e1eade;
+}
+.carbignite .status.cancelled {
+  --request-status-ink: #923c3c;
+  --request-status-surface: #efdede;
+}
+.carbignite[data-theme="dark"] .status.requested {
+  --request-status-ink: #e9c47c;
+  --request-status-surface: #403722;
+}
+.carbignite[data-theme="dark"] .status.in_review {
+  --request-status-ink: #a7cee7;
+  --request-status-surface: #253846;
+}
+.carbignite[data-theme="dark"] .status.quoted {
+  --request-status-ink: #d1b7eb;
+  --request-status-surface: #3a2f49;
+}
+.carbignite[data-theme="dark"] .status.in_production {
+  --request-status-ink: #f1b496;
+  --request-status-surface: #473127;
+}
+.carbignite[data-theme="dark"] .status.shipped {
+  --request-status-ink: #b7d6ac;
+  --request-status-surface: #2c3c2e;
+}
+.carbignite[data-theme="dark"] .status.cancelled {
+  --request-status-ink: #efb0b0;
+  --request-status-surface: #462e31;
+}
 .carbignite:has(.admin-main) .product-row-actions {
   display: flex;
   align-items: center;
