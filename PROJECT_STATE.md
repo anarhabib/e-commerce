@@ -147,4 +147,4 @@
 
 ## Storefront small-text readability
 
-- Scaled existing CARBIGNITE storefront font sizes below 12px by 1.3×, preserving their relative hierarchy across captions, metadata, badges, footer copy, and mobile labels. Main file: apps/web/features/storefront/style.css. No component, API, or schema changes. Visual verification remains manual.
+- Applied a compact three-step type scale as CSS variables on the storefront root: 12px captions, 13px labels, and 14px supporting text. Replaced formerly tiny 6–11px declarations with semantic tokens so metadata, badges, footer copy, dialogs, and mobile labels stay readable while preserving a clear hierarchy. Based on the linked UI/UX Pro Max guidance to use reusable semantic design tokens and keep text resilient; the repo does not prescribe exact pixel sizes. Main file: apps/web/features/storefront/style.css. No component, API, or schema changes. Web lint, TypeScript, and production build passed for this revision. Visual reflow review remains manual.
