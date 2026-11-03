@@ -1,27 +1,22 @@
-import { getProductFilters } from "@/features/products/api";
-import { VehicleSelector } from "@/features/products/components/vehicle-selector";
+import type { Metadata } from "next";
+import { DM_Sans } from "next/font/google";
+import { Homepage } from "@/features/carbignite/homepage";
+import { StorefrontShell } from "@/features/carbignite/storefront-shell";
+import "@/features/carbignite/style.css";
+import "@/features/carbignite/interactions.css";
+import "@/features/carbignite/integration.css";
 
-export default async function Home() {
-  const facets = await getProductFilters();
-
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
+export const metadata: Metadata = {
+  title: "CARBIGNITE — Carbon, considered.",
+  description: "Carbon fiber replacement parts, made with intention.",
+};
+export default function Home() {
   return (
-    <main>
-      <section className="bg-secondary px-4 py-16 text-white">
-        <div className="mx-auto max-w-3xl space-y-6">
-          <h1 className="text-4xl font-black sm:text-5xl">
-            Find lights that fit your car
-          </h1>
-          <p className="text-white/70">
-            Choose your vehicle to see matching parts.
-          </p>
-          <div className="rounded-sm bg-white p-4 text-secondary">
-            <VehicleSelector
-              vehicles={facets.vehicles}
-              columns="sm:grid-cols-3"
-            />
-          </div>
-        </div>
-      </section>
-    </main>
+    <div className={dmSans.variable}>
+      <StorefrontShell>
+        <Homepage />
+      </StorefrontShell>
+    </div>
   );
 }

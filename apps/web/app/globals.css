@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Exact breakpoints for the approved homepage design. */
+@custom-variant carb-mobile (@media (max-width: 700px));
+@custom-variant carb-wide (@media (min-width: 1550px));
+
 @theme {
   /* Brand colors */
   --color-primary: #0066ff;

@@ -7,3 +7,10 @@ dist/
 .agents
 .devin
 *.tsbuildinfo
+# Local design-transfer artifacts
+/CARBIGNITE-homepage.patch
+/docs/carbignite-handoff/
+
+# Local environment files (examples may be committed)
+.env.*
+!.env.example

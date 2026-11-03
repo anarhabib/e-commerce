@@ -3,7 +3,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Car, X } from "lucide-react";
 import type { ProductFacets } from "../types";
 import { formatCategory } from "../utils";
-import { VehicleSelector } from "./vehicle-selector";
 
 export function ProductFilters({ facets }: { facets: ProductFacets }) {
   const router = useRouter();
@@ -67,16 +66,6 @@ export function ProductFilters({ facets }: { facets: ProductFacets }) {
         ) : (
           <p className="mt-1 text-sm text-muted">No vehicle selected</p>
         )}
-        <details className="mt-3">
-          <summary className="cursor-pointer font-mono text-xs text-primary hover:underline">
-            {vehicle ? "Change vehicle" : "Select vehicle"}
-          </summary>
-          <VehicleSelector
-            key={vehicle}
-            vehicles={facets.vehicles}
-            className="mt-3"
-          />
-        </details>
       </section>
 
       <section>
