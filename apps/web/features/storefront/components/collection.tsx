@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import Link from "@/components/ui/navigation-link";
 import { productImageStyle } from "@/features/products/utils";
 import { money, type StoreProduct } from "../types";
+import { ArrowUpRight } from "lucide-react";
 
 export function ProductCard({
   product,
@@ -31,7 +32,9 @@ export function ProductCard({
         <span className="product-label">
           {product.isSample ? "REPLACEMENT / DEMO" : "REPLACEMENT PART"}
         </span>
-        <span className="product-plus">↗</span>
+        <span className="product-plus">
+          <ArrowUpRight size={16} />
+        </span>
       </button>
       <div className="product-meta">
         <span>{product.make?.toUpperCase()}</span>
