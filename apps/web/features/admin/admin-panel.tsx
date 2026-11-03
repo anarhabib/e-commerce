@@ -5,6 +5,7 @@ import { LoadingBar } from "@/components/ui/loading-bar";
 import { Pagination } from "@/features/products/components/pagination";
 import { productImageStyle } from "@/features/products/utils";
 import { useEffect, useState } from "react";
+import { useLiveOrders } from "./use-live-orders";
 import Link from "@/components/ui/navigation-link";
 import { useRouter } from "next/navigation";
 import { adminApi, AdminApiError } from "./api";
@@ -35,6 +36,10 @@ export function AdminPanel() {
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(true);
   const [revision, setRevision] = useState(0);
+  const liveOrders = useLiveOrders(
+    access === "owner" && tab !== "products",
+    setRevision,
+  );
   const [overview, setOverview] = useState<Overview | null>(null);
   const [products, setProducts] = useState<Page<{
     products: AdminProduct[];
@@ -234,6 +239,7 @@ export function AdminPanel() {
           OWNER ACCESS
           <br />
           <span>Products &amp; order requests</span>
+          {liveOrders && <p role="status">{liveOrders}</p>}
         </div>
       </aside>
       <div className="admin-workspace">

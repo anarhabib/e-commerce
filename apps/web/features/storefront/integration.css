@@ -449,3 +449,40 @@
     padding: 0;
   }
 }
+.carbignite .account-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+.carbignite .account-form label {
+  font-size: 13px;
+}
+.carbignite .account-form input {
+  min-width: 0;
+  min-height: 46px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+}
+.carbignite .account-form input:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+.carbignite .account-form .button {
+  width: 100%;
+}
+.carbignite .account-switch {
+  margin-top: 20px;
+  padding-bottom: 4px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  font-size: 14px;
+}
+.carbignite .account-error {
+  color: var(--orange);
+  margin: 16px 0;
+}

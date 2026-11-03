@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { apiOriginHeaders } from "@/lib/api-origin";
 
 export async function GET(
   _request: NextRequest,
@@ -10,7 +11,7 @@ export async function GET(
   try {
     const response = await fetch(
       `${process.env.API_URL}/media/${encodeURIComponent(id)}`,
-      { signal: AbortSignal.timeout(15000) },
+      { headers: apiOriginHeaders(), signal: AbortSignal.timeout(15000) },
     );
     if (!response.ok)
       return new Response("Image unavailable", { status: response.status });

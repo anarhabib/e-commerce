@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test:neon": "node --env-file=.env --import tsx --test tests/neon.e2e.test.ts",
     "admin:setup": "tsx scripts/admin-credentials.ts --save",
     "admin:credentials": "tsx scripts/admin-credentials.ts",
     "test:admin": "node --env-file=.env --import tsx --test tests/admin.integration.test.ts",
@@ -13,17 +14,25 @@
     "seed:demo": "tsx --env-file=.env prisma/seed.ts",
     "test": "node --import tsx --test tests/product-schema.test.ts tests/admin-setup.test.ts",
     "test:integration": "node --env-file=.env --import tsx --test tests/products.integration.test.ts",
-    "start": "node --env-file=.env dist/src/server.js"
+    "start": "node --env-file-if-exists=.env dist/src/server.js"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1161.0",
+    "@neon/functions": "^0.11.0",
+    "@neon/realtime": "^0.1.2",
+    "@prisma/adapter-pg": "6.19.3",
     "@prisma/client": "^6.19.3",
     "fastify": "^5.12.5",
+    "pg": "^8.23.1",
     "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "^22.20.4",
+    "@types/pg": "^8.23.1",
+    "@types/ws": "^8.18.2",
     "prisma": "^6.19.3",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "ws": "^8.22.1"
   }
 }

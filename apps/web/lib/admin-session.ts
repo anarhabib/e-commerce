@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { apiOriginHeaders } from "./api-origin";
 
 export const ownerCookieName = "carbignite-owner-session";
 export const ownerCookieOptions = {
@@ -15,7 +16,7 @@ export async function hasOwnerSession(): Promise<boolean> {
   if (!token || !process.env.API_URL) return false;
   try {
     const response = await fetch(`${process.env.API_URL}/admin/session`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { ...apiOriginHeaders(), Authorization: `Bearer ${token}` },
       cache: "no-store",
       signal: AbortSignal.timeout(15000),
     });

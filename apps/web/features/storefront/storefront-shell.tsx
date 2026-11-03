@@ -11,7 +11,7 @@ import { Header } from "./components/header";
 import { ProductDialog } from "./components/product-dialog";
 import { Footer } from "./components/footer";
 import { BagDialog } from "./components/bag-dialog";
-import { Dialog } from "./components/dialog";
+import { AccountDialog } from "./components/account-dialog";
 import { parseSelection, selectionKey } from "./selection";
 import {
   NotificationProvider,
@@ -127,23 +127,7 @@ function StorefrontContent({
             close={() => setPanel(null)}
           />
         )}
-        {panel === "account" && (
-          <Dialog
-            id="account-dialog"
-            title="account availability"
-            onClose={() => setPanel(null)}
-          >
-            <div className="eyebrow">ACCOUNT</div>
-            <h2>Coming next.</h2>
-            <p className="muted">
-              Account access is not connected in this homepage preview. No
-              sign-in or customer information is collected here.
-            </p>
-            <button className="button primary" onClick={() => setPanel(null)}>
-              Continue exploring <span>↗</span>
-            </button>
-          </Dialog>
-        )}
+        {panel === "account" && <AccountDialog close={() => setPanel(null)} />}
         <NotificationViewport />
       </div>
     </StorefrontContext.Provider>

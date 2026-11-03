@@ -3,6 +3,8 @@ import { revalidateTag } from "next/cache";
 import { catalogCacheTag } from "@/lib/catalog-cache";
 import { NextRequest, NextResponse } from "next/server";
 import { ownerCookieName, ownerCookieOptions } from "@/lib/admin-session";
+import { apiOriginHeaders } from "@/lib/api-origin";
+import { isSameOriginRequest } from "@/lib/same-origin";
 
 const cookieName = ownerCookieName;
 async function handle(
@@ -13,14 +15,18 @@ async function handle(
   const target = path.join("/");
   const headers = { "Cache-Control": "no-store" };
   if (
-    !/^(login|logout|session|overview|images|products(?:\/[^/]+)?|orders(?:\/[^/]+)?)$/.test(
+    !/^(login|logout|session|overview|images|live-orders|products(?:\/[^/]+)?|orders(?:\/[^/]+)?)$/.test(
       target,
     )
   )
     return NextResponse.json({ error: "Not found" }, { status: 404, headers });
   if (
     request.method !== "GET" &&
-    request.headers.get("origin") !== request.nextUrl.origin
+    !isSameOriginRequest(
+      request.headers.get("origin"),
+      request.nextUrl.origin,
+      process.env.APP_ORIGIN || process.env.RENDER_EXTERNAL_URL,
+    )
   )
     return NextResponse.json(
       { error: "Same-origin request required" },
@@ -64,6 +70,7 @@ async function handle(
         method: request.method,
         cache: "no-store",
         headers: {
+          ...apiOriginHeaders(),
           ...(body ? { "Content-Type": "application/json" } : {}),
           ...(token && target !== "login"
             ? { Authorization: `Bearer ${token}` }

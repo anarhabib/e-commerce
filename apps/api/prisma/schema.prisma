@@ -5,13 +5,15 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider   = "prisma-client"
+  output     = "../src/generated/prisma"
+  engineType = "client"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum ProductCategory {
@@ -49,14 +51,13 @@ model Product {
   patterns    CarbonPattern[] @default([Woven, Forged])
   finishes    CarbonFinish[]  @default([Gloss, Satin, Matte])
 
-  make        String?
-  model       String?
-  yearFrom    Int?
-  yearTo      Int?
+  make     String?
+  model    String?
+  yearFrom Int?
+  yearTo   Int?
 
-
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum RequestStatus {
@@ -84,6 +85,7 @@ model OrderRequest {
 model MediaAsset {
   id          String   @id @default(cuid())
   contentType String
-  data        Bytes
+  data        Bytes?
+  objectKey   String?  @unique
   createdAt   DateTime @default(now())
 }

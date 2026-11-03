@@ -14,3 +14,4 @@ dist/
 # Local environment files (examples may be committed)
 .env.*
 !.env.example
+.neon
