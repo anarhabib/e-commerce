@@ -281,8 +281,37 @@
 - Added `apps/web/app/api/health/route.ts` for database-independent Render health
   checks. Automatic deployments are disabled to conserve free build minutes;
   source updates can be deployed manually. No keep-alive requests or paid
-  resources are configured. Deployment branch and live Render verification
-  are in progress; no public frontend URL is confirmed yet.
+  resources are configured. The completed public deployment is recorded below.
 - Created `deploy/neon-render-frontend`; frontend lint, production build (with
-  `/api/health`) and whitespace checks pass. Preparing a reviewed commit for
-  Render. Local secrets and Codex configuration are excluded from publication.
+  `/api/health`) and whitespace checks pass. Source is published on that branch;
+  local secrets and Codex configuration are excluded from publication.
+
+## Public Render frontend deployed and verified
+
+- Live URL: `https://carbignite-web-dev.onrender.com`. Official Render CLI
+  confirms service `srv-dbkra3qjnfac739oho00` is on the Free plan in Ohio, with
+  automatic deploys off. The existing Neon Function remains the backend; no
+  duplicate Render API, paid instance or Render database was created.
+- Pushed source branch `deploy/neon-render-frontend`. Current deployed app code
+  is commit `995da6bd1b6fc3d3d769035de18fe6d66516f698`; deployment
+  `dep-dbkrg9fb9u1s7388cpfg` reports `live`. Render build/TypeScript succeeded.
+  The service was created by CLI using `render.yaml` settings, not as a managed
+  Blueprint; future code deployments are manual. Main remains unchanged.
+- Registered the actual Render origin for Neon Auth and Realtime while
+  preserving localhost. API `.env` privately records `APP_ORIGIN`; frontend
+  receives only API/Auth settings, with a separate generated cookie secret.
+- First public test exposed owner POST requests rejected behind Render's HTTPS
+  proxy. Added `apps/web/lib/same-origin.ts` and five security regressions:
+  owner proxy uses trusted `APP_ORIGIN`/`RENDER_EXTERNAL_URL`, never untrusted
+  forwarded headers, and still rejects foreign/missing origins. Local 25-test
+  regression suite, lint, production build and cache HTTP regression pass.
+- `apps/api/tests/neon.e2e.test.ts` now optionally targets a public frontend
+  using `NEON_E2E_WEB_URL`, which must match configured `APP_ORIGIN`. Complete
+  public Render HTTP suite exits 0: health/shop, private and legacy images,
+  owner proxy, customer signup/signin/signout/session restoration, customer/
+  owner isolation, and an order event using the Render WebSocket origin all
+  pass. Temporary customer/order/image fixtures were removed; service remains
+  running. No existing customer or product records were deleted.
+- `FEATURES.md` documents the new features and verification; `DEPLOYMENT.md`
+  records the chosen layout, live URL and manual updates. Real mailbox delivery
+  and email-code verification remain manual; production SMTP is not configured.

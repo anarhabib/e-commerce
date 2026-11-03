@@ -1,7 +1,8 @@
 # CARBIGNITE: features added with Neon
 
 This file describes the Neon integration added to the existing storefront.
-The backend is deployed; public frontend deployment is the next step.
+The backend and frontend are deployed. Public app:
+https://carbignite-web-dev.onrender.com
 The selected hosting layout is one free Render frontend in Ohio, with the
 existing API, database and managed services on Neon. `render.yaml` creates only
 that frontend. Its `/api/health` check avoids backend/database requests, and
@@ -84,13 +85,18 @@ Files: `scripts/sync-neon-env.mjs`, `package.json`, `DEPLOYMENT.md`.
 
 ## Verified and remaining work
 
-Verified: production build, lint, 20 existing regressions, gallery and catalog
+Verified: production build, lint, 25 regressions, gallery and catalog
 cache tests, and live HTTP tests for database reads, private image upload/read,
 legacy images, owner access, customer signup/signin/signout/session restoration,
 customer/owner isolation, deployed API routes and a real Realtime order event.
 Temporary test accounts, orders and images were removed. Public browser
 artifacts were checked for configured server secrets; none were found.
 
-Remaining: public Render frontend deployment and checks on its actual URL,
-frontend origin registration for Auth and Realtime, and real-mailbox email
-delivery/code verification. See `DEPLOYMENT.md` for the hosting steps.
+The live HTTP suite also passes against the actual Render frontend. Its origin
+is registered for customer Auth and Realtime. A Render reverse-proxy origin
+mismatch was fixed while retaining owner-write protection against foreign
+origins; five security regressions cover this behavior.
+
+Remaining: real-mailbox email delivery/code verification and production SMTP
+configuration before a commercial launch. See `DEPLOYMENT.md` for hosting,
+manual code updates and verification commands.

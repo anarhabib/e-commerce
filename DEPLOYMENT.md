@@ -2,6 +2,15 @@
 
 ## Selected architecture
 
+Public app: https://carbignite-web-dev.onrender.com
+
+The existing Render service is already deployed from branch
+`deploy/neon-render-frontend` of `anarhabib/e-commerce`. It was created through
+the official Render CLI using the settings in `render.yaml`; it is not a
+Blueprint-managed service. Keep this service and use its Settings/Manual Deploy
+controls for future updates. The creation steps below are for reproducing the
+setup in another account, not for creating a duplicate in this workspace.
+
 | Part                                                   | Host                                |
 | ------------------------------------------------------ | ----------------------------------- |
 | Next.js frontend and same-origin proxies               | One free Render web service in Ohio |
@@ -185,9 +194,24 @@ database. Do not apply the initial history to existing application data.
 
 ## Current verification status
 
-Passed: production builds, web lint, 20 existing regressions, gallery/cache
+Passed: production builds, web lint, 25 regressions, gallery/cache
 checks, and live HTTP tests for Postgres, private storage, hosted API, customer
 Auth and a committed-order Realtime event. Test fixtures were removed.
 Browser artifacts were scanned for configured server secrets; none were found.
-The Render service and actual public frontend URL still need deployment and
-verification. Email inbox delivery and code verification remain manual.
+Render reports the frontend deployment as live. The complete service suite
+passes against its actual public URL, including owner operations after the
+Render proxy-origin correction. Email inbox delivery and code verification
+remain manual.
+
+To repeat the public-site checks from this authorized checkout:
+
+```powershell
+$env:NEON_E2E_WEB_URL='https://carbignite-web-dev.onrender.com'
+pnpm.cmd --filter @carbignite/api test:neon
+$env:NEON_E2E_WEB_URL=$null
+```
+
+The temporary variable targets the existing public frontend instead of starting
+a local one. Its URL must match the API's configured `APP_ORIGIN`. The test
+cleans up only its own fixtures and leaves the public service running. Clearing
+the variable returns subsequent tests to the local production-server mode.
