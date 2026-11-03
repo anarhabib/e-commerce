@@ -13,11 +13,13 @@ import { Footer } from "./components/footer";
 import { BagDialog } from "./components/bag-dialog";
 import { Dialog } from "./components/dialog";
 import { parseSelection, selectionKey } from "./selection";
-import type { ConceptProduct, ConceptSelection } from "./types";
+import type { StoreProduct, BagSelection } from "./types";
 
 const StorefrontContext = createContext<{
-  openProduct: (product: ConceptProduct) => void;
+  openProduct: (product: StoreProduct) => void;
   notify: (message: string) => void;
+  products: StoreProduct[];
+  catalogError: boolean;
 } | null>(null);
 
 export function useStorefront() {
@@ -26,11 +28,19 @@ export function useStorefront() {
   return value;
 }
 
-export function StorefrontShell({ children }: { children: ReactNode }) {
+export function StorefrontShell({
+  children,
+  products,
+  catalogError,
+}: {
+  children: ReactNode;
+  products: StoreProduct[];
+  catalogError: boolean;
+}) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [bag, setBag] = useState<ConceptSelection[]>([]);
+  const [bag, setBag] = useState<BagSelection[]>([]);
   const [ready, setReady] = useState(false);
-  const [product, setProduct] = useState<ConceptProduct | null>(null);
+  const [product, setProduct] = useState<StoreProduct | null>(null);
   const [panel, setPanel] = useState<"bag" | "account" | null>(null);
   const [toast, setToast] = useState("");
   const root = useRef<HTMLDivElement>(null);
@@ -45,18 +55,18 @@ export function StorefrontShell({ children }: { children: ReactNode }) {
     } catch {}
     const frame = requestAnimationFrame(() => {
       setTheme(savedTheme === "dark" ? "dark" : "light");
-      setBag(parseSelection(savedBag));
+      setBag(parseSelection(savedBag, products));
       setReady(true);
     });
     return () => cancelAnimationFrame(frame);
-  }, []);
+  }, [products]);
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || catalogError) return;
     try {
       localStorage.setItem(selectionKey, JSON.stringify(bag));
       localStorage.setItem("carbignite-theme", theme);
     } catch {}
-  }, [ready, bag, theme]);
+  }, [ready, bag, theme, catalogError]);
   useEffect(() => {
     if (!toast) return;
     const timer = setTimeout(() => setToast(""), 2800);
@@ -119,18 +129,27 @@ export function StorefrontShell({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  function add(selection: ConceptSelection) {
+  function add(selection: BagSelection) {
+    if (!parseSelection(JSON.stringify([selection]), products).length) {
+      setToast("This product or option is no longer available.");
+      return;
+    }
     if (bag.length >= 50) {
-      setToast("Your concept bag is full. Remove a part first.");
+      setToast("Your bag is full. Remove a part first.");
       return;
     }
     setBag((current) => [...current, selection]);
     setProduct(null);
-    setToast("Added to your concept bag");
+    setToast("Added to your bag");
   }
   return (
     <StorefrontContext.Provider
-      value={{ openProduct: setProduct, notify: setToast }}
+      value={{
+        openProduct: setProduct,
+        notify: setToast,
+        products,
+        catalogError,
+      }}
     >
       <div
         ref={root}
@@ -157,6 +176,7 @@ export function StorefrontShell({ children }: { children: ReactNode }) {
         {panel === "bag" && (
           <BagDialog
             selections={bag}
+            products={products}
             remove={(index) =>
               setBag((current) => current.filter((_, i) => i !== index))
             }

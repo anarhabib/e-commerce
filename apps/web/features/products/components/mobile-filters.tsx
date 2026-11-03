@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { lockBodyScroll } from "@/lib/scroll-lock";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Car, SlidersHorizontal, X } from "lucide-react";
 import type { ProductFacets } from "../types";
@@ -17,6 +18,12 @@ const chipClass =
 
 export function MobileFilters({ facets, total }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const releaseScroll = useRef<(() => void) | null>(null);
+  function unlockScroll() {
+    releaseScroll.current?.();
+    releaseScroll.current = null;
+  }
+  useEffect(() => () => unlockScroll(), []);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -29,12 +36,15 @@ export function MobileFilters({ facets, total }: Props) {
   const activeCount = categories.length + (vehicle ? 1 : 0);
 
   function openSheet() {
-    dialogRef.current?.showModal();
-    document.body.style.overflow = "hidden"; // stop the page scrolling behind the sheet
+    const dialog = dialogRef.current;
+    if (!dialog || dialog.open) return;
+    dialog.showModal();
+    releaseScroll.current = lockBodyScroll();
   }
 
   function closeSheet() {
     dialogRef.current?.close();
+    unlockScroll();
   }
 
   // Remove some params from the URL, keep everything else, go back to page 1
@@ -57,7 +67,7 @@ export function MobileFilters({ facets, total }: Props) {
   return (
     <>
       {/* Sticky toolbar: stays under the header while scrolling */}
-      <div className="sticky top-16 z-30 -mx-4 border-b border-secondary/10 bg-tertiary/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+      <div className="sticky top-[87px] z-20 carb-mobile:top-[72px] -mx-4 border-b border-secondary/10 bg-tertiary/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
         <div className="flex items-center justify-between gap-3">
           <button
             type="button"
@@ -113,9 +123,7 @@ export function MobileFilters({ facets, total }: Props) {
       <dialog
         ref={dialogRef}
         aria-label="Filters"
-        onClose={() => {
-          document.body.style.overflow = "";
-        }}
+        onClose={unlockScroll}
         onClick={(event) => {
           // a click on the dark backdrop targets the dialog itself
           if (event.target === dialogRef.current) closeSheet();

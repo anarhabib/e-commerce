@@ -1,14 +1,15 @@
 {
-  "name": "@flame-lenses/api",
+  "name": "@carbignite/api",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "tsx watch --env-file=.env src/server.ts",
     "build": "tsc",
-    "start": "node --env-file=.env dist/src/server.js",
-    "seed": "tsx --env-file=.env prisma/seed.ts",
-    "postinstall": "prisma skills sync || exit 0"
+    "seed:demo": "tsx --env-file=.env prisma/seed.ts",
+    "test": "node --import tsx --test tests/product-schema.test.ts",
+    "test:integration": "node --env-file=.env --import tsx --test tests/products.integration.test.ts",
+    "start": "node --env-file=.env dist/src/server.js"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

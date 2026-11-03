@@ -30,12 +30,12 @@ export default async function ProductsPage({ searchParams }: Props) {
     <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
       <section
         aria-labelledby="vehicle-heading"
-        className="mb-8 rounded-sm border border-secondary/10 bg-white p-4 sm:p-6"
+        className="mb-8 rounded-sm border border-[var(--line)] bg-[var(--paper)] p-4 sm:p-6"
       >
         <h1 id="vehicle-heading" className="text-2xl font-semibold">
           Find parts for your vehicle
         </h1>
-        <p className="mt-2 text-sm text-muted">
+        <p className="mt-2 text-sm text-[var(--muted)]">
           Choose a make, then narrow by model and year.
         </p>
         <VehicleSelector

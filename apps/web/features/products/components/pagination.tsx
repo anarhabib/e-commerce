@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { buttonStyles } from "@/components/ui/button";
 import type { SearchParams } from "../api";
 
 type Props = {

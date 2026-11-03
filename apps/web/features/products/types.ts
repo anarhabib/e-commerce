@@ -1,5 +1,4 @@
-export type ProductCategory =
-  "HEADLIGHT" | "TAILLIGHT" | "SIDE_MARKER" | "STOP_LIGHT" | "FOG_LIGHT";
+export type ProductCategory = "PADDLES" | "CONSOLE" | "TRIM";
 
 export type Product = {
   id: string;
@@ -11,12 +10,15 @@ export type Product = {
   priceCents: number;
   imageUrl: string | null;
   stock: number;
+  currency: string;
+  photoIndex: number | null;
+  isSample: boolean;
+  patterns: ("Woven" | "Forged")[];
+  finishes: ("Gloss" | "Satin" | "Matte")[];
   make: string | null;
   model: string | null;
   yearFrom: number | null;
   yearTo: number | null;
-  color: string | null;
-  side: string | null;
 };
 
 export type VehicleOption = {

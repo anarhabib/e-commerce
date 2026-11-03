@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
-import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { connection } from "next/server";
+import { getStorefrontProducts } from "@/features/products/api";
+import type { Product } from "@/features/products/types";
+import {
+  DM_Sans,
+  Hanken_Grotesk,
+  Inter,
+  JetBrains_Mono,
+} from "next/font/google";
 import "./globals.css";
+import { StorefrontShell } from "@/features/storefront/storefront-shell";
+import "@/features/storefront/style.css";
+import "@/features/storefront/interactions.css";
+import "@/features/storefront/integration.css";
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
 
 const hanken = Hanken_Grotesk({
   subsets: ["latin"],
@@ -17,17 +30,30 @@ export const metadata: Metadata = {
   description: "Carbon fiber replacement parts, made with intention.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await connection();
+  let products: Product[] = [];
+  let catalogError = false;
+  try {
+    products = await getStorefrontProducts();
+  } catch (error) {
+    catalogError = true;
+    console.error("Catalog request failed", error);
+  }
   return (
     <html
       lang="en"
-      className={`${hanken.variable} ${inter.variable} ${jetbrains.variable}`}
+      className={`${dmSans.variable} ${hanken.variable} ${inter.variable} ${jetbrains.variable}`}
     >
-      <body className="flex min-h-screen flex-col">{children}</body>
+      <body>
+        <StorefrontShell products={products} catalogError={catalogError}>
+          {children}
+        </StorefrontShell>
+      </body>
     </html>
   );
 }

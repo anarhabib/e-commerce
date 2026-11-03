@@ -1,9 +1,9 @@
 import { Product } from "./types";
 
-export function formatPrice(priceCents: number): string {
+export function formatPrice(priceCents: number, currency = "USD"): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency,
   }).format(priceCents / 100);
 }
 
@@ -29,4 +29,18 @@ export function formatFitment(
 export function formatCategory(category: string): string {
   const text = category.replaceAll("_", " ").toLowerCase();
   return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+export function productImageStyle(
+  product: Pick<Product, "imageUrl" | "photoIndex">,
+) {
+  const positions = ["0% 0%", "100% 0%", "0% 100%", "100% 100%"];
+  return {
+    backgroundImage: product.imageUrl
+      ? `url(${JSON.stringify(product.imageUrl)})`
+      : "none",
+    backgroundSize: product.photoIndex == null ? "cover" : "200% 200%",
+    backgroundPosition:
+      product.photoIndex == null ? "center" : positions[product.photoIndex],
+  };
 }

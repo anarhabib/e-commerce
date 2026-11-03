@@ -1,6 +1,10 @@
 import { productRepository } from "./repository.js";
 import { NotFoundError } from "../../lib/errors.js";
-import { CreateProductInput, UpdateProductInput } from "./schema.js";
+import {
+  fitmentRangeSchema,
+  type CreateProductInput,
+  type UpdateProductInput,
+} from "./schema.js";
 import type { FacetsQuery, ListProductsQuery } from "./schema.js";
 
 export const productService = {
@@ -37,7 +41,8 @@ export const productService = {
   },
 
   async updateProduct(id: string, data: UpdateProductInput) {
-    await productService.getProductById(id);
+    const existing = await productService.getProductById(id);
+    fitmentRangeSchema.parse({ ...existing, ...data });
     return await productRepository.update(id, data);
   },
 };

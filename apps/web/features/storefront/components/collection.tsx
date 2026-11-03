@@ -1,14 +1,16 @@
 "use client";
 import { useState } from "react";
-import { conceptProducts } from "../catalog";
-import { money, type ConceptProduct } from "../types";
+import { useRouter } from "next/navigation";
+import { useStorefront } from "../storefront-shell";
+import { formatCategory, productImageStyle } from "@/features/products/utils";
+import { money, type StoreProduct } from "../types";
 
 export function ProductCard({
   product,
   open,
 }: {
-  product: ConceptProduct;
-  open: (product: ConceptProduct) => void;
+  product: StoreProduct;
+  open: (product: StoreProduct) => void;
 }) {
   return (
     <article className="product-card">
@@ -18,22 +20,30 @@ export function ProductCard({
         aria-label={`View ${product.make} ${product.name}`}
       >
         <span
-          className={`product-photo photo-${product.photo}`}
+          className="product-photo"
+          style={productImageStyle(product)}
           role="img"
-          aria-label={`AI-generated concept of ${product.name}`}
+          aria-label={
+            product.isSample
+              ? `AI-generated demo of ${product.name}`
+              : product.name
+          }
         />
-        <span className="product-label">REPLACEMENT / CONCEPT</span>
+        <span className="product-label">
+          {product.isSample ? "REPLACEMENT / DEMO" : "REPLACEMENT PART"}
+        </span>
         <span className="product-plus">↗</span>
       </button>
       <div className="product-meta">
-        <span>{product.make.toUpperCase()}</span>
-        <span>{product.model.toUpperCase()}</span>
+        <span>{product.make?.toUpperCase()}</span>
+        <span>{product.model?.toUpperCase()}</span>
       </div>
       <button className="product-title" onClick={() => open(product)}>
         {product.name}
       </button>
       <p className="product-price">
-        From <strong>{money(product.priceCents)}</strong> <span>USD</span>
+        From <strong>{money(product.priceCents, product.currency)}</strong>{" "}
+        <span>{product.currency}</span>
       </p>
     </article>
   );
@@ -42,13 +52,23 @@ export function ProductCard({
 export function Collection({
   open,
 }: {
-  open: (product: ConceptProduct) => void;
+  open: (product: StoreProduct) => void;
 }) {
+  const { products, catalogError } = useStorefront();
+  const router = useRouter();
+  const categories = [...new Set(products.map((product) => product.category))];
+  const makes = [
+    ...new Set(
+      products
+        .map((product) => product.make)
+        .filter((make): make is string => Boolean(make)),
+    ),
+  ];
   const [category, setCategory] = useState("all");
   const [make, setMake] = useState("all");
   const [expanded, setExpanded] = useState(false);
   const [hasFiltered, setHasFiltered] = useState(false);
-  const filtered = conceptProducts.filter(
+  const filtered = products.filter(
     (product) =>
       (category === "all" || product.category === category) &&
       (make === "all" || product.make === make),
@@ -71,14 +91,14 @@ export function Collection({
             <br />
             Find the next detail for your driver&apos;s seat.
           </p>
-          <span className="sample-label">
-            DESIGN PREVIEW · SAMPLE CATALOG &amp; PRICES
-          </span>
+          {products.some((product) => product.isSample) && (
+            <span className="sample-label">DEMO CATALOG &amp; PRICES</span>
+          )}
         </div>
       </div>
       <div className="filter-bar">
         <div className="filter-tabs" role="group" aria-label="Product category">
-          {["all", "Paddles", "Console", "Trim"].map((value) => (
+          {["all", ...categories].map((value) => (
             <button
               key={value}
               className={category === value ? "active" : ""}
@@ -91,10 +111,10 @@ export function Collection({
             >
               {value === "all" ? (
                 <>
-                  All parts <sup>{conceptProducts.length}</sup>
+                  All parts <sup>{products.length}</sup>
                 </>
               ) : (
-                value
+                formatCategory(value)
               )}
             </button>
           ))}
@@ -111,7 +131,7 @@ export function Collection({
             }}
           >
             <option value="all">All makes</option>
-            {["Ferrari", "Lamborghini", "Porsche", "McLaren"].map((value) => (
+            {makes.map((value) => (
               <option key={value}>{value}</option>
             ))}
           </select>
@@ -121,19 +141,26 @@ export function Collection({
         key={`${category}:${make}`}
         className={`product-grid${hasFiltered ? " motion-safe:animate-[carbignite-filter-in_480ms_cubic-bezier(0.22,1,0.36,1)]" : ""}`}
       >
-        {visible.length ? (
+        {catalogError ? (
+          <div className="empty-state" role="status">
+            <p>The catalog is temporarily unavailable.</p>
+            <button className="text-button" onClick={() => router.refresh()}>
+              Try again
+            </button>
+          </div>
+        ) : visible.length ? (
           visible.map((product) => (
             <ProductCard key={product.id} product={product} open={open} />
           ))
         ) : (
           <p className="empty-state">
-            No concept parts match this selection. Try another make or category.
+            No parts match this selection. Try another make or category.
           </p>
         )}
       </div>
       <div className="collection-bottom">
         <span aria-live="polite">
-          Showing {visible.length} of {filtered.length} concept parts
+          Showing {visible.length} of {filtered.length} parts
         </span>
         <button
           className="text-button"

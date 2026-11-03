@@ -182,7 +182,7 @@
 
 /* Header actions share the navbar's quiet, ink-colored underline. */
 .carbignite
-  header
+  > header
   .header-actions
   :is(.account-link, .bag-button, .icon-button) {
   position: relative;
@@ -190,7 +190,7 @@
   color: var(--ink);
 }
 .carbignite
-  header
+  > header
   .header-actions
   :is(.account-link, .bag-button, .icon-button):not(:disabled):is(
     :hover,
@@ -201,7 +201,7 @@
   background-image: none;
 }
 .carbignite
-  header
+  > header
   .header-actions
   :is(.account-link, .bag-button, .icon-button):after {
   content: "";
@@ -215,7 +215,7 @@
   transition: right var(--interaction-duration) var(--interaction-ease);
 }
 .carbignite
-  header
+  > header
   .header-actions
   :is(.account-link, .bag-button, .icon-button):is(
     :hover,
@@ -223,32 +223,32 @@
   ):after {
   right: 0;
 }
-.carbignite header .bag-button:is(:hover, :focus-visible) span {
+.carbignite > header .bag-button:is(:hover, :focus-visible) span {
   background: transparent;
   color: var(--ink);
   border-color: var(--line);
 }
 
 /* More of the page remains visible through the scrolling glass layer. */
-.carbignite header.is-scrolled {
+.carbignite > header.is-scrolled {
   background: rgba(243, 242, 237, 0.32);
   -webkit-backdrop-filter: blur(12px) saturate(130%);
   backdrop-filter: blur(12px) saturate(130%);
 }
-.carbignite[data-theme="dark"] header.is-scrolled {
+.carbignite[data-theme="dark"] > header.is-scrolled {
   background: rgba(27, 29, 27, 0.3);
 }
 @supports not (
   (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
 ) {
-  .carbignite header.is-scrolled,
-  .carbignite[data-theme="dark"] header.is-scrolled {
+  .carbignite > header.is-scrolled,
+  .carbignite[data-theme="dark"] > header.is-scrolled {
     background: var(--paper);
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .carbignite
-    header
+    > header
     .header-actions
     :is(.account-link, .bag-button, .icon-button):after {
     transition: none;
@@ -256,13 +256,13 @@
 }
 
 /* Theme switching has no hover decoration; keyboard focus stays visible. */
-.carbignite header #theme {
+.carbignite > header #theme {
   transition: none;
 }
-.carbignite header #theme:after {
+.carbignite > header #theme:after {
   display: none;
 }
-.carbignite header #theme:is(:hover, :focus-visible) {
+.carbignite > header #theme:is(:hover, :focus-visible) {
   color: var(--ink);
   background: transparent;
   transform: none;
@@ -284,12 +284,12 @@
 }
 
 /* The footer collection link uses the same ink underline as the navbar. */
-.carbignite footer .footer-top > a:last-child {
+.carbignite > footer .footer-top > a:last-child {
   position: relative;
   background-image: none;
   color: var(--ink);
 }
-.carbignite footer .footer-top > a:last-child:after {
+.carbignite > footer .footer-top > a:last-child:after {
   content: "";
   position: absolute;
   left: 0;
@@ -300,15 +300,15 @@
   transition: right var(--interaction-duration) var(--interaction-ease);
   pointer-events: none;
 }
-.carbignite footer .footer-top > a:last-child:is(:hover, :focus-visible) {
+.carbignite > footer .footer-top > a:last-child:is(:hover, :focus-visible) {
   background-image: none;
   color: var(--ink);
 }
-.carbignite footer .footer-top > a:last-child:is(:hover, :focus-visible):after {
+.carbignite > footer .footer-top > a:last-child:is(:hover, :focus-visible):after {
   right: 0;
 }
 @media (prefers-reduced-motion: reduce) {
-  .carbignite footer .footer-top > a:last-child:after {
+  .carbignite > footer .footer-top > a:last-child:after {
     transition: none;
   }
 }

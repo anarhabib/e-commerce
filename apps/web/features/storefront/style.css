@@ -95,7 +95,7 @@
 .carbignite .announcement span {
   margin-left: 12px;
 }
-.carbignite header {
+.carbignite > header {
   height: 87px;
   display: flex;
   align-items: center;
@@ -118,15 +118,15 @@
   display: inline-block;
   padding-top: 4px;
 }
-.carbignite nav {
+.carbignite > header nav {
   display: flex;
   gap: 32px;
   font-size: 12px;
 }
-.carbignite nav a {
+.carbignite > header nav a {
   position: relative;
 }
-.carbignite nav a:after {
+.carbignite > header nav a:after {
   content: "";
   position: absolute;
   height: 1px;
@@ -136,7 +136,7 @@
   bottom: -5px;
   transition: right 0.2s;
 }
-.carbignite nav a:hover:after {
+.carbignite > header nav a:hover:after {
   right: 0;
 }
 .carbignite .header-actions {
@@ -194,7 +194,7 @@
 .carbignite h1 {
   font-weight: 450;
   font-size: clamp(50px, 5.8vw, 90px);
-  letter-spacing: -5px;
+  letter-spacing: -1.8px;
   line-height: 1.02;
   margin: 36px 0 25px;
 }
@@ -315,7 +315,7 @@
 .carbignite h2 {
   font-weight: 450;
   font-size: clamp(35px, 3.5vw, 54px);
-  letter-spacing: -2.5px;
+  letter-spacing: -0.5px;
   line-height: 1.12;
 }
 .carbignite .section-heading h2 {
@@ -411,24 +411,11 @@
 .carbignite .product-photo {
   position: absolute;
   inset: 0;
-  background-image: url("/carbignite/products.webp");
   background-size: 200% 200%;
   transition: transform 0.5s;
 }
 .carbignite .product-image:hover .product-photo {
   transform: scale(1.06);
-}
-.carbignite .photo-0 {
-  background-position: 0 0;
-}
-.carbignite .photo-1 {
-  background-position: 100% 0;
-}
-.carbignite .photo-2 {
-  background-position: 0 100%;
-}
-.carbignite .photo-3 {
-  background-position: 100% 100%;
 }
 .carbignite .product-label {
   position: absolute;
@@ -704,7 +691,7 @@
 .carbignite .custom .button:hover {
   background: var(--orange);
 }
-.carbignite footer {
+.carbignite > footer {
   padding: 43px 4.3% 23px;
 }
 .carbignite .footer-top,
@@ -728,7 +715,7 @@
   font-size: 8px;
   color: var(--muted);
 }
-.carbignite dialog {
+.carbignite .storefront-dialog {
   background: var(--paper);
   color: var(--ink);
   border: 1px solid var(--line);
@@ -738,7 +725,7 @@
   max-height: 90vh;
   overflow: auto;
 }
-.carbignite dialog::backdrop {
+.carbignite .storefront-dialog::backdrop {
   background: #0d130db3;
   backdrop-filter: blur(6px);
 }
@@ -756,7 +743,6 @@
 }
 .carbignite .detail-image {
   aspect-ratio: 1;
-  background-image: url("/carbignite/products.webp");
   background-size: 200% 200%;
   background-color: #e8e7e2;
 }
@@ -883,14 +869,14 @@
   }
 }
 @media (max-width: 1000px) {
-  .carbignite header {
+  .carbignite > header {
     padding: 0 4%;
     gap: 15px;
   }
   .carbignite .wordmark {
     font-size: 23px;
   }
-  .carbignite nav {
+  .carbignite > header nav {
     gap: 20px;
   }
   .carbignite .hero {
@@ -934,7 +920,7 @@
   .carbignite .announcement a {
     margin-left: 8px;
   }
-  .carbignite header {
+  .carbignite > header {
     height: 72px;
   }
   .carbignite .wordmark {
@@ -947,7 +933,7 @@
     display: block;
     font-size: 20px;
   }
-  .carbignite nav {
+  .carbignite > header nav {
     display: none;
     position: absolute;
     top: 105px;
@@ -958,7 +944,7 @@
     border-bottom: 1px solid var(--line);
     z-index: 5;
   }
-  .carbignite nav.open {
+  .carbignite > header nav.open {
     display: flex;
     justify-content: space-between;
   }
@@ -1122,7 +1108,7 @@
     max-height: 260px;
     aspect-ratio: 1.3;
   }
-  .carbignite dialog {
+  .carbignite .storefront-dialog {
     padding: 40px 24px 25px;
   }
   .carbignite .detail-copy h2 {
@@ -1205,7 +1191,7 @@
   .carbignite .bag-button span.just-added {
     animation: bag-tick 0.4s ease;
   }
-  .carbignite dialog[open] {
+  .carbignite .storefront-dialog[open] {
     animation: dialog-arrive 0.25s ease-out;
   }
   .carbignite .material-art {
@@ -1420,7 +1406,7 @@ html:has(.carbignite #product-dialog[open]) {
 }
 
 /* The navigation becomes a frosted layer as the page moves behind it. */
-.carbignite header {
+.carbignite > header {
   position: sticky;
   top: 0;
   z-index: 30;
@@ -1430,14 +1416,14 @@ html:has(.carbignite #product-dialog[open]) {
     box-shadow 0.25s ease,
     border-color 0.25s ease;
 }
-.carbignite header.is-scrolled {
+.carbignite > header.is-scrolled {
   background: rgba(243, 242, 237, 0.82);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   backdrop-filter: blur(18px) saturate(140%);
   box-shadow: 0 5px 24px #151a1110;
   border-bottom-color: rgba(140, 145, 130, 0.22);
 }
-.carbignite[data-theme="dark"] header.is-scrolled {
+.carbignite[data-theme="dark"] > header.is-scrolled {
   background: rgba(27, 29, 27, 0.8);
   box-shadow: 0 5px 24px #00000026;
   border-bottom-color: rgba(195, 200, 183, 0.13);
@@ -1445,15 +1431,15 @@ html:has(.carbignite #product-dialog[open]) {
 @supports not (
   (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
 ) {
-  .carbignite header.is-scrolled {
+  .carbignite > header.is-scrolled {
     background: var(--paper);
   }
 }
 @media (max-width: 700px) {
-  .carbignite header nav {
+  .carbignite > header nav {
     top: 100%;
   }
-  .carbignite header.is-scrolled nav {
+  .carbignite > header.is-scrolled nav {
     background: var(--paper);
   }
 }
@@ -1488,7 +1474,7 @@ html:has(.carbignite #product-dialog[open]) {
   transform: translateX(120%);
 }
 @media (prefers-reduced-motion: reduce) {
-  .carbignite header {
+  .carbignite > header {
     transition: none;
   }
   .carbignite #add-bag:before {
@@ -1534,13 +1520,13 @@ html:has(.carbignite #product-dialog[open]) {
 }
 
 /* Clearer glass, and a quiet moving detail confined to the cart button. */
-.carbignite header.is-scrolled {
+.carbignite > header.is-scrolled {
   background: rgba(243, 242, 237, 0.58);
   -webkit-backdrop-filter: blur(13px) saturate(135%);
   backdrop-filter: blur(13px) saturate(135%);
   box-shadow: 0 3px 18px #151a1109;
 }
-.carbignite[data-theme="dark"] header.is-scrolled {
+.carbignite[data-theme="dark"] > header.is-scrolled {
   background: rgba(27, 29, 27, 0.56);
   box-shadow: 0 3px 18px #00000016;
 }
@@ -1594,7 +1580,7 @@ html:has(.carbignite #product-dialog[open]) {
   .carbignite .account-link {
     font-size: 9px;
   }
-  .carbignite header .wordmark {
+  .carbignite > header .wordmark {
     font-size: 21px;
   }
   .carbignite .texture-note {
@@ -1648,5 +1634,4 @@ html:has(.carbignite #product-dialog[open]) {
 .carbignite [hidden] {
   display: none !important;
 }
-
 }

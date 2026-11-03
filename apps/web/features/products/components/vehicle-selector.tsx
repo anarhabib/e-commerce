@@ -13,7 +13,7 @@ type Props = {
 };
 
 const selectStyles =
-  "w-full rounded-sm border border-secondary/20 bg-white p-2.5 font-mono text-xs text-secondary focus:border-primary focus:outline-none disabled:opacity-50";
+  "w-full rounded-sm border border-secondary/20 bg-[var(--paper)] p-2.5 font-mono text-xs text-[var(--ink)] focus:border-primary focus:outline-none disabled:opacity-50";
 
 export function VehicleSelector({
   vehicles,

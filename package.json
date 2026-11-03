@@ -1,11 +1,11 @@
 {
-  "name": "flame-lenses",
+  "name": "carbignite",
   "version": "1.0.0",
   "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "pnpm --filter @carbignite/web exec node --test tests/scroll-reveal.test.mjs && pnpm --filter @carbignite/api exec node --import tsx --test ../web/tests/concept-selection.test.ts ../web/tests/scroll-lock.test.ts && pnpm --filter @carbignite/api test",
     "dev": "pnpm -r --parallel dev"
   },
   "keywords": [],

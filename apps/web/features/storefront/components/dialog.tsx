@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { lockBodyScroll } from "@/lib/scroll-lock";
 
 export function Dialog({
   id,
@@ -16,19 +17,18 @@ export function Dialog({
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current!;
-    const previousOverflow = document.body.style.overflow;
     const opener = document.activeElement as HTMLElement | null;
     dialog.showModal();
-    document.body.style.overflow = "hidden";
+    const releaseScroll = lockBodyScroll();
     return () => {
       dialog.close();
-      document.body.style.overflow = previousOverflow;
+      releaseScroll();
       opener?.focus();
     };
   }, []);
   return (
     <dialog
-      className="m-auto"
+      className="storefront-dialog m-auto"
       ref={ref}
       id={id}
       aria-label={title}
