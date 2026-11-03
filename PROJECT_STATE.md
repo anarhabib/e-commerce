@@ -103,7 +103,7 @@
 
 ## Shop vehicle selector and search clear icon
 
-- `/shop` now reuses the shared dependent make/model/year VehicleSelector above the search/category/sort toolbar; removed the duplicate make-only filter. Find parts preserves existing search/category/sort, resets pagination, and applies vehicle filtering through the existing server API. Shop page parsing now retains model and validates year (1900–2100) in URLs.
+- `/shop` now reuses the shared dependent make/model/year VehicleSelector above the search/category/sort toolbar; removed the duplicate make-only filter. Find parts preserves existing search/category/sort, resets pagination, and applies vehicle filtering through the existing server API. Shop page parsing now retains model and validates year (1900ï¿½2100) in URLs.
 - Shared selector accepts optional availableMakes (includes makes without model data) and allowEmpty (lets shop return to all vehicles); other usages retain their existing defaults. Search replaces the browser clear glyph with a thin-stroke Lucide X, theme colors, orange hover, visible keyboard focus and a labeled 40px target; clearing also removes the applied search and resets pagination.
 - Paths: `apps/web/features/storefront/shop-catalog.tsx`, `integration.css`, `apps/web/app/shop/page.tsx`, `apps/web/features/products/components/vehicle-selector.tsx`. Shop vehicle dropdowns retain orange selected/hover states and responsive layout. No backend/schema changes. Browser visual/keyboard review remains manual.
 - Verification: web lint and production build (including TypeScript) passed for the vehicle selector and search clear changes.
@@ -143,4 +143,8 @@
 - Admin Products and Order requests now render the same `features/products/components/pagination.tsx` used by storefront. Added optional onPageChange/disabled props for local admin state; storefront retains URL links and query preservation. Shared page numbers, ellipses, orange active state and phone controls use existing design CSS.
 - Replaced the admin-only pagination helper with guarded changePage, preserving search/status/tab state and loading protection. Removed unused `.admin-pagination` styles from `features/admin/admin.css`. Single-page results follow shared pagination behavior (no pager). No API or authentication changes.
 - Verification: web lint and production build with TypeScript passed. Admin visual/click review remains manual.
-- Admin product table now displays a live “Showing X–Y of Z products” count, based on the server page and total. Empty search results show “No products”; the existing 10-item pagination and server count provide accurate ranges. Paths: apps/web/features/admin/admin-panel.tsx, types.ts, admin.css. No additional validation run for this display-only change.
+- Admin product table now displays a live ï¿½Showing Xï¿½Y of Z productsï¿½ count, based on the server page and total. Empty search results show ï¿½No productsï¿½; the existing 10-item pagination and server count provide accurate ranges. Paths: apps/web/features/admin/admin-panel.tsx, types.ts, admin.css. No additional validation run for this display-only change.
+
+## Storefront small-text readability
+
+- Scaled existing CARBIGNITE storefront font sizes below 12px by 1.3Ã—, preserving their relative hierarchy across captions, metadata, badges, footer copy, and mobile labels. Main file: apps/web/features/storefront/style.css. No component, API, or schema changes. Visual verification remains manual.

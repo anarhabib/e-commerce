@@ -81,7 +81,7 @@
 .carbignite .announcement {
   background: #282b25;
   color: #eeeee7;
-  font-size: 10px;
+  font-size: 13.0px;
   letter-spacing: 0.5px;
   text-align: center;
   padding: 10px 20px;
@@ -109,7 +109,7 @@
   white-space: nowrap;
 }
 .carbignite .wordmark span {
-  font-size: 10px;
+  font-size: 13.0px;
   vertical-align: top;
   letter-spacing: 0;
   margin-left: 3px;
@@ -154,7 +154,7 @@
 .carbignite .bag-button span {
   border: 1px solid var(--line);
   border-radius: 50%;
-  font-size: 10px;
+  font-size: 13.0px;
   display: inline-grid;
   place-items: center;
   width: 22px;
@@ -176,7 +176,7 @@
   align-items: flex-start;
 }
 .carbignite .eyebrow {
-  font-size: 9px;
+  font-size: 11.7px;
   font-weight: 550;
   letter-spacing: 1.5px;
   line-height: 1.6;
@@ -210,7 +210,7 @@
   align-items: center;
   gap: 38px;
   padding: 18px 23px;
-  font-size: 11px;
+  font-size: 14.3px;
   font-weight: 500;
   min-height: 50px;
 }
@@ -233,7 +233,7 @@
   gap: 15px;
   margin-top: auto;
   padding-top: 65px;
-  font-size: 8px;
+  font-size: 10.4px;
   letter-spacing: 1px;
   line-height: 1.7;
 }
@@ -256,7 +256,7 @@
   position: absolute;
   left: 30px;
   top: 28px;
-  font-size: 8px;
+  font-size: 10.4px;
   letter-spacing: 1.2px;
   color: #41463e;
 }
@@ -267,7 +267,7 @@
   right: 30px;
   display: flex;
   justify-content: space-between;
-  font-size: 8px;
+  font-size: 10.4px;
   letter-spacing: 0.9px;
   color: #41463e;
 }
@@ -276,7 +276,7 @@
   right: 22px;
   top: 28px;
   writing-mode: vertical-rl;
-  font-size: 8px;
+  font-size: 10.4px;
   letter-spacing: 1.2px;
   color: #41463e;
 }
@@ -286,7 +286,7 @@
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   padding: 23px 4.3%;
-  font-size: 11px;
+  font-size: 14.3px;
 }
 .carbignite .principles span:nth-child(2) {
   text-align: center;
@@ -296,7 +296,7 @@
 }
 .carbignite .principles i {
   font-style: normal;
-  font-size: 9px;
+  font-size: 11.7px;
   color: var(--muted);
   margin-right: 20px;
 }
@@ -326,7 +326,7 @@
 }
 .carbignite .sample-label {
   display: block;
-  font-size: 8px;
+  font-size: 10.4px;
   letter-spacing: 0.6px;
   color: var(--muted);
   margin-top: 20px;
@@ -347,7 +347,7 @@
 }
 .carbignite .filter-tabs button {
   background: none;
-  font-size: 11px;
+  font-size: 14.3px;
   padding: 21px 0;
   position: relative;
   color: var(--muted);
@@ -365,7 +365,7 @@
   background: var(--ink);
 }
 .carbignite sup {
-  font-size: 8px;
+  font-size: 10.4px;
   margin-left: 5px;
 }
 .carbignite .vehicle-filter {
@@ -374,7 +374,7 @@
   gap: 20px;
 }
 .carbignite .vehicle-filter > span {
-  font-size: 8px;
+  font-size: 10.4px;
   letter-spacing: 1px;
   color: var(--muted);
 }
@@ -383,7 +383,7 @@
   border: 0;
   color: var(--ink);
   padding: 12px 15px 12px 0;
-  font-size: 11px;
+  font-size: 14.3px;
   max-width: 150px;
 }
 .carbignite select option {
@@ -420,7 +420,7 @@
   left: 12px;
   top: 13px;
   color: #464a41;
-  font-size: 7px;
+  font-size: 9.1px;
   letter-spacing: 0.8px;
   background: #f4f3edc7;
   padding: 5px 6px;
@@ -441,7 +441,7 @@
 .carbignite .product-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 8px;
+  font-size: 10.4px;
   letter-spacing: 0.8px;
   color: var(--muted);
   margin: 18px 0 8px;
@@ -456,7 +456,7 @@
   line-height: 1.4;
 }
 .carbignite .product-price {
-  font-size: 11px;
+  font-size: 14.3px;
   margin-top: 9px;
   color: var(--muted);
 }
@@ -469,14 +469,14 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 35px;
-  font-size: 9px;
+  font-size: 11.7px;
   color: var(--muted);
 }
 .carbignite .text-button {
   background: none;
   border-bottom: 1px solid var(--ink);
   padding: 0 0 8px;
-  font-size: 11px;
+  font-size: 14.3px;
   color: var(--ink);
 }
 .carbignite .text-button span {
@@ -548,7 +548,7 @@
   left: 35px;
   top: 30px;
   color: #b9c1b5;
-  font-size: 9px;
+  font-size: 11.7px;
   letter-spacing: 1px;
   line-height: 1.7;
 }
@@ -583,7 +583,7 @@
 .carbignite .material-tabs button {
   background: none;
   padding: 17px 0;
-  font-size: 11px;
+  font-size: 14.3px;
   color: var(--muted);
   border-bottom: 2px solid transparent;
 }
@@ -592,7 +592,7 @@
   border-color: var(--ink);
 }
 .carbignite .material-copy .pattern-description {
-  font-size: 10px;
+  font-size: 13.0px;
   margin-top: 15px;
   min-height: 38px;
 }
@@ -606,11 +606,11 @@
   gap: 10px;
 }
 .carbignite .finish-line > span {
-  font-size: 8px;
+  font-size: 10.4px;
   letter-spacing: 1px;
 }
 .carbignite .finish {
-  font-size: 9px;
+  font-size: 11.7px;
   background: none;
   padding: 7px 9px;
   border: 1px solid transparent;
@@ -644,7 +644,7 @@
   padding: 21px 0;
 }
 .carbignite .approach-row > span {
-  font-size: 9px;
+  font-size: 11.7px;
   color: var(--muted);
   padding-top: 3px;
 }
@@ -654,7 +654,7 @@
   margin-bottom: 8px;
 }
 .carbignite .approach-row p {
-  font-size: 11px;
+  font-size: 14.3px;
   color: var(--muted);
   line-height: 1.8;
   max-width: 340px;
@@ -700,17 +700,17 @@
   gap: 20px;
 }
 .carbignite .footer-top > span {
-  font-size: 9px;
+  font-size: 11.7px;
   letter-spacing: 1.4px;
 }
 .carbignite .footer-top > a:last-child {
-  font-size: 11px;
+  font-size: 14.3px;
 }
 .carbignite .footer-bottom {
   margin-top: 40px;
   border-top: 1px solid var(--line);
   padding-top: 22px;
-  font-size: 8px;
+  font-size: 10.4px;
   color: var(--muted);
 }
 .carbignite .storefront-dialog {
@@ -756,7 +756,7 @@
 }
 .carbignite .detail-copy label {
   display: block;
-  font-size: 10px;
+  font-size: 13.0px;
   margin-top: 18px;
 }
 .carbignite .detail-copy select {
@@ -770,7 +770,7 @@
   width: 100%;
 }
 .carbignite .preview-note {
-  font-size: 10px !important;
+  font-size: 13.0px !important;
   color: var(--muted);
   line-height: 1.7;
   margin: 18px 0;
@@ -791,12 +791,12 @@
 .carbignite .bag-row small {
   display: block;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 13.0px;
   margin-top: 5px;
 }
 .carbignite .bag-row button {
   background: none;
-  font-size: 10px;
+  font-size: 13.0px;
   text-decoration: underline;
   color: var(--muted);
   padding: 8px 0;
@@ -821,7 +821,7 @@
 }
 .carbignite form label {
   display: block;
-  font-size: 11px;
+  font-size: 14.3px;
   margin-top: 20px;
 }
 .carbignite input,
@@ -895,7 +895,7 @@
 }
 @media (max-width: 700px) {
   .carbignite .announcement {
-    font-size: 8px;
+    font-size: 10.4px;
   }
   .carbignite .announcement a {
     margin-left: 8px;
@@ -979,10 +979,10 @@
     margin-top: 20px;
   }
   .carbignite .heading-note p {
-    font-size: 11px;
+    font-size: 14.3px;
   }
   .carbignite .sample-label {
-    font-size: 7px;
+    font-size: 9.1px;
     margin-top: 12px;
   }
   .carbignite h2 {
@@ -993,11 +993,11 @@
     gap: 17px;
   }
   .carbignite .filter-tabs button {
-    font-size: 10px;
+    font-size: 13.0px;
     padding: 19px 0;
   }
   .carbignite select {
-    font-size: 10px;
+    font-size: 13.0px;
     max-width: 100px;
   }
   .carbignite .product-grid {
@@ -1005,7 +1005,7 @@
     gap: 26px 14px;
   }
   .carbignite .product-meta {
-    font-size: 7px;
+    font-size: 9.1px;
     margin-top: 13px;
     letter-spacing: 0.4px;
   }
@@ -1013,18 +1013,18 @@
     font-size: 12px;
   }
   .carbignite .product-price {
-    font-size: 10px;
+    font-size: 13.0px;
   }
   .carbignite .product-label {
-    font-size: 6px;
+    font-size: 7.8px;
     left: 7px;
     top: 8px;
   }
   .carbignite .collection-bottom {
-    font-size: 8px;
+    font-size: 10.4px;
   }
   .carbignite .text-button {
-    font-size: 10px;
+    font-size: 13.0px;
   }
   .carbignite .text-button span {
     margin-left: 12px;
@@ -1059,13 +1059,13 @@
     flex-direction: column;
   }
   .carbignite .custom p {
-    font-size: 11px;
+    font-size: 14.3px;
   }
   .carbignite .footer-top {
     flex-wrap: wrap;
   }
   .carbignite .footer-top > span {
-    font-size: 8px;
+    font-size: 10.4px;
   }
   .carbignite .footer-top > a:last-child {
     display: none;
@@ -1073,7 +1073,7 @@
   .carbignite .footer-bottom {
     align-items: flex-start;
     flex-wrap: wrap;
-    font-size: 8px;
+    font-size: 10.4px;
     line-height: 1.8;
   }
   .carbignite .footer-bottom > span:nth-child(2) {
@@ -1302,7 +1302,7 @@
     margin: 9px 0;
   }
   .carbignite #product-dialog .detail-copy > p {
-    font-size: 11px;
+    font-size: 14.3px;
     line-height: 1.6;
   }
   .carbignite #product-dialog .preview-note {
@@ -1331,7 +1331,7 @@
     margin: 7px 0;
   }
   .carbignite #product-dialog .detail-copy > p {
-    font-size: 10px;
+    font-size: 13.0px;
     line-height: 1.45;
   }
   .carbignite #product-dialog .preview-note {
@@ -1533,13 +1533,13 @@ html:has(.carbignite #product-dialog[open]) {
   box-shadow: none;
 }
 .carbignite .account-link {
-  font-size: 11px;
+  font-size: 14.3px;
 }
 .carbignite .texture-note {
   position: absolute;
   right: 30px;
   bottom: 30px;
-  font-size: 7px;
+  font-size: 9.1px;
   letter-spacing: 1px;
   color: #bac0b5;
 }
@@ -1553,7 +1553,7 @@ html:has(.carbignite #product-dialog[open]) {
     gap: 8px;
   }
   .carbignite .account-link {
-    font-size: 9px;
+    font-size: 11.7px;
   }
   .carbignite > header .wordmark {
     font-size: 21px;
