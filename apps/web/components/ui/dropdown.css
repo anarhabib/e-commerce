@@ -1,0 +1,120 @@
+/* Shared across every dropdown; colors follow the existing theme tokens. */
+.carbignite .brand-dropdown {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+}
+.carbignite .brand-dropdown .dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+  outline: none;
+  box-shadow: none;
+  transition: none;
+  cursor: pointer;
+}
+.carbignite
+  .brand-dropdown
+  .dropdown-trigger:is(:hover, :focus, :focus-visible, :active) {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--line);
+  outline: none;
+  box-shadow: none;
+  transform: none;
+}
+.carbignite .brand-dropdown .dropdown-trigger:focus-visible .dropdown-value {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.carbignite .brand-dropdown .dropdown-trigger:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.carbignite .brand-dropdown .dropdown-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.carbignite .brand-dropdown .dropdown-arrow {
+  flex: 0 0 14px;
+  transition: transform 180ms ease;
+}
+.carbignite .brand-dropdown[data-open="true"] .dropdown-arrow {
+  transform: rotate(180deg);
+}
+.carbignite .brand-dropdown .dropdown-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 5px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+}
+.carbignite .brand-dropdown[data-above="true"] .dropdown-menu {
+  top: auto;
+  bottom: calc(100% + 5px);
+}
+.carbignite .brand-dropdown .dropdown-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.carbignite .brand-dropdown .dropdown-option[data-active="true"],
+.carbignite .brand-dropdown .dropdown-option[aria-selected="true"] {
+  background: var(--soft);
+  color: var(--ink);
+}
+.carbignite .brand-dropdown .dropdown-option[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.carbignite .vehicle-filter .brand-dropdown {
+  width: 180px;
+}
+.carbignite .detail-options .brand-dropdown {
+  margin-top: 8px;
+}
+.carbignite .order-detail-status > .brand-dropdown {
+  flex: 1;
+}
+.carbignite .admin-main .admin-workspace .table-toolbar label {
+  display: grid;
+  gap: 8px;
+  min-width: 190px;
+}
+.carbignite:has(.admin-main) .field-grid .brand-dropdown {
+  margin-top: 7px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite .brand-dropdown .dropdown-arrow {
+    transition: none;
+  }
+}

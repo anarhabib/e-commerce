@@ -40,7 +40,9 @@ model Product {
   category    ProductCategory
   priceCents  Int
   imageUrl    String?
+  imageUrls   String[]        @default([])
   stock       Int             @default(0)
+  active      Boolean         @default(true)
   currency    String          @default("USD")
   photoIndex  Int?
   isSample    Boolean         @default(false)
@@ -55,4 +57,33 @@ model Product {
 
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
+}
+
+enum RequestStatus {
+  requested
+  in_review
+  quoted
+  in_production
+  shipped
+  cancelled
+}
+
+// Immutable customer/item snapshots preserve the request even if the catalog changes.
+model OrderRequest {
+  id         String        @id
+  customer   Json
+  items      Json
+  totalCents Int
+  status     RequestStatus @default(requested)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
+
+model MediaAsset {
+  id          String   @id @default(cuid())
+  contentType String
+  data        Bytes
+  createdAt   DateTime @default(now())
 }

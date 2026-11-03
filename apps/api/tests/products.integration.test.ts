@@ -2,8 +2,15 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import test from "node:test";
 import { buildApp } from "../src/app.js";
+import { hashPassword, signIn } from "../src/modules/admin/auth.js";
 
 test("local carbon API: writes, vehicle/category filters, facets and PATCH validation", async () => {
+  process.env.ADMIN_EMAIL = "integration@example.com";
+  process.env.ADMIN_PASSWORD_HASH = hashPassword("integration-test-only");
+  process.env.ADMIN_SESSION_SECRET = randomUUID() + randomUUID();
+  const headers = {
+    authorization: `Bearer ${signIn(process.env.ADMIN_EMAIL, "integration-test-only")}`,
+  };
   const app = buildApp();
   app.log.level = "silent";
   const ids: string[] = [];
@@ -27,6 +34,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
     for (const category of ["PADDLES", "TRIM"]) {
       const response = await app.inject({
         method: "POST",
+        headers,
         url: "/products",
         payload: {
           ...base,
@@ -78,6 +86,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
     );
     const invalidRange = await app.inject({
       method: "PATCH",
+      headers,
       url: `/products/${ids[0]}`,
       payload: { yearTo: 2010 },
     });
@@ -89,6 +98,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
     assert.equal(unchanged.json().yearTo, 2020);
     const cleared = await app.inject({
       method: "PATCH",
+      headers,
       url: `/products/${ids[0]}`,
       payload: { imageUrl: null, yearFrom: null },
     });
@@ -96,6 +106,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
     assert.equal(cleared.json().yearFrom, null);
     const duplicate = await app.inject({
       method: "POST",
+      headers,
       url: "/products",
       payload: {
         ...base,
@@ -124,6 +135,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
     for (const id of ids) {
       const deleted = await app.inject({
         method: "DELETE",
+        headers,
         url: `/products/${id}`,
       });
       assert.equal(deleted.statusCode, 204, deleted.body);

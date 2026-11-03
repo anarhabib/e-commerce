@@ -1,4 +1,5 @@
 "use client";
+import { Dropdown } from "@/components/ui/dropdown";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useStorefront } from "../storefront-shell";
@@ -121,7 +122,7 @@ export function Collection({
         </div>
         <label className="vehicle-filter">
           <span>YOUR VEHICLE</span>
-          <select
+          <Dropdown
             aria-label="Filter by vehicle make"
             value={make}
             onChange={(event) => {
@@ -134,7 +135,7 @@ export function Collection({
             {makes.map((value) => (
               <option key={value}>{value}</option>
             ))}
-          </select>
+          </Dropdown>
         </label>
       </div>
       <div

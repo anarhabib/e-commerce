@@ -13,6 +13,8 @@ import { StorefrontShell } from "@/features/storefront/storefront-shell";
 import "@/features/storefront/style.css";
 import "@/features/storefront/interactions.css";
 import "@/features/storefront/integration.css";
+import "@/components/ui/dropdown.css";
+import "@/components/ui/notifications.css";
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
 
 const hanken = Hanken_Grotesk({

@@ -37,12 +37,29 @@ export const productService = {
   },
 
   async createProduct(data: CreateProductInput) {
-    return await productRepository.create(data);
+    const imageUrls = data.imageUrls ?? (data.imageUrl ? [data.imageUrl] : []);
+    return await productRepository.create({
+      ...data,
+      imageUrls,
+      imageUrl: imageUrls[0] ?? null,
+    });
   },
 
   async updateProduct(id: string, data: UpdateProductInput) {
     const existing = await productService.getProductById(id);
     fitmentRangeSchema.parse({ ...existing, ...data });
-    return await productRepository.update(id, data);
+    const gallery =
+      data.imageUrls ??
+      (data.imageUrl !== undefined
+        ? data.imageUrl
+          ? [data.imageUrl]
+          : []
+        : undefined);
+    return await productRepository.update(id, {
+      ...data,
+      ...(gallery !== undefined
+        ? { imageUrls: gallery, imageUrl: gallery[0] ?? null }
+        : {}),
+    });
   },
 };
