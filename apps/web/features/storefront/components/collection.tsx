@@ -1,9 +1,7 @@
 "use client";
-import { Dropdown } from "@/components/ui/dropdown";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useStorefront } from "../storefront-shell";
-import { formatCategory, productImageStyle } from "@/features/products/utils";
+import Link from "@/components/ui/navigation-link";
+import { productImageStyle } from "@/features/products/utils";
 import { money, type StoreProduct } from "../types";
 
 export function ProductCard({
@@ -52,96 +50,34 @@ export function ProductCard({
 
 export function Collection({
   open,
+  products,
+  catalogError,
 }: {
   open: (product: StoreProduct) => void;
+  products: StoreProduct[];
+  catalogError: boolean;
 }) {
-  const { products, catalogError } = useStorefront();
   const router = useRouter();
-  const categories = [...new Set(products.map((product) => product.category))];
-  const makes = [
-    ...new Set(
-      products
-        .map((product) => product.make)
-        .filter((make): make is string => Boolean(make)),
-    ),
-  ];
-  const [category, setCategory] = useState("all");
-  const [make, setMake] = useState("all");
-  const [expanded, setExpanded] = useState(false);
-  const [hasFiltered, setHasFiltered] = useState(false);
-  const filtered = products.filter(
-    (product) =>
-      (category === "all" || product.category === category) &&
-      (make === "all" || product.make === make),
-  );
-  const visible = expanded ? filtered : filtered.slice(0, 4);
+  const visible = products.slice(0, 8);
   return (
     <section className="collection section" id="collection">
       <div className="section-heading">
         <div>
-          <div className="eyebrow">THE FIRST COLLECTION / AUTOMOTIVE</div>
-          <h2>
-            Small details.
-            <br />
-            Significant difference.
-          </h2>
+          <div className="eyebrow">THE COLLECTION / AUTOMOTIVE</div>
+          <h2>Best sellers.</h2>
         </div>
         <div className="heading-note">
           <p>
-            Interior essentials. Reimagined in carbon.
+            Standout details for your driver&apos;s seat.
             <br />
-            Find the next detail for your driver&apos;s seat.
+            Explore the full collection to find your fit.
           </p>
           {products.some((product) => product.isSample) && (
             <span className="sample-label">DEMO CATALOG &amp; PRICES</span>
           )}
         </div>
       </div>
-      <div className="filter-bar">
-        <div className="filter-tabs" role="group" aria-label="Product category">
-          {["all", ...categories].map((value) => (
-            <button
-              key={value}
-              className={category === value ? "active" : ""}
-              aria-pressed={category === value}
-              onClick={() => {
-                setHasFiltered(true);
-                setCategory(value);
-                setExpanded(false);
-              }}
-            >
-              {value === "all" ? (
-                <>
-                  All parts <sup>{products.length}</sup>
-                </>
-              ) : (
-                formatCategory(value)
-              )}
-            </button>
-          ))}
-        </div>
-        <label className="vehicle-filter">
-          <span>YOUR VEHICLE</span>
-          <Dropdown
-            aria-label="Filter by vehicle make"
-            value={make}
-            onChange={(event) => {
-              setHasFiltered(true);
-              setMake(event.target.value);
-              setExpanded(true);
-            }}
-          >
-            <option value="all">All makes</option>
-            {makes.map((value) => (
-              <option key={value}>{value}</option>
-            ))}
-          </Dropdown>
-        </label>
-      </div>
-      <div
-        key={`${category}:${make}`}
-        className={`product-grid${hasFiltered ? " motion-safe:animate-[carbignite-filter-in_480ms_cubic-bezier(0.22,1,0.36,1)]" : ""}`}
-      >
+      <div className="product-grid">
         {catalogError ? (
           <div className="empty-state" role="status">
             <p>The catalog is temporarily unavailable.</p>
@@ -155,29 +91,16 @@ export function Collection({
           ))
         ) : (
           <p className="empty-state">
-            No parts match this selection. Try another make or category.
+            New parts are on the way. Explore the shop for the latest
+            collection.
           </p>
         )}
       </div>
       <div className="collection-bottom">
-        <span aria-live="polite">
-          Showing {visible.length} of {filtered.length} parts
-        </span>
-        <button
-          className="text-button"
-          hidden={filtered.length <= 4}
-          onClick={() => setExpanded(!expanded)}
-        >
-          {expanded ? (
-            <>
-              Show selected parts <span>↑</span>
-            </>
-          ) : (
-            <>
-              Explore all parts <span>↗</span>
-            </>
-          )}
-        </button>
+        <span aria-live="polite">{visible.length} selected parts</span>
+        <Link className="text-button" href="/shop">
+          View all products &rarr;
+        </Link>
       </div>
     </section>
   );

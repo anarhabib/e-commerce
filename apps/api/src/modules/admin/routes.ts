@@ -60,6 +60,7 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
           .object({
             search: z.string().trim().max(200).default(""),
             page: z.coerce.number().int().min(1).default(1),
+            limit: z.coerce.number().int().min(1).max(100).default(20),
           })
           .parse(request.query);
         const where = q.search
@@ -72,9 +73,9 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
         const [products, total] = await prisma.$transaction([
           prisma.product.findMany({
             where,
-            orderBy: { createdAt: "desc" },
-            skip: (q.page - 1) * 20,
-            take: 20,
+            orderBy: [{ createdAt: "desc" }, { id: "asc" }],
+            skip: (q.page - 1) * q.limit,
+            take: q.limit,
           }),
           prisma.product.count({ where }),
         ]);
@@ -82,7 +83,8 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
           products,
           total,
           page: q.page,
-          totalPages: Math.ceil(total / 20),
+          limit: q.limit,
+          totalPages: Math.ceil(total / q.limit),
         };
       });
       // Admin forms send decimal text; conversion to integer cents happens here.

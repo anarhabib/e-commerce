@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -18,6 +19,10 @@ type Notifications = {
   remove: (id: number) => void;
 };
 const Context = createContext<Notifications | null>(null);
+const ActionsContext = createContext<Pick<
+  Notifications,
+  "notify" | "dismissAll"
+> | null>(null);
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<Notice[]>([]);
@@ -35,10 +40,13 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     [],
   );
   const dismissAll = useCallback(() => setItems([]), []);
+  const actions = useMemo(() => ({ notify, dismissAll }), [notify, dismissAll]);
   return (
-    <Context.Provider value={{ items, notify, remove, dismissAll }}>
-      {children}
-    </Context.Provider>
+    <ActionsContext.Provider value={actions}>
+      <Context.Provider value={{ items, notify, remove, dismissAll }}>
+        {children}
+      </Context.Provider>
+    </ActionsContext.Provider>
   );
 }
 
@@ -46,6 +54,13 @@ export function useNotifications() {
   const context = useContext(Context);
   if (!context) throw new Error("Notifications require NotificationProvider");
   return context;
+}
+
+// Sending a notice should not subscribe the entire storefront to its timer/list.
+export function useNotificationActions() {
+  const actions = useContext(ActionsContext);
+  if (!actions) throw new Error("Notifications require NotificationProvider");
+  return actions;
 }
 
 function NotificationCard({

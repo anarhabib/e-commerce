@@ -31,6 +31,7 @@ export type VehicleOption = {
 
 export type FacetOptions = { value: string; count: number };
 export type ProductFacets = {
+  makes: string[];
   categories: FacetOptions[];
   vehicles: VehicleOption[];
 };

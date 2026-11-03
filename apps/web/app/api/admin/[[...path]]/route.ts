@@ -1,4 +1,6 @@
 import { cookies } from "next/headers";
+import { revalidateTag } from "next/cache";
+import { catalogCacheTag } from "@/lib/catalog-cache";
 import { NextRequest, NextResponse } from "next/server";
 import { ownerCookieName, ownerCookieOptions } from "@/lib/admin-session";
 
@@ -71,6 +73,13 @@ async function handle(
         signal: AbortSignal.timeout(15000),
       },
     );
+    if (
+      response.ok &&
+      /^(POST|PATCH|DELETE)$/.test(request.method) &&
+      /^products(?:\/[^/]+)?$/.test(target)
+    ) {
+      revalidateTag(catalogCacheTag, { expire: 0 });
+    }
     if (response.status === 204)
       return new NextResponse(null, { status: 204, headers });
     const data = await response.json();

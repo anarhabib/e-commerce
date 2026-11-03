@@ -1,9 +1,11 @@
 "use client";
 import { Dropdown } from "@/components/ui/dropdown";
-import { useNotifications } from "@/components/ui/notifications";
+import { useNotificationActions } from "@/components/ui/notifications";
+import { LoadingBar } from "@/components/ui/loading-bar";
+import { Pagination } from "@/features/products/components/pagination";
 import { productImageStyle } from "@/features/products/utils";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/navigation-link";
 import { useRouter } from "next/navigation";
 import { adminApi, AdminApiError } from "./api";
 import { ProductEditor } from "./product-editor";
@@ -24,7 +26,7 @@ import {
 type Tab = "overview" | "orders" | "products";
 export function AdminPanel() {
   const router = useRouter();
-  const { notify, dismissAll } = useNotifications();
+  const { notify, dismissAll } = useNotificationActions();
   const [access, setAccess] = useState<"checking" | "guest" | "owner">(
     "checking",
   );
@@ -78,7 +80,7 @@ export function AdminPanel() {
         }
         if (tab === "products") {
           const data = await adminApi<Page<{ products: AdminProduct[] }>>(
-            `products?${new URLSearchParams({ search, page: String(page) })}`,
+            `products?${new URLSearchParams({ search, page: String(page), limit: "10" })}`,
           );
           if (active) setProducts(data);
         }
@@ -108,6 +110,7 @@ export function AdminPanel() {
     };
   }, [access, tab, page, search, status, revision, router]);
   function switchTab(value: Tab) {
+    if (value === tab) return;
     dismissAll();
     setTab(value);
     setPage(1);
@@ -193,32 +196,10 @@ export function AdminPanel() {
       </div>
     );
   }
-  function pagination(totalPages: number) {
-    return (
-      <div className="admin-pagination">
-        <button
-          disabled={page <= 1 || loading}
-          onClick={() => {
-            setPage((p) => p - 1);
-            setLoading(true);
-          }}
-        >
-          ← Previous
-        </button>
-        <span>
-          Page {page} of {Math.max(1, totalPages)}
-        </span>
-        <button
-          disabled={page >= totalPages || loading}
-          onClick={() => {
-            setPage((p) => p + 1);
-            setLoading(true);
-          }}
-        >
-          Next →
-        </button>
-      </div>
-    );
+  function changePage(nextPage: number) {
+    if (loading || nextPage === page) return;
+    setPage(nextPage);
+    setLoading(true);
   }
   return (
     <main className="admin-main">
@@ -290,10 +271,8 @@ export function AdminPanel() {
             )}
           </div>
         )}
-        {access === "checking" && <p role="status">Checking owner access…</p>}
-        {access === "guest" && (
-          <p role="status">Redirecting to owner sign-in…</p>
-        )}
+        {access === "checking" && <LoadingBar label="Checking owner access" />}
+        {access === "guest" && <LoadingBar label="Opening owner sign-in" />}
         {access === "owner" && (
           <>
             <div className="admin-session">
@@ -301,11 +280,8 @@ export function AdminPanel() {
                 Sign out ↗
               </button>
             </div>
-            {loading && (
-              <p role="status" className="admin-loading">
-                Loading workshop…
-              </p>
-            )}
+            {busy && <LoadingBar label="Signing out" />}
+            {loading && <LoadingBar label="Loading workshop" />}
             {!loading && !error && tab === "overview" && overview && (
               <section>
                 <div className="metric-grid">
@@ -380,6 +356,11 @@ export function AdminPanel() {
                 </div>
                 {!loading && !error && products && (
                   <>
+                    <p className="admin-product-count" aria-live="polite">
+                      {products.total === 0
+                        ? "No products"
+                        : `Showing ${(products.page - 1) * (products.limit ?? 10) + 1}–${Math.min(products.page * (products.limit ?? 10), products.total)} of ${products.total} products`}
+                    </p>
                     <div className="table-wrap">
                       <table>
                         <thead>
@@ -478,7 +459,12 @@ export function AdminPanel() {
                         </tbody>
                       </table>
                     </div>
-                    {pagination(products.totalPages)}
+                    <Pagination
+                      page={page}
+                      totalPages={products.totalPages}
+                      onPageChange={changePage}
+                      disabled={loading}
+                    />
                   </>
                 )}
               </section>
@@ -518,7 +504,12 @@ export function AdminPanel() {
                 {!loading && !error && orders && (
                   <>
                     {cards(orders.orders)}
-                    {pagination(orders.totalPages)}
+                    <Pagination
+                      page={page}
+                      totalPages={orders.totalPages}
+                      onPageChange={changePage}
+                      disabled={loading}
+                    />
                   </>
                 )}
               </section>

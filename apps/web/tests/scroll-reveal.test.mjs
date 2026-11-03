@@ -5,27 +5,44 @@ import { runInNewContext } from "node:vm";
 import ts from "typescript";
 
 // Exercise the actual effect body without requiring a browser or mounting the whole app.
-const source = readFileSync(new URL("../features/storefront/storefront-shell.tsx", import.meta.url), "utf8");
+const source = readFileSync(
+  new URL("../features/storefront/use-reveal.ts", import.meta.url),
+  "utf8",
+);
 const start = source.indexOf("    const element = root.current!;");
 assert.ok(start >= 0);
 const end = source.indexOf("  }, []);", start);
 assert.ok(end > start);
-const script = ts.transpileModule(`(function () {${source.slice(start, end)}})()`, {
-  compilerOptions: { target: ts.ScriptTarget.ES2020 },
-}).outputText;
+const script = ts.transpileModule(
+  `(function () {${source.slice(start, end)}})()`,
+  {
+    compilerOptions: { target: ts.ScriptTarget.ES2020 },
+  },
+).outputText;
 
 function target(name) {
   const classes = new Set();
   return {
     name,
-    classList: { add: (value) => classes.add(value), remove: (value) => classes.delete(value), contains: (value) => classes.has(value) },
+    classList: {
+      add: (value) => classes.add(value),
+      remove: (value) => classes.delete(value),
+      contains: (value) => classes.has(value),
+    },
     style: { setProperty() {} },
     matches: () => false,
   };
 }
 function fixture(reduced = false) {
-  const nodes = ["collection", "material controls", "approach", "custom part"].map(target);
-  const element = Object.assign(target("root"), { querySelectorAll: () => nodes });
+  const nodes = [
+    "collection",
+    "material controls",
+    "approach",
+    "custom part",
+  ].map(target);
+  const element = Object.assign(target("root"), {
+    querySelectorAll: () => nodes,
+  });
   const observers = [];
   const mutations = [];
   const listeners = new Set();
@@ -36,22 +53,57 @@ function fixture(reduced = false) {
   };
   class IntersectionObserver {
     observed = new Set();
-    constructor(callback) { this.callback = callback; observers.push(this); }
-    observe(node) { this.observed.add(node); }
-    unobserve(node) { this.observed.delete(node); }
-    disconnect() { this.observed.clear(); }
-    reveal() { this.callback([...this.observed].map((node) => ({ target: node, isIntersecting: true }))); }
+    constructor(callback) {
+      this.callback = callback;
+      observers.push(this);
+    }
+    observe(node) {
+      this.observed.add(node);
+    }
+    unobserve(node) {
+      this.observed.delete(node);
+    }
+    disconnect() {
+      this.observed.clear();
+    }
+    reveal() {
+      this.callback(
+        [...this.observed].map((node) => ({
+          target: node,
+          isIntersecting: true,
+        })),
+      );
+    }
   }
   class MutationObserver {
-    constructor(callback) { this.callback = callback; mutations.push(this); }
+    constructor(callback) {
+      this.callback = callback;
+      mutations.push(this);
+    }
     observe() {}
-    disconnect() { this.disconnected = true; }
+    disconnect() {
+      this.disconnected = true;
+    }
   }
-  const context = { root: { current: element }, matchMedia: () => preference, window: { IntersectionObserver }, IntersectionObserver, MutationObserver };
+  const context = {
+    root: { current: element },
+    matchMedia: () => preference,
+    window: { IntersectionObserver },
+    IntersectionObserver,
+    MutationObserver,
+  };
   return {
-    nodes, element, observers, mutations, listeners, context,
+    nodes,
+    element,
+    observers,
+    mutations,
+    listeners,
+    context,
     setup: () => runInNewContext(script, context),
-    motion(value) { preference.matches = value; for (const listener of listeners) listener(); },
+    motion(value) {
+      preference.matches = value;
+      for (const listener of listeners) listener();
+    },
   };
 }
 
@@ -66,10 +118,15 @@ test("Strict Mode and Fast Refresh reobserve existing reveal nodes and reveal ev
   const cleanupAgain = f.setup();
   assert.equal(f.observers[1].observed.size, 4);
   f.observers[1].reveal();
-  for (const node of f.nodes) assert.ok(node.classList.contains("is-visible"), node.name);
+  for (const node of f.nodes)
+    assert.ok(node.classList.contains("is-visible"), node.name);
   cleanupAgain();
   f.setup();
-  assert.equal(f.observers[2].observed.size, 0, "already visible sections stay visible");
+  assert.equal(
+    f.observers[2].observed.size,
+    0,
+    "already visible sections stay visible",
+  );
 });
 
 test("reduced motion in either direction never re-hides sections or newly added cards", () => {
@@ -82,7 +139,8 @@ test("reduced motion in either direction never re-hides sections or newly added 
     f.nodes.push(card);
     f.mutations[0].callback();
     f.motion(false);
-    for (const node of f.nodes) assert.ok(node.classList.contains("is-visible"), node.name);
+    for (const node of f.nodes)
+      assert.ok(node.classList.contains("is-visible"), node.name);
     assert.equal(f.observers[0].observed.size, 0);
   }
 });
@@ -103,4 +161,28 @@ test("missing observation support clears a stale motion-ready marker", () => {
   delete f.context.window.IntersectionObserver;
   f.setup();
   assert.equal(f.element.classList.contains("motion-ready"), false);
+});
+
+test("a hydrated page never mutates another page that is still waiting for hydration", () => {
+  const homepage = fixture();
+  const streamedShop = fixture();
+  const cleanupHome = homepage.setup();
+  homepage.mutations[0].callback();
+  homepage.observers[0].reveal();
+  for (const node of streamedShop.nodes) {
+    assert.equal(
+      node.classList.contains("reveal"),
+      false,
+      "unhydrated markup stays unchanged",
+    );
+    assert.equal(node.classList.contains("is-visible"), false);
+  }
+  assert.equal(streamedShop.observers.length, 0);
+  cleanupHome();
+  const cleanupShop = streamedShop.setup();
+  assert.equal(streamedShop.observers[0].observed.size, 4);
+  streamedShop.observers[0].reveal();
+  for (const node of streamedShop.nodes)
+    assert.ok(node.classList.contains("is-visible"));
+  cleanupShop();
 });

@@ -11,6 +11,15 @@ type Props = {
   className?: string;
   columns?: string;
   initialVehicle?: { make: string; model: string; year: string };
+  availableMakes?: string[];
+  allowEmpty?: boolean;
+  value?: { make: string; model: string; year: string };
+  onVehicleChange?: (vehicle: {
+    make: string;
+    model: string;
+    year: string;
+  }) => void;
+  fieldsOnly?: boolean;
 };
 
 const selectStyles = "w-full";
@@ -20,18 +29,26 @@ export function VehicleSelector({
   className,
   columns,
   initialVehicle = { make: "", model: "", year: "" },
+  availableMakes,
+  allowEmpty = false,
+  value,
+  onVehicleChange,
+  fieldsOnly = false,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [make, setMake] = useState(initialVehicle.make);
-  const [model, setModel] = useState(initialVehicle.model);
-  const [year, setYear] = useState(initialVehicle.year);
+  const [localVehicle, setLocalVehicle] = useState(initialVehicle);
+  const { make, model, year } = value ?? localVehicle;
+  function changeVehicle(vehicle: typeof initialVehicle) {
+    if (value === undefined) setLocalVehicle(vehicle);
+    onVehicleChange?.(vehicle);
+  }
 
   // Distinct makes, sorted
   const makes = useMemo(
-    () => [...new Set(vehicles.map((v) => v.make))].sort(),
-    [vehicles],
+    () => [...new Set(availableMakes ?? vehicles.map((v) => v.make))].sort(),
+    [vehicles, availableMakes],
   );
 
   // Distinct models of the chosen make
@@ -56,78 +73,85 @@ export function VehicleSelector({
   }, [vehicles, make, model]);
 
   function handleMakeChange(value: string) {
-    setMake(value);
-    setModel(""); // a new make invalidates model and year
-    setYear("");
+    changeVehicle({ make: value, model: "", year: "" });
   }
 
   function handleModelChange(value: string) {
-    setModel(value);
-    setYear("");
+    changeVehicle({ make, model: value, year: "" });
   }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    if (!make) return;
+    if (!make && !allowEmpty) return;
 
     const params = new URLSearchParams(searchParams.toString());
     ["make", "model", "year", "page"].forEach((key) => params.delete(key));
-    params.set("make", make);
+    if (make) params.set("make", make);
     if (model) params.set("model", model);
     if (year) params.set("year", year);
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
+  const fields = (
+    <div className={`grid gap-2 ${columns ?? ""}`}>
+      <Dropdown
+        aria-label="Make"
+        value={make}
+        onChange={(e) => handleMakeChange(e.target.value)}
+        className={selectStyles}
+      >
+        <option value="">Make</option>
+        {makes.map((m) => (
+          <option key={m} value={m}>
+            {m}
+          </option>
+        ))}
+      </Dropdown>
+
+      <Dropdown
+        aria-label="Model"
+        value={model}
+        onChange={(e) => handleModelChange(e.target.value)}
+        disabled={!make}
+        className={selectStyles}
+      >
+        <option value="">Model</option>
+        {models.map((m) => (
+          <option key={m} value={m}>
+            {m}
+          </option>
+        ))}
+      </Dropdown>
+
+      <Dropdown
+        aria-label="Year"
+        value={year}
+        onChange={(e) => changeVehicle({ make, model, year: e.target.value })}
+        disabled={!model || years.length === 0}
+        className={selectStyles}
+      >
+        <option value="">Year</option>
+        {years.map((y) => (
+          <option key={y} value={y}>
+            {y}
+          </option>
+        ))}
+      </Dropdown>
+    </div>
+  );
+
+  if (fieldsOnly) return <div className={className}>{fields}</div>;
+
   return (
     <form onSubmit={handleSubmit} className={className}>
-      <div className={`grid gap-2 ${columns ?? ""}`}>
-        <Dropdown
-          aria-label="Make"
-          value={make}
-          onChange={(e) => handleMakeChange(e.target.value)}
-          className={selectStyles}
-        >
-          <option value="">Make</option>
-          {makes.map((m) => (
-            <option key={m} value={m}>
-              {m}
-            </option>
-          ))}
-        </Dropdown>
+      {fields}
 
-        <Dropdown
-          aria-label="Model"
-          value={model}
-          onChange={(e) => handleModelChange(e.target.value)}
-          disabled={!make}
-          className={selectStyles}
-        >
-          <option value="">Model</option>
-          {models.map((m) => (
-            <option key={m} value={m}>
-              {m}
-            </option>
-          ))}
-        </Dropdown>
-
-        <Dropdown
-          aria-label="Year"
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          disabled={!model || years.length === 0}
-          className={selectStyles}
-        >
-          <option value="">Year</option>
-          {years.map((y) => (
-            <option key={y} value={y}>
-              {y}
-            </option>
-          ))}
-        </Dropdown>
-      </div>
-
-      <Button type="submit" disabled={!make} className="mt-3 w-full">
+      <Button
+        type="submit"
+        disabled={!make && !allowEmpty}
+        className="mt-3 w-full"
+      >
         Find parts
       </Button>
     </form>

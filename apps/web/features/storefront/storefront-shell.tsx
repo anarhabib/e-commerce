@@ -3,7 +3,7 @@ import {
   createContext,
   useContext,
   useEffect,
-  useRef,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -16,7 +16,7 @@ import { parseSelection, selectionKey } from "./selection";
 import {
   NotificationProvider,
   NotificationViewport,
-  useNotifications,
+  useNotificationActions,
 } from "@/components/ui/notifications";
 import type { StoreProduct, BagSelection } from "./types";
 
@@ -47,8 +47,11 @@ function StorefrontContent({
   const [ready, setReady] = useState(false);
   const [product, setProduct] = useState<StoreProduct | null>(null);
   const [panel, setPanel] = useState<"bag" | "account" | null>(null);
-  const { notify } = useNotifications();
-  const root = useRef<HTMLDivElement>(null);
+  const { notify } = useNotificationActions();
+  const storefront = useMemo(
+    () => ({ openProduct: setProduct, notify, products, catalogError }),
+    [notify, products, catalogError],
+  );
 
   useEffect(() => {
     // Browser persistence is optional; restricted storage must not break the page.
@@ -60,7 +63,12 @@ function StorefrontContent({
     } catch {}
     const frame = requestAnimationFrame(() => {
       setTheme(savedTheme === "dark" ? "dark" : "light");
-      setBag(parseSelection(savedBag, products));
+      const restored = parseSelection(savedBag, products);
+      setBag((current) =>
+        JSON.stringify(current) === JSON.stringify(restored)
+          ? current
+          : restored,
+      );
       setReady(true);
     });
     return () => cancelAnimationFrame(frame);
@@ -72,62 +80,6 @@ function StorefrontContent({
       localStorage.setItem("carbignite-theme", theme);
     } catch {}
   }, [ready, bag, theme, catalogError]);
-  useEffect(() => {
-    const element = root.current!;
-    const preference = matchMedia("(prefers-reduced-motion: reduce)");
-    // Cleanup leaves the page readable, even if observation is unavailable on restart.
-    element.classList.remove("motion-ready");
-    if (!("IntersectionObserver" in window)) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries)
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-      },
-      { threshold: 0.08 },
-    );
-    const register = () => {
-      element
-        .querySelectorAll<HTMLElement>(
-          ".section-heading,.filter-bar,.material-copy,.atelier>div,.custom>.eyebrow,.custom>h2,.custom>div:last-child,.principles>span,.product-card",
-        )
-        .forEach((target, index) => {
-          // Classes survive Strict Mode cleanup and Fast Refresh; observations do not.
-          if (!target.classList.contains("reveal")) {
-            target.classList.add("reveal");
-            target.style.setProperty(
-              "--reveal-delay",
-              target.matches(".product-card,.principles>span")
-                ? `${(index % 4) * 65}ms`
-                : "0ms",
-            );
-          }
-          if (preference.matches) {
-            target.classList.add("is-visible");
-          } else if (!target.classList.contains("is-visible")) {
-            observer.observe(target);
-          }
-        });
-    };
-    const updateMotion = () => {
-      observer.disconnect();
-      element.classList.remove("motion-ready");
-      register();
-      if (!preference.matches) element.classList.add("motion-ready");
-    };
-    updateMotion();
-    const mutation = new MutationObserver(register);
-    mutation.observe(element, { childList: true, subtree: true });
-    preference.addEventListener("change", updateMotion);
-    return () => {
-      observer.disconnect();
-      mutation.disconnect();
-      preference.removeEventListener("change", updateMotion);
-      element.classList.remove("motion-ready");
-    };
-  }, []);
 
   function add(selection: BagSelection) {
     if (!parseSelection(JSON.stringify([selection]), products).length) {
@@ -143,16 +95,8 @@ function StorefrontContent({
     notify("Added to your bag");
   }
   return (
-    <StorefrontContext.Provider
-      value={{
-        openProduct: setProduct,
-        notify,
-        products,
-        catalogError,
-      }}
-    >
+    <StorefrontContext.Provider value={storefront}>
       <div
-        ref={root}
         className="carbignite flex min-h-screen w-full max-w-none flex-col leading-[normal]"
         data-theme={theme}
       >

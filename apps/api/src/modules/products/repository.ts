@@ -35,7 +35,11 @@ export const productRepository = {
     return prisma.$transaction([
       prisma.product.findMany({
         where,
-        orderBy: { sku: "asc" },
+        orderBy: query.sort === "newest"
+          ? [{ createdAt: "desc" }, { id: "asc" }]
+          : query.sort === "price-asc" || query.sort === "price-desc"
+            ? [{ priceCents: query.sort === "price-asc" ? "asc" : "desc" }, { id: "asc" }]
+            : [{ sku: "asc" }, { id: "asc" }],
         skip: (page - 1) * limit,
         take: limit,
       }),
@@ -44,7 +48,7 @@ export const productRepository = {
   },
 
   async getFacets(query: FacetsQuery) {
-    const [categories, vehicles] = await Promise.all([
+    const [categories, vehicles, makes] = await Promise.all([
       prisma.product.groupBy({
         by: ["category"],
         where: vehicleWhere(query),
@@ -55,9 +59,14 @@ export const productRepository = {
         select: { make: true, model: true, yearFrom: true, yearTo: true },
         distinct: ["make", "model", "yearFrom", "yearTo"],
       }),
+      prisma.product.findMany({
+        where: { active: true, make: { not: null } },
+        select: { make: true }, distinct: ["make"], orderBy: { make: "asc" },
+      }),
     ]);
 
     return {
+      makes: makes.flatMap((v) => v.make ? [v.make] : []),
       categories: categories.map((c) => ({
         value: c.category,
         count: c._count._all,

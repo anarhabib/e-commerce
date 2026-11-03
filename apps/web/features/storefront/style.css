@@ -1125,7 +1125,7 @@
   .carbignite .orange-dot {
     animation: signal 1.7s 0.8s 2;
   }
-  .carbignite.motion-ready .reveal {
+  .carbignite .motion-ready .reveal {
     opacity: 0;
     transform: translateY(18px);
     transition:
@@ -1133,7 +1133,7 @@
       transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
     transition-delay: var(--reveal-delay, 0ms);
   }
-  .carbignite.motion-ready .reveal.is-visible {
+  .carbignite .motion-ready .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1235,7 +1235,7 @@
     animation: none !important;
     transition: none !important;
   }
-  .carbignite.motion-ready .reveal {
+  .carbignite .motion-ready .reveal {
     opacity: 1;
     transform: none;
   }

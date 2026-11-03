@@ -114,17 +114,10 @@
 .carbignite :is(#edit-product, #new-request) fieldset > .button {
   width: 100%;
 }
-.carbignite .admin-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  font-size: 14px;
-  margin: 25px 0;
-}
-.carbignite .admin-pagination button {
-  background: transparent;
-  padding: 10px 0;
+.carbignite .admin-product-count {
+  margin: -8px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
 }
 .carbignite .admin-session {
   display: flex;

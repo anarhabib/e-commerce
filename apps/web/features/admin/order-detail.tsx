@@ -1,4 +1,5 @@
 "use client";
+import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
 import { Dialog } from "@/features/storefront/components/dialog";
@@ -33,6 +34,7 @@ export function OrderDetail({
   const c = order.customer;
   return (
     <Dialog id="order-detail" title="order request details" onClose={close}>
+      {busy && <LoadingBar label="Updating workshop" />}
       <div className="eyebrow">
         ORDER REQUEST / {new Date(order.createdAt).toLocaleDateString()}
       </div>
