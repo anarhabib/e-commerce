@@ -5,9 +5,14 @@ import { NotFoundError } from "./lib/errors.js";
 import { ZodError } from "zod";
 import { adminRoutes } from "./modules/admin/routes.js";
 import { mediaRoutes } from "./modules/admin/media.js";
+import { closeObjectStorage } from "./lib/object-storage.js";
 
 export function buildApp() {
   const app = Fastify({ logger: true });
+
+  // Render uses this lightweight route to check whether the API process is up.
+  // It intentionally does not query PostgreSQL, so health checks do not wake Neon.
+  app.get("/health", async () => ({ status: "ok" }));
 
   app.setErrorHandler((error, request, reply) => {
     // 1. Our own "not found" errors
@@ -53,7 +58,10 @@ export function buildApp() {
   app.register(productRoutes);
   app.register(adminRoutes);
   app.register(mediaRoutes);
-  app.addHook("onClose", async () => prisma.$disconnect());
+  app.addHook("onClose", async () => {
+    await prisma.$disconnect();
+    closeObjectStorage();
+  });
 
   return app;
 }

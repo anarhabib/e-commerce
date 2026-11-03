@@ -8,6 +8,7 @@ import {
   updateProductSchema,
 } from "../products/schema.js";
 import { productService } from "../products/service.js";
+import { sealOwnerOrderSummary } from "./realtime.js";
 
 export const adminRoutes: FastifyPluginAsync = async (app) => {
   // Global login budget also bounds memory/CPU when all requests arrive via Next.
@@ -43,6 +44,7 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
         reply.header("Cache-Control", "no-store");
       });
       admin.get("/session", async () => ({ email: process.env.ADMIN_EMAIL }));
+      admin.post("/live-orders", async () => sealOwnerOrderSummary());
       admin.get("/overview", async () => {
         const [orders, pending, products, recent] = await prisma.$transaction([
           prisma.orderRequest.count(),

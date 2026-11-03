@@ -2,6 +2,8 @@ import type { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { prisma } from "../../lib/prisma.js";
 import { requireAdmin } from "./auth.js";
+import { randomUUID } from "node:crypto";
+import { objectStorage } from "../../lib/object-storage.js";
 
 export const mediaRoutes: FastifyPluginAsync = async (app) => {
   app.post(
@@ -34,10 +36,26 @@ export const mediaRoutes: FastifyPluginAsync = async (app) => {
         return reply
           .status(400)
           .send({ error: "Choose a JPEG, PNG or WebP image" });
-      const asset = await prisma.mediaAsset.create({
-        data: { contentType, data: bytes },
-        select: { id: true },
-      });
+      const storage = objectStorage();
+      const id = randomUUID();
+      const objectKey = storage ? `product-images/${id}` : null;
+      if (storage && objectKey)
+        await storage.upload(objectKey, bytes, contentType);
+      let asset;
+      try {
+        asset = await prisma.mediaAsset.create({
+          data: {
+            id,
+            contentType,
+            ...(objectKey ? { objectKey } : { data: bytes }),
+          },
+          select: { id: true },
+        });
+      } catch (error) {
+        if (storage && objectKey)
+          await storage.remove(objectKey).catch(() => {});
+        throw error;
+      }
       return reply.status(201).send({ url: `/media/${asset.id}` });
     },
   );
@@ -46,10 +64,20 @@ export const mediaRoutes: FastifyPluginAsync = async (app) => {
       where: { id: request.params.id },
     });
     if (!asset) return reply.status(404).send({ error: "Image not found" });
+    const storage = asset.objectKey ? objectStorage() : undefined;
+    if (asset.objectKey && !storage)
+      return reply.status(503).send({ error: "Image storage is unavailable" });
+    const bytes =
+      asset.objectKey && storage
+        ? await storage.download(asset.objectKey)
+        : asset.data
+          ? Buffer.from(asset.data)
+          : null;
+    if (!bytes) return reply.status(404).send({ error: "Image not found" });
     return reply
       .header("X-Content-Type-Options", "nosniff")
       .header("Cache-Control", "public, max-age=31536000, immutable")
       .type(asset.contentType)
-      .send(Buffer.from(asset.data));
+      .send(bytes);
   });
 };

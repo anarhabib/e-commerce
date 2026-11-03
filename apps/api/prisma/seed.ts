@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
-import { PrismaClient } from "../src/generated/prisma/client.js";
+import { prisma } from "../src/lib/prisma.js";
 import { createProductSchema } from "../src/modules/products/schema.js";
-const prisma = new PrismaClient();
 try {
   const rows: unknown[] = JSON.parse(
     readFileSync(new URL("./demo-products.json", import.meta.url), "utf8"),

@@ -4,6 +4,7 @@ import test from "node:test";
 import { buildApp } from "../src/app.js";
 import { prisma } from "../src/lib/prisma.js";
 import { hashPassword, signIn } from "../src/modules/admin/auth.js";
+import { objectStorage } from "../src/lib/object-storage.js";
 
 test("authenticated uploads, public image bytes, gallery ordering and removal persist", async () => {
   process.env.ADMIN_EMAIL = "gallery-test@example.com";
@@ -125,6 +126,13 @@ test("authenticated uploads, public image bytes, gallery ordering and removal pe
     );
   } finally {
     if (productId) await prisma.product.delete({ where: { id: productId } });
+    const storage = objectStorage();
+    const assets = await prisma.mediaAsset.findMany({
+      where: { id: { in: assetIds } },
+      select: { objectKey: true },
+    });
+    for (const asset of assets)
+      if (storage && asset.objectKey) await storage.remove(asset.objectKey);
     await prisma.mediaAsset.deleteMany({ where: { id: { in: assetIds } } });
     await app.close();
   }

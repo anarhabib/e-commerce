@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: carbignite-web-dev
+    runtime: node
+    plan: free
+    region: ohio
+    autoDeployTrigger: "off"
+    buildCommand: pnpm install --frozen-lockfile --prod=false --filter @carbignite/web... && pnpm --filter @carbignite/web build
+    startCommand: pnpm --filter @carbignite/web start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.22.0
+      - key: NODE_ENV
+        value: production
+      - key: API_URL
+        sync: false
+      - key: API_ORIGIN_SECRET
+        sync: false
+      - key: NEON_AUTH_BASE_URL
+        sync: false
+      - key: NEON_AUTH_COOKIE_SECRET
+        generateValue: true

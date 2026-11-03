@@ -148,3 +148,141 @@
 ## Storefront small-text readability
 
 - Applied a compact three-step type scale as CSS variables on the storefront root: 12px captions, 13px labels, and 14px supporting text. Replaced formerly tiny 6–11px declarations with semantic tokens so metadata, badges, footer copy, dialogs, and mobile labels stay readable while preserving a clear hierarchy. Based on the linked UI/UX Pro Max guidance to use reusable semantic design tokens and keep text resilient; the repo does not prescribe exact pixel sizes. Main file: apps/web/features/storefront/style.css. No component, API, or schema changes. Web lint, TypeScript, and production build passed for this revision. Visual reflow review remains manual.
+## Render + Neon development deployment preparation
+
+- Added root `render.yaml` for separate Oregon free Render web services for
+  `@carbignite/api` and `@carbignite/web`, using the repository's pnpm workspace
+  commands and a server-side `API_URL` reference from web to API.
+- Fastify already listened on `0.0.0.0` and platform `PORT`; added a database-
+  independent `/health` route and made the API start script work without a
+  local `.env` file on Render. Prisma already uses PostgreSQL; added the Prisma
+  v6 `DIRECT_URL` for Neon migrations. Existing signed admin auth and same-site
+  Next proxy are unchanged.
+- Uploaded image bytes are stored in PostgreSQL `MediaAsset`, so they do not
+  depend on Render's temporary disk. Neon storage remains a free-tier capacity
+  limit to monitor.
+- Important migration constraint: `20261103120000_carbon_catalog` deletes
+  existing `Product` rows as part of the historical catalog conversion. The
+  new deployment instructions require a fresh empty Neon database before
+  running `prisma migrate deploy`; no reset, database push, credential entry or
+  live migration was performed.
+- Added `DEPLOYMENT.md` with beginner-friendly Neon/Render steps and env vars.
+  Account creation, credentials, live migration, and URL verification remain
+  user tasks. Prisma schema validation, API TypeScript build, web lint,
+  TypeScript check, web production build, and Prettier checks passed. Local
+  Prisma client generation hit Windows `EPERM` replacing its native engine
+  file; API compilation still passed using the existing generated client, and
+  the Render Linux build runs client generation in its clean build environment.
+
+## Neon agent skills
+
+- Installed Neon's seven default skills for Codex in `.agents/skills/neon*`;
+  `skills-lock.json` records the installed sources. Verified each `SKILL.md`
+  exists. The installer required a temporary Node 22.22 runtime because the
+  system Node 22.11 is below its minimum; system Node was not changed.
+
+## Neon CLI and project MCP setup
+
+- Fetched `https://neon.com/.well-known/agent-skills/neon/SKILL.md` and verified
+  it matches the installed parent skill; all seven project skills were already
+  present and were preserved.
+- Installed global Neon CLI 8.17.1. The user completed CLI OAuth sign-in, and
+  the CLI profile now reports valid credentials. Commands that need newer Node
+  use the temporary Node 22.22 runtime without replacing system Node.
+- The requested `neon init` created an offline `.neon` link for project
+  `still-cloud-64487711`, branch `production`, plus `neon.ts` and `hello.ts`.
+  It added `.neon` to `.gitignore`. Its dependency install failed at the pnpm
+  workspace root; installed `@neon/config` and `@neon/env` explicitly with `-w`,
+  updating root `package.json` and `pnpm-lock.yaml`.
+- Added project `.codex/config.toml` with OAuth-only Neon MCP URL pinned to
+  this project. The earlier init also added OAuth MCP entries to the user's
+  Antigravity/Gemini and Copilot configurations; its plugin/global-skill
+  installs failed. Existing project skills cover Codex without those plugins.
+- Verified existing global Codex configuration, API/web environment files,
+  `.neon`, `neon.ts`, `hello.ts` and `skills-lock.json` were unchanged by the
+  project MCP installation. MCP OAuth consent is prompted on first use after
+  the project configuration is loaded. Service deployment, database migration,
+  application integration and live service tests remain pending.
+
+## Neon database connection verification
+
+- User-provided deployment output reports `assets` and `hello` provisioned on
+  the requested production branch, with Neon variables pulled to root
+  `.env.local`. The application services still need integration and live tests.
+- Fixed the API's missing `DIRECT_URL`: privately copied the root Neon
+  `DATABASE_URL_UNPOOLED` into `apps/api/.env` as `DIRECT_URL`, and synchronized
+  its pooled `DATABASE_URL`. Preserved existing admin settings and documented
+  the CLI variable-name mapping in `apps/api/.env.example`.
+- Reran `prisma migrate status`: connection to Neon's `neondb`/`public` succeeds;
+  all five repository migrations are unapplied. Status exits 1 for this pending
+  state. No database migrations were executed. Verify the target has no app
+  data before applying the historical product-deletion migration.
+
+## CARBIGNITE Neon service integration
+
+- Confirmed the five initial migrations are applied. Added/applied
+  `20261103160000_object_storage`: nullable legacy image bytes and an optional
+  unique object key, preserving existing images and products. Migration status
+  now reports all six migrations up to date.
+- Prisma remains v6/PostgreSQL and now uses `@prisma/adapter-pg`, a small reused
+  node-postgres pool and the JavaScript client engine. Paths:
+  `apps/api/src/lib/prisma.ts`, `prisma/schema.prisma`, `prisma/seed.ts`. Native
+  Windows engine generation no longer blocks builds; the same client bundles
+  for Neon's Node runtime.
+- New product uploads use the existing private `assets` bucket through
+  `src/lib/object-storage.ts`; metadata stores the key, and the existing
+  `/media/:id` and Next image proxy serve the bytes with immutable caching.
+  Legacy database images still read; no-AWS local setups retain the DB fallback.
+  Upload authorization and validation remain in the existing owner routes.
+- `hello.ts` now exports `apps/api/src/function.ts`, which adapts the existing
+  Fastify routes to the deployed Function while preserving its slug/URL. It
+  requires a server-only origin secret except for `/health`; Next server reads,
+  owner proxy and media proxy send it. Owner routes still verify owner tokens.
+- The existing Account placeholder now uses customer Neon Auth via the
+  same-origin `app/api/auth/[...path]` SDK handler, protected `api/account` route,
+  and `features/storefront/components/account-dialog.tsx`. Owner login remains
+  independent; customer sessions cannot grant owner access. Email/password,
+  loading/errors and optional email-code verification use existing design styles.
+- Owner Overview/Order requests use a sealed Realtime summary query and
+  `features/admin/use-live-orders.ts`; renewals verify owner access, changes
+  refresh only the current owner view, and cleanup closes subscriptions.
+  Storefront catalog caching and checkout behavior remain unchanged.
+- `scripts/sync-neon-env.mjs` privately maps Neon exports into package env
+  files, preserves owner credentials and generates missing local app secrets.
+  Root scripts add `build`, `neon:sync-env`, `neon:deploy`; npm's workspace
+  package-manager check now warns so requested `npm run build` can run pnpm.
+  `render.yaml`, env examples and `DEPLOYMENT.md` document free hosting and the
+  additional server-only variables. No Render services were created here.
+- Deployed API Function and Realtime origin policy to the existing Neon
+  production branch. Live `test:neon` passes database/production shop reads,
+  private image upload/read plus legacy-image compatibility, owner API access,
+  customer signup/signin/signout/session restoration and owner isolation, and
+  an actual committed-order Realtime event. Test fixtures are removed; explicit
+  WebSocket/storage-client cleanup fixed the first test runner's shutdown hang.
+- Final `npm run build`, web lint, 20 existing regressions, live gallery test,
+  catalog-cache HTTP regression, and diff whitespace checks passed. Final
+  deployed-service E2E rerun exits 0 with one test passing and none failing;
+  fixtures and temporary server are cleaned up. Git ignores all real env files.
+  Synced local web `API_URL` to the verified hosted Function; restart Next to
+  pick up environment changes. `DEPLOYMENT.md` includes the current one-free-
+  Render-frontend path and the retained two-service Render Blueprint option.
+  Real mailbox email delivery/code verification and live Render URL checks
+  remain manual. Production Auth also needs SMTP/domain configuration.
+
+## Selected free frontend deployment
+
+- Created root `FEATURES.md` describing the new customer account, image storage,
+  live owner orders, API hosting, environment commands and verification limits.
+- User chose the most efficient free layout: one free Render Next.js frontend
+  in Ohio, close to the existing Neon API/services. Root `render.yaml` now
+  provisions only that frontend, with server-only API/Auth values and a
+  generated customer-cookie secret. This supersedes the earlier two-service
+  Render option; the working Neon API remains the single backend host.
+- Added `apps/web/app/api/health/route.ts` for database-independent Render health
+  checks. Automatic deployments are disabled to conserve free build minutes;
+  source updates can be deployed manually. No keep-alive requests or paid
+  resources are configured. Deployment branch and live Render verification
+  are in progress; no public frontend URL is confirmed yet.
+- Created `deploy/neon-render-frontend`; frontend lint, production build (with
+  `/api/health`) and whitespace checks pass. Preparing a reviewed commit for
+  Render. Local secrets and Codex configuration are excluded from publication.

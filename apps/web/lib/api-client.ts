@@ -1,3 +1,4 @@
+import { apiOriginHeaders } from "./api-origin";
 const API_URL = process.env.API_URL;
 
 export async function apiGet<T>(
@@ -8,9 +9,13 @@ export async function apiGet<T>(
     throw new Error("API_URL is not set. Check apps/web/.env.local");
   }
 
+  const headers = new Headers(options.headers);
+  for (const [key, value] of Object.entries(apiOriginHeaders()))
+    headers.set(key, value);
   const res = await fetch(`${API_URL}${path}`, {
     cache: "no-store",
     ...options,
+    headers,
   });
 
   if (!res.ok) {
