@@ -1,4 +1,5 @@
 "use client";
+import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
 import { Dialog } from "@/features/storefront/components/dialog";
@@ -78,6 +79,7 @@ export function RequestEditor({
   }
   return (
     <Dialog id="new-request" title="new order request" onClose={close}>
+      {busy && <LoadingBar label="Updating workshop" />}
       <div className="eyebrow">OWNER INTAKE / PHONE OR EMAIL</div>
       <h2>A new request.</h2>
       <p className="microcopy">

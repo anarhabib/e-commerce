@@ -124,6 +124,7 @@ export const listProductsQuerySchema = z.object({
   model: z.string().trim().min(1).optional(),
   year: z.coerce.number().int().min(1900).max(2100).optional(),
   search: z.string().trim().min(1).optional(),
+  sort: z.enum(["newest", "price-asc", "price-desc"]).optional(),
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(20),
 });

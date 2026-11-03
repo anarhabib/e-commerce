@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/navigation-link";
 
 export function Header({
   theme,
@@ -78,13 +78,13 @@ export function Header({
           >
             <span className="relative block size-5" aria-hidden="true">
               <span
-                className={`absolute top-[9px] left-0 h-px w-5 bg-current transition-transform duration-[280ms] ease-[ease] motion-reduce:transition-none ${menu ? "rotate-45" : "-translate-y-1.5"}`}
+                className={`absolute top-2.25 left-0 h-px w-5 bg-current transition-transform duration-280 ease-[ease] motion-reduce:transition-none ${menu ? "rotate-45" : "-translate-y-1.5"}`}
               />
               <span
-                className={`absolute top-[9px] left-0 h-px w-5 bg-current transition-opacity duration-[180ms] ease-[ease] motion-reduce:transition-none ${menu ? "opacity-0" : "opacity-100"}`}
+                className={`absolute top-2.25 left-0 h-px w-5 bg-current transition-opacity duration-180 ease-[ease] motion-reduce:transition-none ${menu ? "opacity-0" : "opacity-100"}`}
               />
               <span
-                className={`absolute top-[9px] left-0 h-px w-5 bg-current transition-transform duration-[280ms] ease-[ease] motion-reduce:transition-none ${menu ? "-rotate-45" : "translate-y-1.5"}`}
+                className={`absolute top-2.25 left-0 h-px w-5 bg-current transition-transform duration-280 ease-[ease] motion-reduce:transition-none ${menu ? "-rotate-45" : "translate-y-1.5"}`}
               />
             </span>
           </button>

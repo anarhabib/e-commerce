@@ -1,6 +1,6 @@
 "use client";
 import { useStorefront } from "../storefront-shell";
-import Link from "next/link";
+import Link from "@/components/ui/navigation-link";
 export function Footer() {
   const { products } = useStorefront();
   return (

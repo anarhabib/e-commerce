@@ -37,7 +37,7 @@ export type Order = {
     unitCents: number;
   }[];
 };
-export type Page<T> = { total: number; page: number; totalPages: number } & T;
+export type Page<T> = { total: number; page: number; limit?: number; totalPages: number } & T;
 export type Overview = {
   orders: number;
   pending: number;

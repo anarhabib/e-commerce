@@ -1,15 +1,20 @@
-import Link from "next/link";
+"use client";
+
+import Link from "@/components/ui/navigation-link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { SearchParams } from "../api";
 
 type Props = {
   page: number;
   totalPages: number;
-  searchParams: SearchParams;
+  searchParams?: SearchParams;
+  pathname?: string;
+  onPageChange?: (page: number) => void;
+  disabled?: boolean;
 };
 
-// Builds "/products?...&page=N" and keeps every other filter.
-function pageHref(searchParams: SearchParams, page: number) {
+// Keeps every filter when moving between pages.
+function pageHref(searchParams: SearchParams, page: number, pathname: string) {
   const query = new URLSearchParams();
   for (const [key, value] of Object.entries(searchParams)) {
     if (key === "page" || value === undefined) continue;
@@ -19,18 +24,18 @@ function pageHref(searchParams: SearchParams, page: number) {
   }
   if (page > 1) query.set("page", String(page));
   const text = query.toString();
-  return text ? `/products?${text}` : "/products";
+  return text ? `${pathname}?${text}` : pathname;
 }
 
-const buttonClass =
-  "inline-flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-sm border border-secondary font-mono text-xs font-bold uppercase tracking-wider text-secondary transition sm:w-32";
+const buttonClass = "catalog-page-button";
 
 type NavButtonProps = {
   href: string | null; // null = disabled
   direction: "prev" | "next";
+  onClick?: () => void;
 };
 
-function NavButton({ href, direction }: NavButtonProps) {
+function NavButton({ href, direction, onClick }: NavButtonProps) {
   const isPrev = direction === "prev";
   const label = isPrev ? "Previous" : "Next";
   const Icon = isPrev ? ChevronLeft : ChevronRight;
@@ -38,10 +43,23 @@ function NavButton({ href, direction }: NavButtonProps) {
   const content = (
     <>
       {isPrev && <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />}
-      <span className="hidden sm:inline">{label}</span>
+      <span className="catalog-page-label">{label}</span>
       {!isPrev && <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />}
     </>
   );
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        aria-label={label}
+        className={buttonClass}
+      >
+        {content}
+      </button>
+    );
+  }
 
   if (!href) {
     return (
@@ -56,37 +74,89 @@ function NavButton({ href, direction }: NavButtonProps) {
   }
 
   return (
-    <Link
-      href={href}
-      aria-label={label}
-      className={`${buttonClass} hover:bg-secondary hover:text-white`}
-    >
+    <Link href={href} aria-label={label} className={buttonClass}>
       {content}
     </Link>
   );
 }
 
-export function Pagination({ page, totalPages, searchParams }: Props) {
+export function Pagination({
+  page,
+  totalPages,
+  searchParams = {},
+  pathname = "/products",
+  onPageChange,
+  disabled = false,
+}: Props) {
   if (totalPages <= 1) return null;
+  const pages = [...new Set([1, page - 1, page, page + 1, totalPages])]
+    .filter((value) => value >= 1 && value <= totalPages)
+    .sort((a, b) => a - b);
 
   return (
-    <nav
-      aria-label="Pagination"
-      className="mt-8 grid grid-cols-[auto_1fr_auto] items-center gap-3"
-    >
+    <nav aria-label="Pagination" className="catalog-pagination">
       <NavButton
         direction="prev"
-        href={page > 1 ? pageHref(searchParams, page - 1) : null}
+        href={
+          !disabled && page > 1
+            ? pageHref(searchParams, page - 1, pathname)
+            : null
+        }
+        onClick={
+          !disabled && page > 1 && onPageChange
+            ? () => onPageChange(page - 1)
+            : undefined
+        }
       />
 
-      <p className="text-center font-mono text-xs text-muted">
-        Page <span className="font-bold text-secondary">{page}</span> of{" "}
-        {totalPages}
+      <div className="catalog-page-numbers">
+        {pages.map((value, index) => (
+          <span key={value} className="catalog-page-item">
+            {index > 0 && value - pages[index - 1] > 1 && (
+              <span className="catalog-page-gap" aria-hidden="true">
+                …
+              </span>
+            )}
+            {onPageChange ? (
+              <button
+                type="button"
+                onClick={() => onPageChange(value)}
+                disabled={disabled || value === page}
+                aria-label={`Page ${value}`}
+                aria-current={value === page ? "page" : undefined}
+                className="catalog-page-number"
+              >
+                {value}
+              </button>
+            ) : (
+              <Link
+                href={pageHref(searchParams, value, pathname)}
+                aria-label={`Page ${value}`}
+                aria-current={value === page ? "page" : undefined}
+                className="catalog-page-number"
+              >
+                {value}
+              </Link>
+            )}
+          </span>
+        ))}
+      </div>
+      <p className="catalog-page-status">
+        Page {page} of {totalPages}
       </p>
 
       <NavButton
         direction="next"
-        href={page < totalPages ? pageHref(searchParams, page + 1) : null}
+        href={
+          !disabled && page < totalPages
+            ? pageHref(searchParams, page + 1, pathname)
+            : null
+        }
+        onClick={
+          !disabled && page < totalPages && onPageChange
+            ? () => onPageChange(page + 1)
+            : undefined
+        }
       />
     </nav>
   );

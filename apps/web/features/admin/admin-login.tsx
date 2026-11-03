@@ -1,6 +1,7 @@
 "use client";
+import { LoadingBar } from "@/components/ui/loading-bar";
 import { useState, type FormEvent } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/navigation-link";
 import { useRouter } from "next/navigation";
 import { adminApi } from "./api";
 
@@ -31,6 +32,7 @@ export function AdminLogin() {
         <div className="eyebrow">OWNER ACCESS</div>
         <h1 id="owner-login-title">The workshop.</h1>
         <p>Sign in to manage your store.</p>
+        {busy && <LoadingBar label="Signing in" />}
         <form onSubmit={login} aria-busy={busy}>
           <label>
             Email

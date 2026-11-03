@@ -15,6 +15,7 @@ import "@/features/storefront/interactions.css";
 import "@/features/storefront/integration.css";
 import "@/components/ui/dropdown.css";
 import "@/components/ui/notifications.css";
+import "@/components/ui/loading-bar.css";
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
 
 const hanken = Hanken_Grotesk({

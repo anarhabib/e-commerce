@@ -1,4 +1,5 @@
 "use client";
+import { LoadingBar } from "@/components/ui/loading-bar";
 import { useState } from "react";
 import { Dialog } from "@/features/storefront/components/dialog";
 import { adminApi } from "./api";
@@ -46,6 +47,7 @@ export function DeleteProductDialog({
       <p className="form-error" role="alert">
         {error}
       </p>
+      {busy && <LoadingBar label="Deleting product" />}
       <div className="delete-product-actions">
         <button
           type="button"

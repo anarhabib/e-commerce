@@ -1,4 +1,5 @@
 "use client";
+import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
 import { Dialog } from "@/features/storefront/components/dialog";
@@ -88,6 +89,7 @@ export function ProductEditor({
           hidden with zero stock, and shares the original product’s images.
         </p>
       )}
+      {busy && <LoadingBar label="Saving product" />}
       <form onSubmit={submit} aria-busy={busy}>
         <fieldset disabled={busy || uploading}>
           <label>
@@ -218,7 +220,7 @@ export function ProductEditor({
             busy={busy || uploading}
             setUploading={setUploading}
           />
-          {uploading && <p role="status">Uploading images…</p>}
+          {uploading && <LoadingBar label="Uploading images" />}
           <label>
             Description
             <textarea

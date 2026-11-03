@@ -292,6 +292,35 @@ test("owner authorization, hidden catalog, persistence, server prices and reques
     assert.notEqual(copy.json().id, product.id);
     assert.equal(copy.json().stock, 0);
     assert.equal(copy.json().active, false);
+    const pages = await Promise.all(
+      [1, 2].map((page) =>
+        app.inject({
+          method: "GET",
+          url: `/admin/products?${new URLSearchParams({ search: suffix, page: String(page), limit: "1" })}`,
+          headers,
+        }),
+      ),
+    );
+    for (const [index, result] of pages.entries()) {
+      assert.equal(result.statusCode, 200, result.body);
+      assert.equal(result.json().products.length, 1);
+      assert.equal(result.json().total, 2);
+      assert.equal(result.json().totalPages, 2);
+      assert.equal(result.json().page, index + 1);
+      assert.equal(result.json().limit, 1);
+    }
+    assert.deepEqual(
+      new Set(pages.map((result) => result.json().products[0].id)),
+      new Set([product.id, copy.json().id]),
+    );
+    for (const limit of ["0", "101", "invalid"]) {
+      const invalid = await app.inject({
+        method: "GET",
+        url: `/admin/products?limit=${limit}`,
+        headers,
+      });
+      assert.equal(invalid.statusCode, 400);
+    }
     assert.equal(
       (await prisma.product.findUniqueOrThrow({ where: { id: product.id } }))
         .stock,
