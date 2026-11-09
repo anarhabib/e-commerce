@@ -33,7 +33,7 @@ export function ProductCard({
           {product.isSample ? "REPLACEMENT / DEMO" : "REPLACEMENT PART"}
         </span>
         <span className="product-plus">
-          <ArrowUpRight size={16} />
+          <ArrowUpRight size={16} aria-hidden="true" />
         </span>
       </button>
       <div className="product-meta">

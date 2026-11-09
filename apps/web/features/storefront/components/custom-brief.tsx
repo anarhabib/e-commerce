@@ -1,6 +1,7 @@
 "use client";
 import { useState, type FormEvent } from "react";
 import { Dialog } from "./dialog";
+import { ArrowUpRight } from "lucide-react";
 
 export function CustomBrief({ notify }: { notify: (message: string) => void }) {
   const [open, setOpen] = useState(false);
@@ -34,7 +35,10 @@ export function CustomBrief({ notify }: { notify: (message: string) => void }) {
             Let&apos;s explore the possibilities in carbon.
           </p>
           <button className="button primary" onClick={() => setOpen(true)}>
-            Discuss a custom part <span>↗</span>
+            Discuss a custom part{" "}
+            <span>
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </span>
           </button>
         </div>
       </section>

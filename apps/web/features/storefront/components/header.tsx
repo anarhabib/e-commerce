@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import Link from "@/components/ui/navigation-link";
 
 export function Header({
@@ -28,7 +29,11 @@ export function Header({
       <div className="announcement">
         A new expression of carbon.{" "}
         <Link href="/#collection">
-          Discover the first collection <span>↗</span>
+          Discover the first collection{" "}
+          <span>
+            {" "}
+            <ArrowUpRight size={16} />
+          </span>
         </Link>
       </div>
       <header className={scrolled ? "is-scrolled" : ""}>

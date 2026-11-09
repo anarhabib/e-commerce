@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { lockBodyScroll } from "@/lib/scroll-lock";
+import { X } from "lucide-react";
 
 export function Dialog({
   id,
@@ -45,9 +46,16 @@ export function Dialog({
           onClose();
       }}
     >
-      <button className="close" onClick={onClose} aria-label={`Close ${title}`}>
-        ×
-      </button>
+      <div className="dialog-toolbar">
+        <button
+          type="button"
+          className="close"
+          onClick={onClose}
+          aria-label={`Close ${title}`}
+        >
+          <X size={20} aria-hidden="true" />
+        </button>
+      </div>
       {children}
     </dialog>
   );

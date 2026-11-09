@@ -1,4 +1,5 @@
 "use client";
+import { ArrowUpRight } from "lucide-react";
 import { useStorefront } from "../storefront-shell";
 import Link from "@/components/ui/navigation-link";
 export function Footer() {
@@ -10,7 +11,14 @@ export function Footer() {
           CARBIGNITE
         </Link>
         <span>CARBON, CONSIDERED.</span>
-        <Link href="/#collection">Explore the collection ↗</Link>
+        <Link href="/#collection">
+          Explore the collection{" "}
+          <ArrowUpRight
+            size={16}
+            aria-hidden="true"
+            style={{ display: "inline-block", verticalAlign: "middle" }}
+          />
+        </Link>
       </div>
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} CARBIGNITE</span>
@@ -20,7 +28,9 @@ export function Footer() {
             : ""}
           Checkout not connected
         </span>
-        <Link href="/products">Product catalog ↗</Link>
+        <Link href="/products">
+          Product catalog <ArrowUpRight size={16} />
+        </Link>
         <Link href="#">Back to top ↑</Link>
       </div>
     </footer>

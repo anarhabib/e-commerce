@@ -1,5 +1,16 @@
 # Current implementation status
 
+## Mobile product dialog layout — 10 November 2026
+
+- `apps/web/features/storefront/components/dialog.tsx` now places a decorative SVG close icon in its own toolbar. `features/storefront/integration.css` gives it a 44px square target with theme colors, preventing image overlap and inherited button padding from producing a tall close button.
+- Product gallery frames stay square, matching the demo sheet quadrants so `200% 200%` crops preserve proportions on mobile. Single uploaded images retain the existing contain sizing. Product dialogs now scroll within `100dvh - 32px`, including single-image products, rather than overflowing short screens.
+- Web lint, TypeScript and diff whitespace checks passed. Physical iPhone visual verification and Render deployment remain pending. Changes remain local on `main`.
+
+## Mobile arrow rendering follow-up — 10 November 2026
+
+- Verified product cards in `apps/web/features/storefront/components/collection.tsx` already use Lucide SVG arrows (commit `096ac06`); the provided live iPhone screenshot shows the older emoji rendering. Added decorative accessibility marking to that icon and replaced remaining northeast text arrows in `hero.tsx`, `custom-brief.tsx` and the footer collection link with SVGs. Preserved existing header/footer edits.
+- Web lint, TypeScript and diff whitespace checks passed. Live Render redeployment and iPhone visual verification remain pending; no deployment was performed for this follow-up.
+
 ## 3 November 2026 — CARBIGNITE admin
 
 - Branch: `feat/carbignite-admin`. Original checkout had no root instruction/context/state files; user-provided AGENTS instructions and `apps/web/AGENTS.md` apply. Handoff context, decisions, integration plan and public design sources were read from `C:/Users/USER/Desktop/CARBIGNITE_PROJECT_HANDOFF/CARBIGNITE_HANDOFF/`.
