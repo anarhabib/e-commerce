@@ -1,5 +1,11 @@
 # Current implementation status
 
+## Shop-only collections update live — 10 November 2026
+
+- Commit `aef8d1513fa381ed7178c5ba8ec06ec746dc5cac` pushed to `main` and `deploy/neon-render-frontend`; existing free Render deployment `dep-dbp5k4s9v7es73am4nqg` confirmed live. Public URL remains `https://carbignite-web-dev.onrender.com`.
+- Public headless Edge checks passed at 375x640, 393x700, 430x780 and 1440x900: Interior/Exterior links and empty Exterior, no Best sellers, visible mobile Shop link and expanded menu, working back-to-top, inline bag count, both product panels without scrolling, 16px close icon, light/dark mode, adding to bag and `/products` 404. Browser checks used HTTP/1.1 after the test browser's HTTP/2 script downloads stalled, and explicitly waited for shop hydration before interacting. Health endpoint returns 200. Physical Safari review remains with the user.
+- Removed temporary Neon branch `br-flat-art-bef907xj` after successful migration testing. Temporary browser scripts/server cleaned up; no browser dependency added to the repository. API is already deployed with the collection field; existing products/data preserved.
+
 ## Interior/Exterior navigation and compact product dialog — 10 November 2026
 
 - Replaced the homepage Best sellers grid with two prominent Interior/Exterior collection cards and Shop all parts action; removed the unused eight-product homepage fetch. Header has Shop in navigation and a visible mobile Shop link. Footer Shop/back-to-top share inline 16px SVG arrows; back-to-top now calls `window.scrollTo` and honors reduced motion.
