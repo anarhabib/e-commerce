@@ -1,9 +1,8 @@
 "use client";
-import { useRouter } from "next/navigation";
 import Link from "@/components/ui/navigation-link";
 import { productImageStyle } from "@/features/products/utils";
 import { money, type StoreProduct } from "../types";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CarFront, Gauge } from "lucide-react";
 
 export function ProductCard({
   product,
@@ -51,58 +50,46 @@ export function ProductCard({
   );
 }
 
-export function Collection({
-  open,
-  products,
-  catalogError,
-}: {
-  open: (product: StoreProduct) => void;
-  products: StoreProduct[];
-  catalogError: boolean;
-}) {
-  const router = useRouter();
-  const visible = products.slice(0, 8);
+export function Collection() {
   return (
     <section className="collection section" id="collection">
       <div className="section-heading">
         <div>
-          <div className="eyebrow">THE COLLECTION / AUTOMOTIVE</div>
-          <h2>Best sellers.</h2>
+          <div className="eyebrow">TWO COLLECTIONS / ONE MATERIAL</div>
+          <h2>Every detail. Inside &amp; out.</h2>
         </div>
-        <div className="heading-note">
-          <p>
-            Standout details for your driver&apos;s seat.
-            <br />
-            Explore the full collection to find your fit.
-          </p>
-          {products.some((product) => product.isSample) && (
-            <span className="sample-label">DEMO CATALOG &amp; PRICES</span>
-          )}
-        </div>
+        <Link className="button primary collection-shop-link" href="/shop">
+          Shop all parts <ArrowUpRight size={16} aria-hidden="true" />
+        </Link>
       </div>
-      <div className="product-grid">
-        {catalogError ? (
-          <div className="empty-state" role="status">
-            <p>The catalog is temporarily unavailable.</p>
-            <button className="text-button" onClick={() => router.refresh()}>
-              Try again
-            </button>
+      <div className="collection-categories">
+        <Link className="collection-category" href="/shop?collection=INTERIOR">
+          <div className="collection-category-art" aria-hidden="true">
+            <Gauge strokeWidth={0.7} />
+            <span>01 / THE CABIN</span>
           </div>
-        ) : visible.length ? (
-          visible.map((product) => (
-            <ProductCard key={product.id} product={product} open={open} />
-          ))
-        ) : (
-          <p className="empty-state">
-            New parts are on the way. Explore the shop for the latest
-            collection.
-          </p>
-        )}
-      </div>
-      <div className="collection-bottom">
-        <span aria-live="polite">{visible.length} selected parts</span>
-        <Link className="text-button" href="/shop">
-          View all products &rarr;
+          <div className="collection-category-copy">
+            <div>
+              <h3>Interior details</h3>
+              <p>Carbon details for your driver&apos;s seat.</p>
+            </div>
+            <ArrowUpRight size={22} aria-hidden="true" />
+          </div>
+          <span className="collection-category-cta">Explore Interior</span>
+        </Link>
+        <Link className="collection-category" href="/shop?collection=EXTERIOR">
+          <div className="collection-category-art" aria-hidden="true">
+            <CarFront strokeWidth={0.7} />
+            <span>02 / THE SILHOUETTE</span>
+          </div>
+          <div className="collection-category-copy">
+            <div>
+              <h3>Exterior details</h3>
+              <p>Carbon details for the road ahead.</p>
+            </div>
+            <ArrowUpRight size={22} aria-hidden="true" />
+          </div>
+          <span className="collection-category-cta">Explore Exterior</span>
         </Link>
       </div>
     </section>

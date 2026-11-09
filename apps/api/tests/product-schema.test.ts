@@ -14,6 +14,33 @@ const product = {
   priceCents: 10000,
 };
 
+test("collections default to Interior and reject unknown values", () => {
+  const input = { ...product, category: "TRIM" };
+  assert.equal(createProductSchema.parse(input).collection, "INTERIOR");
+  for (const collection of ["INTERIOR", "EXTERIOR"]) {
+    assert.equal(
+      createProductSchema.parse({ ...input, collection }).collection,
+      collection,
+    );
+    assert.equal(
+      listProductsQuerySchema.parse({ collection }).collection,
+      collection,
+    );
+    assert.equal(
+      updateProductSchema.parse({ collection }).collection,
+      collection,
+    );
+  }
+  assert.equal(
+    createProductSchema.safeParse({ ...input, collection: "OTHER" }).success,
+    false,
+  );
+  assert.equal(
+    listProductsQuerySchema.safeParse({ collection: "OTHER" }).success,
+    false,
+  );
+});
+
 test("carbon categories are accepted and lighting categories rejected", () => {
   for (const category of ["PADDLES", "CONSOLE", "TRIM"]) {
     assert.equal(

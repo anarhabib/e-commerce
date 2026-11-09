@@ -46,6 +46,7 @@ export function ProductEditor({
       slug: text("slug"),
       description: text("description"),
       category: text("category"),
+      collection: text("collection"),
       price: text("price"),
       stock: number("stock"),
       active: data.has("active"),
@@ -150,7 +151,7 @@ export function ProductEditor({
               />
             </label>
             <label>
-              Category
+              Part type
               <Dropdown
                 name="category"
                 aria-label="Product category"
@@ -159,6 +160,17 @@ export function ProductEditor({
                 <option value="PADDLES">Paddles</option>
                 <option value="CONSOLE">Console</option>
                 <option value="TRIM">Trim</option>
+              </Dropdown>
+            </label>
+            <label>
+              Collection
+              <Dropdown
+                name="collection"
+                aria-label="Product collection"
+                defaultValue={product?.collection ?? "INTERIOR"}
+              >
+                <option value="INTERIOR">Interior</option>
+                <option value="EXTERIOR">Exterior</option>
               </Dropdown>
             </label>
             <label>

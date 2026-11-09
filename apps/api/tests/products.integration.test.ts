@@ -39,6 +39,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
         payload: {
           ...base,
           category,
+          collection: category === "PADDLES" ? "INTERIOR" : "EXTERIOR",
           sku: `${category}-${suffix}`,
           slug: `${category.toLowerCase()}-${suffix}`,
         },
@@ -53,6 +54,29 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
     assert.deepEqual(stored.json().patterns, ["Forged"]);
     assert.deepEqual(stored.json().finishes, ["Matte"]);
     assert.equal(stored.json().photoIndex, 2);
+    assert.equal(stored.json().collection, "INTERIOR");
+    for (const [collection, id] of [
+      ["INTERIOR", ids[0]],
+      ["EXTERIOR", ids[1]],
+    ]) {
+      const collectionQuery = new URLSearchParams({ make, collection });
+      const response = await app.inject({
+        method: "GET",
+        url: `/products?${collectionQuery}`,
+      });
+      assert.equal(response.statusCode, 200, response.body);
+      assert.equal(response.json().total, 1);
+      assert.equal(response.json().products[0].id, id);
+      const facets = await app.inject({
+        method: "GET",
+        url: `/products/filters?${collectionQuery}`,
+      });
+      assert.equal(facets.json().categories.length, 1);
+      assert.equal(
+        facets.json().categories[0].value,
+        collection === "INTERIOR" ? "PADDLES" : "TRIM",
+      );
+    }
     const query = new URLSearchParams({
       make,
       model: "Test model",
@@ -67,23 +91,51 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
     assert.equal(listed.statusCode, 200);
     assert.equal(listed.json().total, 1);
     assert.equal(listed.json().products[0].id, ids[0]);
-    const repriced = await app.inject({ method: "PATCH", headers, url: `/products/${ids[1]}`, payload: { priceCents: 25000, model: null } });
+    const repriced = await app.inject({
+      method: "PATCH",
+      headers,
+      url: `/products/${ids[1]}`,
+      payload: { priceCents: 25000, model: null },
+    });
     assert.equal(repriced.statusCode, 200);
-    for (const [sort, expected] of [["price-asc", ids[0]], ["price-desc", ids[1]], ["newest", ids[1]]] as const) {
-      const sorted = await app.inject({ method: "GET", url: `/products?${new URLSearchParams({ make, sort, limit: "1" })}` });
+    for (const [sort, expected] of [
+      ["price-asc", ids[0]],
+      ["price-desc", ids[1]],
+      ["newest", ids[1]],
+    ] as const) {
+      const sorted = await app.inject({
+        method: "GET",
+        url: `/products?${new URLSearchParams({ make, sort, limit: "1" })}`,
+      });
       assert.equal(sorted.statusCode, 200, sorted.body);
       assert.equal(sorted.json().total, 2);
       assert.equal(sorted.json().totalPages, 2);
       assert.equal(sorted.json().products[0].id, expected);
     }
-    const secondPage = await app.inject({ method: "GET", url: `/products?${new URLSearchParams({ make, sort: "price-asc", page: "2", limit: "1" })}` });
+    const secondPage = await app.inject({
+      method: "GET",
+      url: `/products?${new URLSearchParams({ make, sort: "price-asc", page: "2", limit: "1" })}`,
+    });
     assert.equal(secondPage.json().products[0].id, ids[1]);
-    const hidden = await app.inject({ method: "PATCH", headers, url: `/products/${ids[1]}`, payload: { active: false } });
+    const hidden = await app.inject({
+      method: "PATCH",
+      headers,
+      url: `/products/${ids[1]}`,
+      payload: { active: false },
+    });
     assert.equal(hidden.statusCode, 200);
-    const activeOnly = await app.inject({ method: "GET", url: `/products?${new URLSearchParams({ make, search: suffix })}` });
+    const activeOnly = await app.inject({
+      method: "GET",
+      url: `/products?${new URLSearchParams({ make, search: suffix })}`,
+    });
     assert.equal(activeOnly.json().total, 1);
     assert.equal(activeOnly.json().products[0].id, ids[0]);
-    await app.inject({ method: "PATCH", headers, url: `/products/${ids[1]}`, payload: { active: true, model: "Test model" } });
+    await app.inject({
+      method: "PATCH",
+      headers,
+      url: `/products/${ids[1]}`,
+      payload: { active: true, model: "Test model" },
+    });
     const facets = await app.inject({
       method: "GET",
       url: `/products/filters?${new URLSearchParams({ make, year: "2018" })}`,

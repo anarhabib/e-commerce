@@ -1,5 +1,19 @@
 # Current implementation status
 
+## Interior/Exterior navigation and compact product dialog — 10 November 2026
+
+- Replaced the homepage Best sellers grid with two prominent Interior/Exterior collection cards and Shop all parts action; removed the unused eight-product homepage fetch. Header has Shop in navigation and a visible mobile Shop link. Footer Shop/back-to-top share inline 16px SVG arrows; back-to-top now calls `window.scrollTo` and honors reduced motion.
+- Added `Product.collection` (`INTERIOR`/`EXTERIOR`), server validation/filtering/facets, collection-aware shop URLs and admin editor selection. Retained existing part types as secondary categories. User confirmed all existing demos are Interior; additive migration `apps/api/prisma/migrations/20261110010000_product_collections/migration.sql` defaults existing rows to Interior without deleting data. Exterior is empty until products are assigned.
+- Migration and API integration tests passed first on temporary Neon branch `br-flat-art-bef907xj` (expires 11 November), then migration applied to production and the existing `hello` API Function redeployed. No Auth/storage/realtime policy changes. Seven migrations now applied.
+- Product dialog uses compact square previews, image previous/next controls, Options/Details panels and one concise demo notice. Visible close X is 16px with a 44px hit area and no large box. Normal phone layouts fit without dialog scrolling; overflow fallback remains for unusually long text/zoom. Main files: `features/storefront/components/{collection,header,footer,product-dialog,dialog}.tsx`, `integration.css`, `shop-catalog.tsx`, and shared product/API schema/repository/admin editor files.
+- API build, frontend production build, lint, 26 regressions and catalog-cache HTTP regression passed. Headless Edge checks at 375x640, 393x700, 430x780 and 1440x900 passed both panel heights, theme, add-to-bag, header overflow/count alignment, collection URLs/empty Exterior, working back-to-top and `/products` 404. Screenshots visually checked in light/dark. These checks emulate phone sizes; physical Safari review remains with the user. Frontend publication follows below.
+
+## Shop-only public catalog — 10 November 2026
+
+- Removed `apps/web/app/products/{page,error,loading}.tsx` and page-only product card/grid/filter components from `features/products/components/`. Removed unused price/fitment helpers and the legacy mobile-filter fallback and standalone vehicle form. Shop retains its controlled vehicle fields, filter sheet and shared pagination; admin pagination remains supported. Footer now links to `/shop`, and pagination defaults there.
+- Kept `features/products/api.ts`, types, image/category helpers and backend `/products` endpoints because the homepage, shop, bag and admin still depend on them. No page-exclusive API existed; no database or backend product routes were deleted.
+- README/admin guide and admin HTTP test now reference `/shop`. Production build, web lint and catalog-cache HTTP regression pass; regression explicitly verifies `/products` returns 404 while shop reads/filter caching and owner writes still work. Cleared only the stale generated `.next/dev/types/validator.ts` reference to the deleted route. Publication follows the existing phone-testing deployment workflow.
+
 ## Mobile fixes deployed — 10 November 2026
 
 - User authorized commit, push and deployment. Commit `bc43a46fb11f44a6bdfa7000a27c27b1877cb19c` is pushed to `main` and `deploy/neon-render-frontend`. Existing free Render service deployed it as `dep-dbp56v6gekts73e8k4k0`, confirmed `live`.

@@ -37,8 +37,8 @@ test(
       isSample: false,
     });
     const backend = createServer(async (req, res) => {
-    for await (const chunk of req) {
-      void chunk; // Drain the mock request body before responding.
+      for await (const chunk of req) {
+        void chunk; // Drain the mock request body before responding.
       }
       counts.set(req.url, (counts.get(req.url) ?? 0) + 1);
       const url = new URL(req.url, "http://localhost");
@@ -157,6 +157,7 @@ test(
         }
       }
       assert.match(await read("/shop"), /Cache fixture revision 1/);
+      assert.equal((await fetch(`${origin}/products`)).status, 404);
       const warm = catalogReads();
       await read("/shop");
       assert.equal(
@@ -164,7 +165,10 @@ test(
         warm,
         "repeat shop visits must hit the cache",
       );
-      await read("/");
+      const homepage = await read("/");
+      assert.match(homepage, /href="\/shop\?collection=INTERIOR"/);
+      assert.match(homepage, /href="\/shop\?collection=EXTERIOR"/);
+      assert.doesNotMatch(homepage, /Best sellers/);
       const homepageWarm = catalogReads();
       await read("/");
       assert.equal(

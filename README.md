@@ -11,15 +11,15 @@ pnpm --filter @carbignite/web dev
 
 Open http://localhost:3000. The homepage and catalog load product records from PostgreSQL through the Fastify API. Twelve clearly marked demo records reproduce the approved sample catalog; the bag stores database IDs locally. The owner panel is at `/admin`; customer accounts, public checkout and payments remain deferred.
 
-For the database-backed carbon catalog at `/products`, configure `apps/web/.env.local` with `API_URL=http://localhost:4000`. Configure the API's `apps/api/.env` with your existing `DATABASE_URL`, then run `pnpm --filter @carbignite/api dev`. The owner approved discarding the old lighting catalog. After setting the intended DATABASE_URL, run `pnpm --filter @carbignite/api exec prisma migrate deploy` and `pnpm --filter @carbignite/api exec prisma generate`. The carbon migration deletes existing Product rows, replaces lighting categories with PADDLES/CONSOLE/TRIM and drops color/side. It was applied to the project-local database during this API branch session; other environments still need to apply it. The non-destructive seed:demo command populates the 12 approved demo records. Their illustrative prices/fitment remain labeled as demo data; unknown model years are left unset. Keep the existing database/user name if desired; its name does not determine the product schema. If the API is unavailable, the catalog shows a retry screen.
+For the database-backed carbon catalog at `/shop`, configure `apps/web/.env.local` with `API_URL=http://localhost:4000`. Configure the API's `apps/api/.env` with your existing `DATABASE_URL`, then run `pnpm --filter @carbignite/api dev`. The owner approved discarding the old lighting catalog. After setting the intended DATABASE_URL, run `pnpm --filter @carbignite/api exec prisma migrate deploy` and `pnpm --filter @carbignite/api exec prisma generate`. The carbon migration deletes existing Product rows, replaces lighting categories with PADDLES/CONSOLE/TRIM and drops color/side. It was applied to the project-local database during this API branch session; other environments still need to apply it. The non-destructive seed:demo command populates the 12 approved demo records. Their illustrative prices/fitment remain labeled as demo data; unknown model years are left unset. Keep the existing database/user name if desired; its name does not determine the product schema. If the API is unavailable, the catalog shows a retry screen.
 
 ## Permanent structure
 
 - `apps/web/app/layout.tsx`: shared fonts, styles and storefront shell.
 - `apps/web/app/page.tsx`: approved homepage.
-- `apps/web/app/products/`: existing API catalog and its error boundary.
+- `apps/web/app/shop/`: public shop, filters and product browsing.
 - `apps/web/features/storefront/`: shared shell, theme/bag state, homepage sections, concepts and approved styles.
-- `apps/web/features/products/`: existing API adapters, filters, pagination and catalog components.
+- `apps/web/features/products/`: shared API adapters, product types, image utilities, shop filters and shop/admin pagination.
 - `apps/api/src/modules/products/`: controller, validation, service and Prisma repository.
 - `docs/STRUCTURE_REVIEW.md`: detailed folder explanations, request flow and cleanup recommendations.
 
@@ -48,5 +48,10 @@ The project PostgreSQL container runs on localhost:5433 (configurable with POSTG
 
 Run pnpm --filter @carbignite/api exec prisma migrate deploy, pnpm --filter @carbignite/api exec prisma generate, and pnpm --filter @carbignite/api seed:demo when setting up another local database. The seed reads apps/api/prisma/demo-products.json, inserts missing SKUs and preserves existing records and IDs. Product sample data exists only in this backend setup fixture, not in frontend page code. The frontend has no hardcoded product fallback; API failures show an unavailable state. Product image URLs and crop indexes are database fields; the approved image files remain in public/carbignite. Homepage requests are dynamic so database changes appear after refresh.
 ## CARBIGNITE admin
+
+The public catalog lives at `/shop`, with Interior and Exterior collections.
+Homepage collection cards link directly to each filtered shop view; `/products`
+has been removed. Owners choose a collection and part type in the product editor.
+Existing demo parts are Interior; Exterior stays empty until products are added.
 
 The owner panel is available at `/admin`. See [local setup, authorization, database changes and testing](docs/CARBIGNITE_ADMIN.md). Configure owner credentials before signing in; no default password is supplied.

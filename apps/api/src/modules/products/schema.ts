@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const productCategories = ["PADDLES", "CONSOLE", "TRIM"] as const;
+export const productCollections = ["INTERIOR", "EXTERIOR"] as const;
 export const imageUrlSchema = z
   .string()
   .max(2048)
@@ -36,6 +37,7 @@ const productFields = {
   description: z.string().trim().min(1),
   sku: z.string().trim().min(1).max(50),
   category: z.enum(productCategories),
+  collection: z.enum(productCollections),
   priceCents: z.number().int().positive().max(10000000),
   stock: z.number().int().min(0).max(2147483647),
   active: z.boolean(),
@@ -88,6 +90,7 @@ export const createProductSchema = z
     description: productFields.description,
     sku: productFields.sku,
     category: productFields.category,
+    collection: productFields.collection.default("INTERIOR"),
     priceCents: productFields.priceCents,
     stock: productFields.stock.default(0),
     active: productFields.active.default(true),
@@ -116,6 +119,7 @@ export const updateProductSchema = z
 const toArray = (value: unknown) =>
   value === undefined ? undefined : Array.isArray(value) ? value : [value];
 export const listProductsQuerySchema = z.object({
+  collection: z.enum(productCollections).optional(),
   category: z.preprocess(
     toArray,
     z.array(z.enum(productCategories)).optional(),
@@ -129,6 +133,7 @@ export const listProductsQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(20),
 });
 export const facetsQuerySchema = listProductsQuerySchema.pick({
+  collection: true,
   make: true,
   model: true,
   year: true,

@@ -33,7 +33,7 @@ test("Next owner proxy keeps tokens private and rejects cross-origin writes", as
         assert.doesNotMatch(html, /CONTROL ROOM/);
       }
     }
-    for (const path of ["/", "/products", "/admin/login"]) {
+    for (const path of ["/", "/shop", "/admin/login"]) {
       const response = await fetch(origin + path);
       assert.equal(response.status, 200, path);
       if (path === "/admin/login") {

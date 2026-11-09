@@ -28,10 +28,24 @@ export function Footer() {
             : ""}
           Checkout not connected
         </span>
-        <Link href="/products">
-          Product catalog <ArrowUpRight size={16} />
+        <Link href="/shop">
+          Shop <ArrowUpRight size={16} aria-hidden="true" />
         </Link>
-        <Link href="#">Back to top ↑</Link>
+        <button
+          type="button"
+          className="back-to-top"
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+                .matches
+                ? "instant"
+                : "smooth",
+            })
+          }
+        >
+          Back to top <ArrowUpRight size={16} aria-hidden="true" />
+        </button>
       </div>
     </footer>
   );

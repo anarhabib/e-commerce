@@ -41,11 +41,6 @@ export function getProductFilters(params: SearchParams = {}) {
   );
 }
 
-// Independent of the full catalog used by saved cart selections.
-export async function getHomepageProducts(): Promise<Product[]> {
-  return (await getProducts({ page: "1", limit: "8" })).products;
-}
-
 export const getStorefrontProducts = cache(async (): Promise<Product[]> => {
   const products: Product[] = [];
   for (let page = 1; ; page += 1) {

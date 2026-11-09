@@ -1,25 +1,20 @@
 "use client";
 import { Dropdown } from "@/components/ui/dropdown";
 
-import { useMemo, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { useMemo } from "react";
 import type { VehicleOption } from "../types";
 
 type Props = {
   vehicles: VehicleOption[];
   className?: string;
   columns?: string;
-  initialVehicle?: { make: string; model: string; year: string };
   availableMakes?: string[];
-  allowEmpty?: boolean;
-  value?: { make: string; model: string; year: string };
-  onVehicleChange?: (vehicle: {
+  value: { make: string; model: string; year: string };
+  onVehicleChange: (vehicle: {
     make: string;
     model: string;
     year: string;
   }) => void;
-  fieldsOnly?: boolean;
 };
 
 const selectStyles = "w-full";
@@ -28,22 +23,12 @@ export function VehicleSelector({
   vehicles,
   className,
   columns,
-  initialVehicle = { make: "", model: "", year: "" },
   availableMakes,
-  allowEmpty = false,
   value,
   onVehicleChange,
-  fieldsOnly = false,
 }: Props) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [localVehicle, setLocalVehicle] = useState(initialVehicle);
-  const { make, model, year } = value ?? localVehicle;
-  function changeVehicle(vehicle: typeof initialVehicle) {
-    if (value === undefined) setLocalVehicle(vehicle);
-    onVehicleChange?.(vehicle);
-  }
+  const { make, model, year } = value;
+  const changeVehicle = onVehicleChange;
 
   // Distinct makes, sorted
   const makes = useMemo(
@@ -78,19 +63,6 @@ export function VehicleSelector({
 
   function handleModelChange(value: string) {
     changeVehicle({ make, model: value, year: "" });
-  }
-
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    if (!make && !allowEmpty) return;
-
-    const params = new URLSearchParams(searchParams.toString());
-    ["make", "model", "year", "page"].forEach((key) => params.delete(key));
-    if (make) params.set("make", make);
-    if (model) params.set("model", model);
-    if (year) params.set("year", year);
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   const fields = (
@@ -141,19 +113,5 @@ export function VehicleSelector({
     </div>
   );
 
-  if (fieldsOnly) return <div className={className}>{fields}</div>;
-
-  return (
-    <form onSubmit={handleSubmit} className={className}>
-      {fields}
-
-      <Button
-        type="submit"
-        disabled={!make && !allowEmpty}
-        className="mt-3 w-full"
-      >
-        Find parts
-      </Button>
-    </form>
-  );
+  return <div className={className}>{fields}</div>;
 }

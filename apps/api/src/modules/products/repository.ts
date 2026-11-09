@@ -8,9 +8,10 @@ import type {
 } from "./schema.js";
 
 function vehicleWhere(q: FacetsQuery): Prisma.ProductWhereInput {
-  const { make, model, year, search } = q;
+  const { make, model, year, search, collection } = q;
   return {
     active: true,
+    ...(collection && { collection }),
     ...(make && { make: { equals: make, mode: "insensitive" } }),
     ...(model && { model: { equals: model, mode: "insensitive" } }),
     ...(year && { yearFrom: { lte: year }, yearTo: { gte: year } }),
@@ -35,11 +36,15 @@ export const productRepository = {
     return prisma.$transaction([
       prisma.product.findMany({
         where,
-        orderBy: query.sort === "newest"
-          ? [{ createdAt: "desc" }, { id: "asc" }]
-          : query.sort === "price-asc" || query.sort === "price-desc"
-            ? [{ priceCents: query.sort === "price-asc" ? "asc" : "desc" }, { id: "asc" }]
-            : [{ sku: "asc" }, { id: "asc" }],
+        orderBy:
+          query.sort === "newest"
+            ? [{ createdAt: "desc" }, { id: "asc" }]
+            : query.sort === "price-asc" || query.sort === "price-desc"
+              ? [
+                  { priceCents: query.sort === "price-asc" ? "asc" : "desc" },
+                  { id: "asc" },
+                ]
+              : [{ sku: "asc" }, { id: "asc" }],
         skip: (page - 1) * limit,
         take: limit,
       }),
@@ -55,18 +60,27 @@ export const productRepository = {
         _count: { _all: true },
       }),
       prisma.product.findMany({
-        where: { active: true, make: { not: null }, model: { not: null } },
+        where: {
+          ...vehicleWhere({ collection: query.collection }),
+          make: { not: null },
+          model: { not: null },
+        },
         select: { make: true, model: true, yearFrom: true, yearTo: true },
         distinct: ["make", "model", "yearFrom", "yearTo"],
       }),
       prisma.product.findMany({
-        where: { active: true, make: { not: null } },
-        select: { make: true }, distinct: ["make"], orderBy: { make: "asc" },
+        where: {
+          ...vehicleWhere({ collection: query.collection }),
+          make: { not: null },
+        },
+        select: { make: true },
+        distinct: ["make"],
+        orderBy: { make: "asc" },
       }),
     ]);
 
     return {
-      makes: makes.flatMap((v) => v.make ? [v.make] : []),
+      makes: makes.flatMap((v) => (v.make ? [v.make] : [])),
       categories: categories.map((c) => ({
         value: c.category,
         count: c._count._all,

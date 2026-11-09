@@ -22,6 +22,11 @@ enum ProductCategory {
   TRIM
 }
 
+enum ProductCollection {
+  INTERIOR
+  EXTERIOR
+}
+
 enum CarbonPattern {
   Woven
   Forged
@@ -40,6 +45,7 @@ model Product {
   description String
   sku         String          @unique
   category    ProductCategory
+  collection  ProductCollection @default(INTERIOR)
   priceCents  Int
   imageUrl    String?
   imageUrls   String[]        @default([])

@@ -10,15 +10,11 @@ import {
 import { lockBodyScroll } from "@/lib/scroll-lock";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Car, SlidersHorizontal, X } from "lucide-react";
-import type { ProductFacets } from "../types";
 import { formatCategory } from "../utils";
-import { ProductFilters } from "./product-filters";
 
 type Props = {
-  facets: ProductFacets;
   total: number;
-  variant?: "default" | "shop";
-  children?: ReactNode;
+  children: ReactNode;
 };
 
 const chipClass =
@@ -29,12 +25,7 @@ export function useCloseMobileFilters() {
   return useContext(CloseFiltersContext);
 }
 
-export function MobileFilters({
-  facets,
-  total,
-  variant = "default",
-  children,
-}: Props) {
+export function MobileFilters({ total, children }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const releaseScroll = useRef<(() => void) | null>(null);
   function unlockScroll() {
@@ -52,10 +43,12 @@ export function MobileFilters({
     .filter(Boolean)
     .join(" ");
   const search = searchParams.get("search");
+  const collection = searchParams.get("collection");
   const activeCount =
     categories.length +
     (vehicle ? 1 : 0) +
-    (variant === "shop" && search ? 1 : 0);
+    (search ? 1 : 0) +
+    (collection ? 1 : 0);
 
   function openSheet() {
     const dialog = dialogRef.current;
@@ -87,7 +80,7 @@ export function MobileFilters({
   }
 
   return (
-    <div className={variant === "shop" ? "shop-mobile-filters" : undefined}>
+    <div className="shop-mobile-filters">
       {/* Sticky toolbar: stays under the header while scrolling */}
       <div className="mobile-filter-toolbar sticky top-[87px] z-20 carb-mobile:top-[72px] -mx-4 border-b border-secondary/10 bg-tertiary/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
         <div className="flex items-center justify-between gap-3">
@@ -110,7 +103,19 @@ export function MobileFilters({
         {/* Active filters as removable chips (scroll sideways if many) */}
         {activeCount > 0 && (
           <ul className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 pb-1 sm:-mx-6 sm:px-6">
-            {variant === "shop" && search && (
+            {collection && (
+              <li>
+                <button
+                  type="button"
+                  onClick={() => removeParams(["collection"])}
+                  className={chipClass}
+                  aria-label={`Remove ${formatCategory(collection)} collection`}
+                >
+                  {formatCategory(collection)} <X className="h-3.5 w-3.5" />
+                </button>
+              </li>
+            )}
+            {search && (
               <li>
                 <button
                   type="button"
@@ -163,7 +168,7 @@ export function MobileFilters({
           // a click on the dark backdrop targets the dialog itself
           if (event.target === dialogRef.current) closeSheet();
         }}
-        className={`sheet ${variant === "shop" ? "shop-filter-sheet" : ""} fixed inset-x-0 bottom-0 top-auto m-0 max-h-[85dvh] w-full max-w-none overflow-hidden rounded-t-xl bg-tertiary p-0 backdrop:bg-secondary/60`}
+        className="sheet shop-filter-sheet fixed inset-x-0 bottom-0 top-auto m-0 max-h-[85dvh] w-full max-w-none overflow-hidden rounded-t-xl bg-tertiary p-0 backdrop:bg-secondary/60"
       >
         <div className="flex max-h-[85dvh] flex-col">
           <header className="flex items-center justify-between border-b border-secondary/10 bg-white px-4 py-3">
@@ -182,31 +187,9 @@ export function MobileFilters({
 
           <div className="flex-1 overflow-y-auto p-4">
             <CloseFiltersContext.Provider value={closeSheet}>
-              {children ?? <ProductFilters facets={facets} />}
+              {children}
             </CloseFiltersContext.Provider>
           </div>
-
-          {!children && (
-            <footer className="flex gap-3 border-t border-secondary/10 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-              <button
-                type="button"
-                disabled={activeCount === 0}
-                onClick={() =>
-                  removeParams(["category", "make", "model", "year"])
-                }
-                className="h-12 rounded-sm border border-secondary px-4 font-mono text-xs font-bold uppercase tracking-wider text-secondary disabled:opacity-40"
-              >
-                Clear all
-              </button>
-              <button
-                type="button"
-                onClick={closeSheet}
-                className="h-12 flex-1 rounded-sm bg-primary font-mono text-xs font-bold uppercase tracking-wider text-white"
-              >
-                Show {total} products
-              </button>
-            </footer>
-          )}
         </div>
       </dialog>
     </div>

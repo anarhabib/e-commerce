@@ -29,7 +29,7 @@ export function Header({
       <div className="announcement">
         A new expression of carbon.{" "}
         <Link href="/#collection">
-          Discover the first collection{" "}
+          Explore Interior &amp; Exterior{" "}
           <span>
             {" "}
             <ArrowUpRight size={16} />
@@ -50,16 +50,24 @@ export function Header({
           aria-label="Main navigation"
         >
           {[
-            ["collection", "The collection"],
-            ["material", "The material"],
-            ["atelier", "Our approach"],
-          ].map(([id, label]) => (
-            <Link key={id} href={`/#${id}`} onClick={() => setMenu(false)}>
+            ["/shop", "Shop"],
+            ["/#collection", "Collections"],
+            ["/#material", "The material"],
+            ["/#atelier", "Our approach"],
+          ].map(([href, label]) => (
+            <Link key={href} href={href} onClick={() => setMenu(false)}>
               {label}
             </Link>
           ))}
         </nav>
         <div className="header-actions">
+          <Link
+            className="mobile-shop-link"
+            href="/shop"
+            onClick={() => setMenu(false)}
+          >
+            Shop
+          </Link>
           <button className="account-link" onClick={openAccount}>
             Account
           </button>

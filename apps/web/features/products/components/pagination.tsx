@@ -84,7 +84,7 @@ export function Pagination({
   page,
   totalPages,
   searchParams = {},
-  pathname = "/products",
+  pathname = "/shop",
   onPageChange,
   disabled = false,
 }: Props) {

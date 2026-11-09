@@ -36,6 +36,7 @@ function ShopFilterForm({ facets, params, pending, apply }: FilterProps) {
   });
   const [search, setSearch] = useState(params.search ?? "");
   const [category, setCategory] = useState(params.category ?? "");
+  const [collection, setCollection] = useState(params.collection ?? "");
   const [sort, setSort] = useState(params.sort ?? "newest");
   return (
     <form
@@ -48,6 +49,7 @@ function ShopFilterForm({ facets, params, pending, apply }: FilterProps) {
           ...vehicle,
           search: search.trim(),
           category,
+          collection,
           sort,
         })) {
           if (value) query.set(key, value);
@@ -64,7 +66,6 @@ function ShopFilterForm({ facets, params, pending, apply }: FilterProps) {
           availableMakes={facets.makes}
           value={vehicle}
           onVehicleChange={setVehicle}
-          fieldsOnly
           columns="sm:grid-cols-3"
           className="shop-vehicle-fields"
         />
@@ -96,7 +97,18 @@ function ShopFilterForm({ facets, params, pending, apply }: FilterProps) {
           </div>
         </div>
         <label>
-          Category
+          Collection
+          <Dropdown
+            value={collection}
+            onChange={(event) => setCollection(event.target.value)}
+          >
+            <option value="">Interior &amp; Exterior</option>
+            <option value="INTERIOR">Interior</option>
+            <option value="EXTERIOR">Exterior</option>
+          </Dropdown>
+        </label>
+        <label>
+          Part type
           <Dropdown
             value={category}
             onChange={(event) => setCategory(event.target.value)}
@@ -129,6 +141,7 @@ function ShopFilterForm({ facets, params, pending, apply }: FilterProps) {
             setVehicle({ make: "", model: "", year: "" });
             setSearch("");
             setCategory("");
+            setCollection("");
             setSort("newest");
             close?.();
           }}
@@ -169,7 +182,13 @@ export function ShopCatalog({
       <div className="section-heading">
         <div>
           <div className="eyebrow">THE COLLECTION / AUTOMOTIVE</div>
-          <h1>Find your next detail.</h1>
+          <h1>
+            {params.collection === "INTERIOR"
+              ? "Interior details."
+              : params.collection === "EXTERIOR"
+                ? "Exterior details."
+                : "Find your next detail."}
+          </h1>
         </div>
         <p className="muted">
           Carbon fiber replacement parts, made with intention.
@@ -184,7 +203,7 @@ export function ShopCatalog({
         />
       </div>
       <div className="shop-mobile-controls">
-        <MobileFilters facets={facets} total={list.total} variant="shop">
+        <MobileFilters total={list.total}>
           <ShopFilterForm
             facets={facets}
             params={params}

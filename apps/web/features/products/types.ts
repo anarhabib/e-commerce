@@ -7,6 +7,7 @@ export type Product = {
   description: string;
   sku: string;
   category: ProductCategory;
+  collection: "INTERIOR" | "EXTERIOR";
   priceCents: number;
   imageUrl: string | null;
   imageUrls?: string[];

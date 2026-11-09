@@ -8,15 +8,9 @@ import { MaterialSelector } from "./components/material-selector";
 import { Approach } from "./components/approach";
 import { CustomBrief } from "./components/custom-brief";
 
-export function Homepage({
-  products,
-  catalogError,
-}: {
-  products: import("./types").StoreProduct[];
-  catalogError: boolean;
-}) {
+export function Homepage() {
   const revealRoot = useReveal();
-  const { openProduct, notify } = useStorefront();
+  const { notify } = useStorefront();
   return (
     <main
       ref={revealRoot}
@@ -24,11 +18,7 @@ export function Homepage({
     >
       <Hero />
       <Principles />
-      <Collection
-        open={openProduct}
-        products={products}
-        catalogError={catalogError}
-      />
+      <Collection />
       <MaterialSelector />
       <Approach />
       <CustomBrief notify={notify} />

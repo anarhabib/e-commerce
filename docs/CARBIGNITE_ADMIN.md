@@ -1,6 +1,6 @@
 # CARBIGNITE workshop admin
 
-Implemented on `feat/carbignite-admin`. The local panel is at http://localhost:3000/admin and requires a server-verified owner session. Visitors without a valid session are redirected to http://localhost:3000/admin/login. The existing storefront remains at `/` and `/products`.
+Implemented on `feat/carbignite-admin`. The local panel is at http://localhost:3000/admin and requires a server-verified owner session. Visitors without a valid session are redirected to http://localhost:3000/admin/login. The existing storefront is at `/` and `/shop`.
 
 ## First local setup
 
