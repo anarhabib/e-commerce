@@ -1,5 +1,10 @@
 # Current implementation status
 
+## Mobile fixes deployed — 10 November 2026
+
+- User authorized commit, push and deployment. Commit `bc43a46fb11f44a6bdfa7000a27c27b1877cb19c` is pushed to `main` and `deploy/neon-render-frontend`. Existing free Render service deployed it as `dep-dbp56v6gekts73e8k4k0`, confirmed `live`.
+- Production web build passed. Public homepage and `/api/health` return HTTP 200; published CSS includes the new dialog toolbar rules. Test at `https://carbignite-web-dev.onrender.com`. Physical iPhone visual confirmation remains with the user.
+
 ## Mobile product dialog layout — 10 November 2026
 
 - `apps/web/features/storefront/components/dialog.tsx` now places a decorative SVG close icon in its own toolbar. `features/storefront/integration.css` gives it a 44px square target with theme colors, preventing image overlap and inherited button padding from producing a tall close button.
