@@ -40,7 +40,7 @@
     .announcement a,
     footer a:not(.wordmark),
     .identity-bar a
-  ):is(:hover, :focus-visible) {
+  ):is(:hover, :focus-visible, :active) {
   color: var(--orange);
   background-size: 100% 1px;
 }
@@ -56,13 +56,13 @@
     transform var(--interaction-duration) var(--interaction-ease),
     color var(--interaction-duration) ease;
 }
-.carbignite .sidebar-link:is(:hover, :focus-visible),
-.carbignite .admin-nav button:not(:disabled):is(:hover, :focus-visible) {
+.carbignite .sidebar-link:is(:hover, :focus-visible, :active),
+.carbignite .admin-nav button:not(:disabled):is(:hover, :focus-visible, :active) {
   color: var(--orange);
   background-color: color-mix(in srgb, var(--ink) 3%, transparent);
 }
-.carbignite .sidebar-link:is(:hover, :focus-visible) span,
-.carbignite .admin-nav button:not(:disabled):is(:hover, :focus-visible) span {
+.carbignite .sidebar-link:is(:hover, :focus-visible, :active) span,
+.carbignite .admin-nav button:not(:disabled):is(:hover, :focus-visible, :active) span {
   color: var(--orange);
   transform: translate(2px, -2px);
 }
@@ -78,7 +78,7 @@
   :is(.text-button, .edit-button, .order-detail-button):not(:disabled):is(
     :hover,
     :focus-visible
-  ) {
+  , :active) {
   color: var(--orange);
   border-color: var(--orange);
   text-decoration-color: var(--orange);
@@ -89,7 +89,7 @@
     color var(--interaction-duration) ease,
     box-shadow var(--interaction-duration) ease;
 }
-.carbignite .button:not(:disabled):is(:hover, :focus-visible) {
+.carbignite .button:not(:disabled):is(:hover, :focus-visible, :active) {
   background: var(--orange);
   color: white;
 }
@@ -97,7 +97,7 @@
   opacity: 0.55;
   cursor: not-allowed;
 }
-.carbignite .button.primary:disabled:hover {
+.carbignite .button.primary:disabled:is(:hover, :active) {
   background: var(--ink);
   color: var(--paper);
 }
@@ -111,7 +111,7 @@
   transition: transform var(--interaction-duration) var(--interaction-ease);
 }
 .carbignite
-  .button:not(#add-bag):not(:disabled):is(:hover, :focus-visible)
+  .button:not(#add-bag):not(:disabled):is(:hover, :focus-visible, :active)
   > .button-icon {
   transform: translate(2px, -2px);
 }
@@ -119,7 +119,7 @@
   button:not(.button):not(.product-image):not(:disabled):is(
     :hover,
     :focus-visible
-  ) {
+  , :active) {
   color: var(--orange);
 }
 .carbignite input,
@@ -129,9 +129,9 @@
     border-color var(--interaction-duration) ease,
     box-shadow var(--interaction-duration) ease;
 }
-.carbignite input:not(:disabled):hover,
-.carbignite textarea:not(:disabled):hover,
-.carbignite select:not(:disabled):hover {
+.carbignite input:not(:disabled):is(:hover, :active),
+.carbignite textarea:not(:disabled):is(:hover, :active),
+.carbignite select:not(:disabled):is(:hover, :active) {
   border-color: var(--muted);
 }
 .carbignite input:focus,
@@ -148,7 +148,7 @@
   animation: none;
   box-shadow: none;
 }
-.carbignite #product-dialog #add-bag:is(:hover, :focus-visible) {
+.carbignite #product-dialog #add-bag:is(:hover, :focus-visible, :active) {
   background: var(--orange);
   color: white;
   animation: none;
@@ -173,7 +173,7 @@
   transition: transform var(--interaction-duration) var(--interaction-ease);
   pointer-events: none;
 }
-.carbignite #product-dialog #add-bag:is(:hover, :focus-visible) > span:after {
+.carbignite #product-dialog #add-bag:is(:hover, :focus-visible, :active) > span:after {
   transform: scaleX(1);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -186,10 +186,10 @@
 }
 
 /* Account navigation keeps its surface; only the text/arrow responds. */
-.carbignite .sidebar-link:is(:hover, :focus-visible) {
+.carbignite .sidebar-link:is(:hover, :focus-visible, :active) {
   background-color: transparent;
 }
-.carbignite .account-page main .button:is(:hover, :focus-visible) {
+.carbignite .account-page main .button:is(:hover, :focus-visible, :active) {
   background: var(--ink);
   color: var(--paper);
 }
@@ -209,7 +209,7 @@
   :is(.account-link, .bag-button, .icon-button):not(:disabled):is(
     :hover,
     :focus-visible
-  ) {
+  , :active) {
   color: var(--ink);
   background-color: transparent;
   background-image: none;
@@ -234,10 +234,10 @@
   :is(.account-link, .bag-button, .icon-button):is(
     :hover,
     :focus-visible
-  ):after {
+  , :active):after {
   right: 0;
 }
-.carbignite > header .bag-button:is(:hover, :focus-visible) span {
+.carbignite > header .bag-button:is(:hover, :focus-visible, :active) span {
   background: transparent;
   color: var(--ink);
   border-color: var(--line);
@@ -276,7 +276,7 @@
 .carbignite > header #theme:after {
   display: none;
 }
-.carbignite > header #theme:is(:hover, :focus-visible) {
+.carbignite > header #theme:is(:hover, :focus-visible, :active) {
   color: var(--ink);
   background: transparent;
   transform: none;
@@ -288,11 +288,11 @@
 .carbignite
   .account-page
   #account-orders
-  .button:not(:disabled):is(:hover, :focus-visible),
+  .button:not(:disabled):is(:hover, :focus-visible, :active),
 .carbignite
   .account-page
   #profile-form
-  > button:not(:disabled):is(:hover, :focus-visible) {
+  > button:not(:disabled):is(:hover, :focus-visible, :active) {
   background: var(--orange);
   color: white;
 }
@@ -314,11 +314,11 @@
   transition: right var(--interaction-duration) var(--interaction-ease);
   pointer-events: none;
 }
-.carbignite > footer .footer-top > a:last-child:is(:hover, :focus-visible) {
+.carbignite > footer .footer-top > a:last-child:is(:hover, :focus-visible, :active) {
   background-image: none;
   color: var(--ink);
 }
-.carbignite > footer .footer-top > a:last-child:is(:hover, :focus-visible):after {
+.carbignite > footer .footer-top > a:last-child:is(:hover, :focus-visible, :active):after {
   right: 0;
 }
 @media (prefers-reduced-motion: reduce) {

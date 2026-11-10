@@ -132,7 +132,7 @@
 .carbignite .admin-nav button {
   transition: color 180ms ease;
 }
-.carbignite .admin-nav button:hover {
+.carbignite .admin-nav button:is(:hover, :active) {
   color: var(--ink);
 }
 .carbignite .admin-workspace .table-toolbar label {

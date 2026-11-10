@@ -1,5 +1,10 @@
 # Current implementation status
 
+## Consistent desktop hover and mobile press — 10 November 2026
+
+- Unified author-defined hover and active feedback in storefront reference/interaction/integration styles and admin overrides. Pointer hover, keyboard focus and touch press now share collection title/underline/frame colors and arrow movement; shared buttons and navigation/admin actions expose their hover feedback on press too. Added a root touch-start hook so mobile Safari enables native active feedback. Reduced-motion and disabled-state exceptions retained.
+- Production build/TypeScript, lint and diff checks pass. Local Edge comparison under desktop/touch emulation verifies matching computed collection/button states and reduced motion (active pseudo-state forced for deterministic style comparison). Checkout/modal regression passes at 375x640, 393x700 and 1440x900 with zero demo write requests. Physical touch-device behavior remains for user verification. Prior demo-checkout commit is `8a64a30`; final interaction follow-up publishes next.
+
 ## Shared dialogs everywhere and demo checkout — 10 November 2026
 
 - All application modals now use `features/storefront/components/dialog.tsx`; mobile filters were the final independent native dialog and now use shared lifecycle, centering, focus restoration, Escape/backdrop close and body-scroll locking. Shared bottom Close is the default through 700px, with a sticky 44px mobile tap target; desktop retains the top-right X. Account, bag and custom brief now receive the same behavior as product/admin dialogs.

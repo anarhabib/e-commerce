@@ -108,6 +108,8 @@ function StorefrontContent({
       <div
         className="carbignite flex min-h-screen w-full max-w-none flex-col leading-[normal]"
         data-theme={theme}
+        // Enables native :active feedback on touch devices, including mobile Safari.
+        onTouchStart={() => {}}
       >
         <Header
           theme={theme}
