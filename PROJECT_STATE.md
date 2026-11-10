@@ -1,5 +1,11 @@
 # Current implementation status
 
+## Button and hover updates deployed and verified — 10 November 2026
+
+- Deployed final app commit `27fcadd7c9d328f6c4ea449983fcf61925dd86ed` (includes shared-button commit `ac86c30`) to the existing free Render service as `dep-dbp6h2rrjlhs73f0cqng`, confirmed live. Source pushed to `main` and `deploy/neon-render-frontend`.
+- Public Edge verification passes matching primary CTA hover/styles, Interior/Exterior title/underline/arrow hover, reduced motion, disabled states, submit type and shop navigation. Read-only public checks at 375x640, 393x700 and 1440x900 also pass navbar typography, section anchors, desktop filter alignment, product close placement and all four admin dialog close controls/SVG arrows. The first public hover attempt reached the previous version during switchover; rerun after explicit live confirmation passed.
+- `admin-arrow.tsx` removed; Lucide icons are imported directly. Existing useful shared controls retained. All approved spacing/navigation/responsive-close changes are live. Temporary scripts/server cleaned up; no password, auth policy, API/schema, product or order changes were made during this UI deployment. Physical Safari review remains with the user.
+
 ## Desktop collection link hover — 10 November 2026
 
 - Interior/Exterior collection cards now highlight their titles and Explore underlines in brand orange and translate their arrows 2px on desktop pointer hover. Keyboard focus highlights the text/underline; reduced motion keeps arrows static. Styles are in `apps/web/features/storefront/integration.css`.
