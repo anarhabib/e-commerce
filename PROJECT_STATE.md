@@ -1,5 +1,9 @@
 # Current implementation status
 
+## Mobile Close footer centering correction — 10 November 2026
+
+- Corrected the cause of uneven spacing: modal bottom padding was added below the shared 44px Close footer. Mobile dialogs with that footer now have zero bottom padding, so the label is centered between its divider and the modal edge. Shared override intentionally takes precedence over individual modal padding; desktop remains unchanged. File: `apps/web/features/storefront/integration.css`.
+
 ## Mobile Close spacing — 10 November 2026
 
 - Increased the shared bottom Close control's top margin from 8px to 16px in `apps/web/features/storefront/integration.css`, balancing separation from the primary action against the modal's bottom padding. Retains sticky positioning and the 44px mobile tap target; desktop top-right close is unchanged. Deployment follows.
