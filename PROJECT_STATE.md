@@ -1,5 +1,9 @@
 # Current implementation status
 
+## Mobile Close spacing — 10 November 2026
+
+- Increased the shared bottom Close control's top margin from 8px to 16px in `apps/web/features/storefront/integration.css`, balancing separation from the primary action against the modal's bottom padding. Retains sticky positioning and the 44px mobile tap target; desktop top-right close is unchanged. Deployment follows.
+
 ## Shared dialogs, demo checkout and consistent feedback live — 10 November 2026
 
 - Final app commit `f1f1496b49dfcc6790c90abc7b43fe6b8c0f15d0` (includes demo checkout `8a64a30`) is live on the existing Render site as deployment `dep-dbp70cdbedkc73fscf60`; source pushed to `main` and `deploy/neon-render-frontend`.
