@@ -433,13 +433,6 @@
   justify-items: center;
   gap: 16px;
 }
-.carbignite .product-image-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  justify-self: start;
-  min-height: 44px;
-}
 .carbignite .product-enlarged-photo {
   display: block;
   width: auto;

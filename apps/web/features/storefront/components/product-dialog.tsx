@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useId, useRef, useState, type TouchEvent } from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import Image from "next/image";
 import { Dialog } from "./dialog";
 import { productImageStyle } from "@/features/products/utils";
@@ -109,14 +109,6 @@ export function ProductDialog({
     >
       {enlarged ? (
         <div className="product-enlarged-view" {...swipe}>
-          <button
-            type="button"
-            className="product-image-back"
-            onClick={() => setEnlarged(false)}
-          >
-            <ArrowLeft size={16} aria-hidden="true" />
-            Back to product
-          </button>
           {product.photoIndex != null &&
           !images[imageIndex]?.startsWith("/media/") &&
           imageIndex === 0 ? (
