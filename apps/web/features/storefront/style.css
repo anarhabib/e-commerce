@@ -195,7 +195,7 @@
 .carbignite h1 {
   font-weight: 450;
   font-size: clamp(50px, 5.8vw, 90px);
-  letter-spacing: -1.8px;
+  letter-spacing: -0.03em;
   line-height: 1.02;
   margin: 36px 0 25px;
 }
@@ -866,7 +866,7 @@
     min-height: 535px;
   }
   .carbignite h1 {
-    letter-spacing: -3.5px;
+    letter-spacing: -0.03em;
   }
   .carbignite .hero-copy {
     padding-top: 45px;
@@ -990,7 +990,7 @@
   }
   .carbignite h2 {
     font-size: 39px;
-    letter-spacing: -2px;
+    letter-spacing: -0.02em;
   }
   .carbignite .filter-tabs {
     gap: 17px;

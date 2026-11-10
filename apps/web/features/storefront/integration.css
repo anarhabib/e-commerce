@@ -1,4 +1,35 @@
 /* Reference styles sit below Tailwind utilities in the cascade. */
+.carbignite .not-found-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 65dvh;
+  padding: 64px 6%;
+  gap: 20px;
+}
+.carbignite .not-found-page h1 {
+  max-width: 750px;
+  margin: 0;
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: normal;
+  line-height: 1.2;
+}
+.carbignite .not-found-page p {
+  max-width: 600px;
+  letter-spacing: normal;
+  line-height: 1.6;
+}
+.carbignite .not-found-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.carbignite .not-found-actions > a:last-child {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 .carbignite .storefront-dialog {
   position: fixed;
   inset: 0;
@@ -96,6 +127,7 @@
 }
 .carbignite .collection-categories {
   display: grid;
+  align-items: start;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
 }
@@ -106,15 +138,28 @@
 }
 .carbignite .collection-category-art {
   position: relative;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 4 / 3;
-  background: #eee3da;
+  display: block;
+  background: transparent;
   color: var(--ink);
   overflow: hidden;
 }
 .carbignite .collection-category-art > img {
-  object-fit: contain;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.carbignite .collection-category-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color var(--interaction-duration) ease;
+}
+.carbignite
+  .collection-category:is(:hover, :focus-visible, :active)
+  .collection-category-art::after {
+  border-color: var(--orange);
 }
 .carbignite .collection-category-copy {
   display: flex;
@@ -257,9 +302,6 @@
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  .carbignite .collection-category-art {
-    aspect-ratio: 4 / 3;
-  }
   .carbignite .collection-shop-link {
     width: 100%;
     justify-content: space-between;
@@ -331,11 +373,48 @@
 .carbignite .product-gallery-viewer {
   min-width: 0;
 }
+.carbignite .product-gallery-navigation {
+  width: 100%;
+  min-width: 0;
+}
+.carbignite .product-gallery-thumbnails {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px;
+  margin-top: 8px;
+}
+.carbignite .product-gallery-thumbnails button {
+  flex: 0 0 52px;
+  height: 52px;
+  padding: 0;
+  border: 2px solid transparent;
+  background-color: var(--soft);
+  transition: border-color var(--interaction-duration) ease;
+}
+.carbignite
+  .product-gallery-thumbnails
+  button:is(:hover, :focus-visible, :active, [aria-pressed="true"]) {
+  border-color: var(--orange);
+}
 .carbignite #product-dialog .detail-image {
   display: block;
   padding: 0;
   border: 0;
   cursor: zoom-in;
+}
+.carbignite
+  #product-dialog
+  .detail-grid
+  .product-gallery-viewer
+  .detail-image.has-single-photo {
+  aspect-ratio: auto;
+  background: transparent;
+}
+.carbignite .detail-photo {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .carbignite .product-image-zoom {
   position: absolute;

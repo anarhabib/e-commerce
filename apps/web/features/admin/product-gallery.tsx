@@ -83,10 +83,11 @@ export function ProductGallery({
   }
   return (
     <section className="product-gallery-editor" aria-label="Product images">
-      <h3>Product images</h3>
+      <h3>Cover &amp; photo gallery</h3>
       <p>
-        Upload up to 12 images. The first image is the cover. Save the product
-        to keep gallery changes.
+        Add one cover and up to 11 more gallery photos. The cover appears in the
+        shop; customers can browse every photo in product details. Choose “Make
+        cover” to change the main image, then save the product.
       </p>
       <div className="gallery-previews">
         {images.map((image, index) => (
@@ -100,7 +101,9 @@ export function ProductGallery({
                 photoIndex: index === 0 ? photoIndex : null,
               })}
             />
-            <span>{index === 0 ? "Cover image" : `Image ${index + 1}`}</span>
+            <span>
+              {index === 0 ? "Cover image" : `Gallery photo ${index}`}
+            </span>
             <div className="gallery-image-actions">
               {index > 0 && (
                 <button
@@ -145,7 +148,7 @@ export function ProductGallery({
         </p>
       )}
       <label>
-        Upload photos
+        Add cover and gallery photos
         <input
           type="file"
           accept="image/jpeg,image/png,image/webp"

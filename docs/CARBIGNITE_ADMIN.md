@@ -4,6 +4,10 @@
 
 Part types are shared across Interior and Exterior. In Add/Edit product, choose an existing Part type, or select “+ Add a new part type” and enter a new name. Saving creates the type and product together. Existing names (ignoring case and repeated spaces) are rejected; select the existing dropdown entry instead. Duplicate creation from simultaneous saves is also blocked. There is no separate Part types section.
 
+## Cover and gallery photos
+
+In Add/Edit product, use “Cover & photo gallery” to upload multiple JPEG, PNG or WebP files (up to 12 total, 5 MB each). The first photo is the cover used in the shop. Choose “Make cover” on another photo to change it, and save the product to keep changes. Customers can select gallery thumbnails, use previous/next or swipe, and click the main photo to view it enlarged. Detail and enlarged photos retain their full proportions.
+
 Implemented on `feat/carbignite-admin`. The local panel is at http://localhost:3000/admin and requires a server-verified owner session. Visitors without a valid session are redirected to http://localhost:3000/admin/login. The existing storefront is at `/` and `/shop`.
 
 ## First local setup

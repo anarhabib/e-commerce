@@ -1,5 +1,13 @@
 # Current implementation status
 
+## Gallery, natural collection covers and readable 404 follow-up — 10 November 2026
+
+- The duplicate merge/API and first image update are live: app `7de0fc340a3461195464b65d188d13ce6643f699`, Render `dep-dbp82ibrjlhs73f4u4o0`. Production migration preserves all 6 products and leaves 4 globally unique types. API deployed successfully.
+- Collection covers now use the actual photo dimensions (1280x720 Interior, 1254x1254 Exterior), removing added letterbox bands without cropping supplied artwork. Grid cards align at the top; photo border hover overlays the image. User requested this after the original common 4:3 contain frames.
+- Existing product uploads already support 12 images and Make cover (first image). Admin copy now clearly describes one cover plus 11 gallery photos. Customer details and enlarged image view have selectable thumbnails, previous/next, live image count, and horizontal swipe. Single detail photos render at their natural aspect ratio; shop uses square cover previews. No duplicate image store/schema added. Product variants and current photo survive enlargement/Back.
+- Added `app/not-found.tsx` with readable text and Shop/Home links. Fixed generic mobile heading tracking from absolute negative pixels to relative em values; error page uses normal tracking so small fallback copy cannot inherit cramped display-heading spacing. User screenshot was the default Next 404 inheriting -3.5px/-2px mobile heading tracking.
+- Gallery DB regression passes upload/auth/byte retrieval/ordering/removal. Web lint and final production build pass. Browser cover/gallery/404 validation and rollout follow.
+
 ## Unique shared types and product image enlargement — 10 November 2026
 
 - User requested removing repeated names and rejecting new names already in the DB. PartType is now global (no collection column); migration `20261110030000_shared_unique_part_types` merges normalized names, rewires product category assignments, and replaces the composite FK with category-only FK. Product collection remains unchanged. Tested on Neon branch `br-long-cell-be28m1ca`: 6 types become 4, all 6 product fingerprints preserved (excluding the intentional category rewiring). API rejects existing normalized names with 409; type uniqueness conflicts from concurrent saves retry into that friendly error. Editor checks duplicates immediately and disables save. No separate types section.

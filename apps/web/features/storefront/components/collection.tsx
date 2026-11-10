@@ -74,7 +74,8 @@ export function Collection() {
             <Image
               src="/carbignite/collection-interior.jpg"
               alt=""
-              fill
+              width={1280}
+              height={720}
               sizes="(max-width: 700px) 100vw, 50vw"
             />
           </div>
@@ -92,7 +93,8 @@ export function Collection() {
             <Image
               src="/carbignite/collection-exterior.jpg"
               alt=""
-              fill
+              width={1254}
+              height={1254}
               sizes="(max-width: 700px) 100vw, 50vw"
             />
           </div>

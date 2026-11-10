@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Dropdown } from "@/components/ui/dropdown";
-import { useId, useState } from "react";
+import { useId, useRef, useState, type TouchEvent } from "react";
 import { ArrowLeft, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import Image from "next/image";
 import { Dialog } from "./dialog";
@@ -27,6 +27,7 @@ export function ProductDialog({
   const [finish, setFinish] = useState<Finish>(product.finishes[0]);
   const [imageIndex, setImageIndex] = useState(0);
   const [enlarged, setEnlarged] = useState(false);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const [panel, setPanel] = useState<"options" | "details">("options");
   const panelId = useId();
   const images = product.imageUrls?.length
@@ -34,6 +35,71 @@ export function ProductDialog({
     : product.imageUrl
       ? [product.imageUrl]
       : [];
+  const sheetCrop =
+    imageIndex === 0 &&
+    product.photoIndex != null &&
+    !images[imageIndex]?.startsWith("/media/");
+  const swipe = {
+    onTouchStart: (event: TouchEvent<HTMLElement>) => {
+      const touch = event.touches[0];
+      touchStart.current = { x: touch.clientX, y: touch.clientY };
+    },
+    onTouchEnd: (event: TouchEvent<HTMLElement>) => {
+      const start = touchStart.current;
+      touchStart.current = null;
+      if (!start || images.length < 2) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - start.x;
+      if (
+        Math.abs(dx) > 50 &&
+        Math.abs(dx) > Math.abs(touch.clientY - start.y) * 1.5
+      )
+        setImageIndex(
+          (index) =>
+            (index + (dx < 0 ? 1 : -1) + images.length) % images.length,
+        );
+    },
+  };
+  const gallery = images.length > 1 && (
+    <div className="product-gallery-navigation" aria-label="Product gallery">
+      <div className="product-gallery-controls">
+        <button
+          type="button"
+          aria-label="Previous product image"
+          onClick={() =>
+            setImageIndex((imageIndex + images.length - 1) % images.length)
+          }
+        >
+          <ChevronLeft size={16} aria-hidden="true" />
+        </button>
+        <span aria-live="polite">
+          {imageIndex + 1} / {images.length}
+        </span>
+        <button
+          type="button"
+          aria-label="Next product image"
+          onClick={() => setImageIndex((imageIndex + 1) % images.length)}
+        >
+          <ChevronRight size={16} aria-hidden="true" />
+        </button>
+      </div>
+      <div className="product-gallery-thumbnails">
+        {images.map((image, index) => (
+          <button
+            key={`${image}-${index}`}
+            type="button"
+            aria-label={`View ${index === 0 ? "cover image" : `gallery photo ${index}`}`}
+            aria-pressed={imageIndex === index}
+            onClick={() => setImageIndex(index)}
+            style={productImageStyle({
+              imageUrl: image,
+              photoIndex: index === 0 ? product.photoIndex : null,
+            })}
+          />
+        ))}
+      </div>
+    </div>
+  );
   return (
     <Dialog
       id="product-dialog"
@@ -42,7 +108,7 @@ export function ProductDialog({
       closeAtEndOnMobile
     >
       {enlarged ? (
-        <div className="product-enlarged-view">
+        <div className="product-enlarged-view" {...swipe}>
           <button
             type="button"
             className="product-image-back"
@@ -70,55 +136,42 @@ export function ProductDialog({
               className="product-enlarged-photo"
             />
           )}
+          {gallery}
         </div>
       ) : (
         <div className="detail-grid">
           <div className="product-gallery-viewer">
             <button
               type="button"
-              className="detail-image"
+              className={`detail-image${images.length && !sheetCrop ? " has-single-photo" : ""}`}
               onClick={() => setEnlarged(true)}
               disabled={!images.length}
               aria-label={`Enlarge ${product.name} image`}
-              style={productImageStyle({
-                imageUrl: images[imageIndex] ?? null,
-                photoIndex: imageIndex === 0 ? product.photoIndex : null,
-              })}
+              {...swipe}
+              style={
+                sheetCrop
+                  ? productImageStyle({
+                      imageUrl: images[imageIndex] ?? null,
+                      photoIndex: imageIndex === 0 ? product.photoIndex : null,
+                    })
+                  : undefined
+              }
             >
+              {images.length > 0 && !sheetCrop && (
+                <Image
+                  src={images[imageIndex]}
+                  alt={product.name}
+                  width={1600}
+                  height={1600}
+                  unoptimized
+                  className="detail-photo"
+                />
+              )}
               <span className="product-image-zoom">
                 <ZoomIn size={16} aria-hidden="true" />
               </span>
             </button>
-            {images.length > 1 && (
-              <div
-                className="product-gallery-controls"
-                aria-label="Product gallery"
-              >
-                <button
-                  type="button"
-                  aria-label="Previous product image"
-                  onClick={() =>
-                    setImageIndex(
-                      (imageIndex + images.length - 1) % images.length,
-                    )
-                  }
-                >
-                  <ChevronLeft size={16} aria-hidden="true" />
-                </button>
-                <span aria-live="polite">
-                  {imageIndex + 1} / {images.length}
-                </span>
-                <button
-                  type="button"
-                  aria-label="Next product image"
-                  onClick={() =>
-                    setImageIndex((imageIndex + 1) % images.length)
-                  }
-                >
-                  <ChevronRight size={16} aria-hidden="true" />
-                </button>
-              </div>
-            )}
+            {gallery}
             {!images.length && (
               <p className="muted">Product photos coming soon.</p>
             )}
