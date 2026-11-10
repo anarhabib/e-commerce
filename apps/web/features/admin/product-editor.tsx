@@ -1,5 +1,6 @@
 "use client";
-import { AdminArrow } from "./admin-arrow";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
@@ -299,12 +300,9 @@ export function ProductEditor({
           <p className="form-error" role="alert">
             {error}
           </p>
-          <button className="button primary" type="submit">
+          <Button type="submit" endIcon={!busy && <ArrowUpRight size={16} />}>
             {busy ? "Saving…" : "Save product"}
-            <span>
-              <AdminArrow />
-            </span>
-          </button>
+          </Button>
         </fieldset>
       </form>
     </Dialog>

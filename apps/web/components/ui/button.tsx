@@ -1,40 +1,56 @@
-import type { ButtonHTMLAttributes } from "react";
+"use client";
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  ReactNode,
+} from "react";
+import NavigationLink from "./navigation-link";
 
-const base =
-  "inline-flex items-center justify-center gap-2 rounded-sm px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-50";
-
-const variants = {
-  primary: "bg-primary text-white hover:bg-primary-hover",
-  secondary: "bg-primary-soft text-secondary hover:bg-primary/20",
-  inverted: "bg-secondary text-white hover:bg-secondary/85",
-  outlined:
-    "border border-secondary text-secondary hover:bg-secondary hover:text-white",
-} as const;
-
-export type ButtonVariant = keyof typeof variants;
-
-export function buttonStyles(
-  variant: ButtonVariant = "primary",
-  className = "",
-) {
-  return `${base} ${variants[variant]} ${className}`.trim();
-}
-
-type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: ButtonVariant;
-};
+type Props = { variant?: "primary" | "secondary"; endIcon?: ReactNode } & (
+  | (ButtonHTMLAttributes<HTMLButtonElement> & { href?: never })
+  | (AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
+);
 
 export function Button({
   variant = "primary",
-  className,
-  type = "button",
+  endIcon,
+  children,
+  className = "",
   ...props
 }: Props) {
+  const classes = `button ${variant} ${className}`.trim();
+  const content = (
+    <>
+      {children}
+      {endIcon && (
+        <span className="button-icon" aria-hidden="true">
+          {endIcon}
+        </span>
+      )}
+    </>
+  );
+  if (typeof props.href === "string") {
+    if (
+      props.href.startsWith("#") ||
+      props.href.startsWith("/#") ||
+      /^(https?:|mailto:|tel:)/.test(props.href)
+    ) {
+      // Native anchors resolve same-page and cross-page section links.
+      return (
+        <a {...props} className={classes}>
+          {content}
+        </a>
+      );
+    }
+    return (
+      <NavigationLink {...props} className={classes}>
+        {content}
+      </NavigationLink>
+    );
+  }
   return (
-    <button
-      type={type}
-      className={buttonStyles(variant, className)}
-      {...props}
-    />
+    <button type="button" {...props} className={classes}>
+      {content}
+    </button>
   );
 }

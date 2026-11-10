@@ -1,7 +1,8 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { useState, type FormEvent } from "react";
 import { Dialog } from "./dialog";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Download } from "lucide-react";
 
 export function CustomBrief({ notify }: { notify: (message: string) => void }) {
   const [open, setOpen] = useState(false);
@@ -34,12 +35,13 @@ export function CustomBrief({ notify }: { notify: (message: string) => void }) {
             <br />
             Let&apos;s explore the possibilities in carbon.
           </p>
-          <button className="button primary" onClick={() => setOpen(true)}>
-            Discuss a custom part{" "}
-            <span>
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </span>
-          </button>
+          <Button
+            type="button"
+            onClick={() => setOpen(true)}
+            endIcon={<ArrowUpRight size={16} />}
+          >
+            Discuss a custom part
+          </Button>
         </div>
       </section>
       {open && (
@@ -69,9 +71,9 @@ export function CustomBrief({ notify }: { notify: (message: string) => void }) {
               Tell us about your idea
               <textarea name="idea" rows={4} required maxLength={3000} />
             </label>
-            <button className="button primary" type="submit">
-              Download your project brief <span>↓</span>
-            </button>
+            <Button type="submit" endIcon={<Download size={16} />}>
+              Download your project brief
+            </Button>
             <p className="preview-note">
               Creates a text file on your device. Nothing is submitted.
             </p>

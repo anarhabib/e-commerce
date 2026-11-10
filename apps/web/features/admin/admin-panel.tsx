@@ -1,5 +1,6 @@
 "use client";
-import { AdminArrow } from "./admin-arrow";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useNotificationActions } from "@/components/ui/notifications";
 import { LoadingBar } from "@/components/ui/loading-bar";
@@ -187,7 +188,12 @@ export function AdminPanel() {
               {money(o.totalCents)} estimated
             </span>
             <button className="order-detail-button" onClick={() => setOrder(o)}>
-              View request <AdminArrow />
+              View request{" "}
+              <ArrowUpRight
+                className="admin-arrow"
+                size={16}
+                aria-hidden="true"
+              />
             </button>
           </div>
         </article>
@@ -234,7 +240,8 @@ export function AdminPanel() {
           ))}
         </nav>
         <Link className="back-link" href="/">
-          <AdminArrow /> View storefront
+          <ArrowUpRight className="admin-arrow" size={16} aria-hidden="true" />{" "}
+          View storefront
         </Link>
         <div className="admin-note">
           OWNER ACCESS
@@ -273,7 +280,12 @@ export function AdminPanel() {
                 className="text-button"
                 onClick={() => setRevision((r) => r + 1)}
               >
-                Retry <AdminArrow />
+                Retry{" "}
+                <ArrowUpRight
+                  className="admin-arrow"
+                  size={16}
+                  aria-hidden="true"
+                />
               </button>
             )}
           </div>
@@ -284,7 +296,12 @@ export function AdminPanel() {
           <>
             <div className="admin-session">
               <button className="text-button" disabled={busy} onClick={logout}>
-                Sign out <AdminArrow />
+                Sign out{" "}
+                <ArrowUpRight
+                  className="admin-arrow"
+                  size={16}
+                  aria-hidden="true"
+                />
               </button>
             </div>
             {busy && <LoadingBar label="Signing out" />}
@@ -322,7 +339,12 @@ export function AdminPanel() {
                     className="text-button"
                     onClick={() => switchTab("orders")}
                   >
-                    View all <AdminArrow />
+                    View all{" "}
+                    <ArrowUpRight
+                      className="admin-arrow"
+                      size={16}
+                      aria-hidden="true"
+                    />
                   </button>
                 </div>
                 {cards(overview.recent)}
@@ -353,12 +375,12 @@ export function AdminPanel() {
                         setLoading(true);
                       }}
                     />
-                    <button
-                      className="button primary"
+                    <Button
+                      type="submit"
                       onClick={() => setEditing({ product: null })}
                     >
                       Add product <span>+</span>
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 {!loading && !error && products && (
@@ -500,12 +522,9 @@ export function AdminPanel() {
                         ))}
                       </Dropdown>
                     </label>
-                    <button
-                      className="button primary"
-                      onClick={() => setIntake(true)}
-                    >
+                    <Button type="submit" onClick={() => setIntake(true)}>
                       New request +
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 {!loading && !error && orders && (

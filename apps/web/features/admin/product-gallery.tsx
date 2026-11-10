@@ -1,5 +1,5 @@
 "use client";
-import { AdminArrow } from "./admin-arrow";
+import { ArrowUpRight } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { adminApi } from "./api";
 import { productImageStyle } from "@/features/products/utils";
@@ -128,7 +128,12 @@ export function ProductGallery({
                 Remove
               </button>
               <a href={image} target="_blank" rel="noreferrer">
-                View <AdminArrow />
+                View{" "}
+                <ArrowUpRight
+                  className="admin-arrow"
+                  size={16}
+                  aria-hidden="true"
+                />
               </a>
             </div>
           </article>
@@ -165,7 +170,8 @@ export function ProductGallery({
         onClick={addUrl}
         disabled={busy || !url.trim()}
       >
-        Add image <AdminArrow />
+        Add image{" "}
+        <ArrowUpRight className="admin-arrow" size={16} aria-hidden="true" />
       </button>
       <p className="form-error" role="alert">
         {error}

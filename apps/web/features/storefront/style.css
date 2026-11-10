@@ -1140,12 +1140,12 @@
     opacity: 1;
     transform: translateY(0);
   }
-  .carbignite .button span,
+  .carbignite .button .button-icon,
   .carbignite .text-button span,
   .carbignite .product-plus {
     transition: transform 0.25s ease;
   }
-  .carbignite .button:hover span,
+  .carbignite .button:hover .button-icon,
   .carbignite .text-button:hover span {
     transform: translate(3px, -3px);
   }

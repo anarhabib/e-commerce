@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Hero() {
   return (
@@ -18,12 +19,9 @@ export function Hero() {
           <br />
           Carbon fiber parts for the details that make it yours.
         </p>
-        <a className="button primary" href="#collection">
-          Explore the collection{" "}
-          <span>
-            <ArrowUpRight size={16} aria-hidden="true" />
-          </span>
-        </a>
+        <Button href="#collection" endIcon={<ArrowUpRight size={16} />}>
+          Explore the collection
+        </Button>
         <div className="hero-foot">
           <span>
             DESIGNED WITH INTENT.

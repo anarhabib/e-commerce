@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+import { Button } from "@/components/ui/button";
 import { useReveal } from "./use-reveal";
 
 import Link from "@/components/ui/navigation-link";
@@ -148,9 +149,9 @@ function ShopFilterForm({ facets, params, pending, apply }: FilterProps) {
         >
           Clear filters
         </Link>
-        <button className="button shop-submit" type="submit" disabled={pending}>
+        <Button className="shop-submit" type="submit" disabled={pending}>
           {pending ? "Searching…" : "Search"}
-        </button>
+        </Button>
       </div>
     </form>
   );

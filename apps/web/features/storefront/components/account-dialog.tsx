@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { useState, type FormEvent } from "react";
 import { customerAuthClient as auth } from "@/lib/customer-auth-client";
 import { LoadingBar } from "@/components/ui/loading-bar";
@@ -133,13 +134,14 @@ export function AccountDialog({ close }: { close: () => void }) {
         <div className="account-form">
           <p className="muted">{session.user.email}</p>
           {!session.user.emailVerified && (
-            <button
-              className="button secondary"
+            <Button
+              variant="secondary"
+              type="submit"
               onClick={sendCode}
               disabled={busy}
             >
               Verify email
-            </button>
+            </Button>
           )}
           {verify && (
             <form className="account-form" onSubmit={verifyCode}>
@@ -152,14 +154,14 @@ export function AccountDialog({ close }: { close: () => void }) {
                 required
                 maxLength={12}
               />
-              <button className="button primary" disabled={busy}>
+              <Button type="submit" disabled={busy}>
                 Confirm email
-              </button>
+              </Button>
             </form>
           )}
-          <button className="button primary" disabled={busy} onClick={signOut}>
+          <Button type="submit" disabled={busy} onClick={signOut}>
             Sign out
-          </button>
+          </Button>
         </div>
       ) : (
         <>
@@ -198,9 +200,9 @@ export function AccountDialog({ close }: { close: () => void }) {
               minLength={mode === "sign-up" ? 8 : 1}
               maxLength={128}
             />
-            <button className="button primary" disabled={busy || isPending}>
+            <Button type="submit" disabled={busy || isPending}>
               {mode === "sign-in" ? "Sign in" : "Create account"}
-            </button>
+            </Button>
           </form>
           <button
             className="account-switch"

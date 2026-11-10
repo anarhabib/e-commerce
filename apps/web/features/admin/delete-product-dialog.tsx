@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { useState } from "react";
 import { Dialog } from "@/features/storefront/components/dialog";
@@ -50,22 +51,22 @@ export function DeleteProductDialog({
       </p>
       {busy && <LoadingBar label="Deleting product" />}
       <div className="delete-product-actions">
-        <button
+        <Button
           type="button"
-          className="button secondary"
+          variant="secondary"
           disabled={busy}
           onClick={close}
         >
           Keep product
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          className="button primary"
+
           disabled={busy}
           onClick={remove}
         >
           {busy ? "Deleting…" : "Delete product"}
-        </button>
+        </Button>
       </div>
     </Dialog>
   );

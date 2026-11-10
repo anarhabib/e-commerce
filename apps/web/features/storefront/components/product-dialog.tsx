@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useId, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -157,15 +158,15 @@ export function ProductDialog({
               </>
             )}
           </div>
-          <button
-            className="button primary"
+          <Button
+            type="submit"
             id="add-bag"
             disabled={!product.isSample && product.stock < 1}
             onClick={() => add({ productId: product.id, pattern, finish })}
           >
             Add to bag{" "}
             <span>{money(product.priceCents, product.currency)}</span>
-          </button>
+          </Button>
         </div>
       </div>
     </Dialog>

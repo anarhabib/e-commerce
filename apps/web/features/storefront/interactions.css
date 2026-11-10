@@ -93,12 +93,26 @@
   background: var(--orange);
   color: white;
 }
-.carbignite .button:not(#add-bag) > span {
+.carbignite .button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.carbignite .button.primary:disabled:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+@media (prefers-reduced-motion: reduce) {
+  .carbignite .button .button-icon {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+.carbignite .button:not(#add-bag) > .button-icon {
   transition: transform var(--interaction-duration) var(--interaction-ease);
 }
 .carbignite
   .button:not(#add-bag):not(:disabled):is(:hover, :focus-visible)
-  > span {
+  > .button-icon {
   transform: translate(2px, -2px);
 }
 .carbignite

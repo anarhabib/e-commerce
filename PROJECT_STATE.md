@@ -1,5 +1,12 @@
 # Current implementation status
 
+## Shared branded buttons and direct Lucide icons — 10 November 2026
+
+- Replaced the unused legacy `components/ui/button.tsx` implementation with the existing branded primary/secondary styles. The shared Button supports native button props, navigation links, reliable native section/external anchors and optional `endIcon` content. Migrated matching filled storefront/admin actions, preserving native submit/button types and special Add-to-bag price/hover behavior.
+- Explore the collection, Shop all parts and Discuss a custom part share the same dedicated `.button-icon` container and hover/focus translation. Only icons animate; reduced motion keeps them static, and disabled primary buttons retain their base color. Placement-specific margins/widths stay with their sections.
+- Removed `features/admin/admin-arrow.tsx`; admin components import Lucide directly. Existing dialog/dropdown/loading/navigation components retain their useful behavior; no other newly introduced icon-only wrappers found.
+- Production build/TypeScript, lint, catalog-cache HTTP regression and diff checks passed. Local Edge checks confirm all three CTA styles/hover matrices match, reduced-motion/disabled states, link navigation and submit types. Read-only release checks pass at 375x640, 393x700 and 1440x900 for prior navbar/anchors/filter changes and storefront/four admin dialog close behavior. No customer records, products, orders or credentials changed. User authorized implementation and deployment; publication follows below.
+
 ## Approved UI polish and admin controls — 10 November 2026
 
 - User approved deployment of all pending storefront changes and requested the admin arrow/close fixes. This supersedes the earlier preview-only deployment hold.

@@ -1,5 +1,6 @@
 "use client";
-import { AdminArrow } from "./admin-arrow";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { useState, type FormEvent } from "react";
 import Link from "@/components/ui/navigation-link";
@@ -59,18 +60,17 @@ export function AdminLogin() {
           <p className="form-error" role="alert">
             {error}
           </p>
-          <button className="button primary" disabled={busy}>
-            {busy ? (
-              "Signing in…"
-            ) : (
-              <>
-                Sign in <AdminArrow />
-              </>
-            )}
-          </button>
+          <Button
+            type="submit"
+            disabled={busy}
+            endIcon={!busy && <ArrowUpRight size={16} />}
+          >
+            {busy ? "Signing in…" : <>Sign in </>}
+          </Button>
         </form>
         <Link className="back-link" href="/">
-          Return to storefront <AdminArrow />
+          Return to storefront{" "}
+          <ArrowUpRight className="admin-arrow" size={16} aria-hidden="true" />
         </Link>
       </section>
     </main>

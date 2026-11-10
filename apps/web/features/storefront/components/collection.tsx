@@ -1,5 +1,6 @@
 "use client";
 import Link from "@/components/ui/navigation-link";
+import { Button } from "@/components/ui/button";
 import { productImageStyle } from "@/features/products/utils";
 import { money, type StoreProduct } from "../types";
 import { ArrowUpRight, CarFront, Gauge } from "lucide-react";
@@ -58,9 +59,13 @@ export function Collection() {
           <div className="eyebrow">TWO COLLECTIONS / ONE MATERIAL</div>
           <h2>Every detail. Inside &amp; out.</h2>
         </div>
-        <Link className="button primary collection-shop-link" href="/shop">
-          Shop all parts <ArrowUpRight size={16} aria-hidden="true" />
-        </Link>
+        <Button
+          className="collection-shop-link"
+          href="/shop"
+          endIcon={<ArrowUpRight size={16} />}
+        >
+          Shop all parts
+        </Button>
       </div>
       <div className="collection-categories">
         <Link className="collection-category" href="/shop?collection=INTERIOR">

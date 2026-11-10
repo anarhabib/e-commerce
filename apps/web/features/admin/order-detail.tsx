@@ -1,5 +1,6 @@
 "use client";
-import { AdminArrow } from "./admin-arrow";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
@@ -103,15 +104,13 @@ export function OrderDetail({
             </option>
           ))}
         </Dropdown>
-        <button disabled={busy} className="button primary">
-          {busy ? (
-            "Saving…"
-          ) : (
-            <>
-              Update status <AdminArrow />
-            </>
-          )}
-        </button>
+        <Button
+          disabled={busy}
+          type="submit"
+          endIcon={!busy && <ArrowUpRight size={16} />}
+        >
+          {busy ? "Saving…" : <>Update status </>}
+        </Button>
       </form>
       <p className="form-error" role="alert">
         {error}

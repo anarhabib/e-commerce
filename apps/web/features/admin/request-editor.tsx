@@ -1,5 +1,6 @@
 "use client";
-import { AdminArrow } from "./admin-arrow";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
@@ -98,7 +99,8 @@ export function RequestEditor({
           <input name="sku" required />
         </label>
         <button className="text-button" disabled={busy}>
-          Find product <AdminArrow />
+          Find product{" "}
+          <ArrowUpRight className="admin-arrow" size={16} aria-hidden="true" />
         </button>
       </form>
       {product && (
@@ -162,15 +164,9 @@ export function RequestEditor({
               Build notes
               <textarea name="note" maxLength={2000} />
             </label>
-            <button className="button primary">
-              {busy ? (
-                "Saving…"
-              ) : (
-                <>
-                  Save request <AdminArrow />
-                </>
-              )}
-            </button>
+            <Button type="submit" endIcon={!busy && <ArrowUpRight size={16} />}>
+              {busy ? "Saving…" : <>Save request </>}
+            </Button>
           </fieldset>
         </form>
       )}
