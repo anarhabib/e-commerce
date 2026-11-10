@@ -7,10 +7,30 @@ try {
   );
   for (const row of rows) {
     const data = createProductSchema.parse(row);
+    if (!data.category || data.partTypeName)
+      throw new Error(
+        "Demo fixtures must reference their existing part type code",
+      );
+    const name = data.category
+      .toLowerCase()
+      .replaceAll("_", " ")
+      .replace(/^./, (value) => value.toUpperCase());
+    await prisma.partType.upsert({
+      where: { code: data.category },
+      update: {},
+      create: {
+        code: data.category,
+        name,
+        nameKey: name.toLowerCase(),
+        collection: data.collection,
+      },
+    });
+    const { partTypeName, ...fields } = data;
+    void partTypeName;
     await prisma.product.upsert({
       where: { sku: data.sku },
       update: {},
-      create: data,
+      create: { ...fields, category: data.category },
     });
   }
   console.log(

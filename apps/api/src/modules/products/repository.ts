@@ -1,11 +1,6 @@
 import { prisma } from "../../lib/prisma.js";
 import type { Prisma } from "../../generated/prisma/client.js";
-import type {
-  CreateProductInput,
-  UpdateProductInput,
-  ListProductsQuery,
-  FacetsQuery,
-} from "./schema.js";
+import type { ListProductsQuery, FacetsQuery } from "./schema.js";
 
 function vehicleWhere(q: FacetsQuery): Prisma.ProductWhereInput {
   const { make, model, year, search, collection } = q;
@@ -36,6 +31,7 @@ export const productRepository = {
     return prisma.$transaction([
       prisma.product.findMany({
         where,
+        include: { partType: { select: { name: true } } },
         orderBy:
           query.sort === "newest"
             ? [{ createdAt: "desc" }, { id: "asc" }]
@@ -53,7 +49,7 @@ export const productRepository = {
   },
 
   async getFacets(query: FacetsQuery) {
-    const [categories, vehicles, makes] = await Promise.all([
+    const [categories, vehicles, makes, partTypes] = await Promise.all([
       prisma.product.groupBy({
         by: ["category"],
         where: vehicleWhere(query),
@@ -77,12 +73,16 @@ export const productRepository = {
         distinct: ["make"],
         orderBy: { make: "asc" },
       }),
+      prisma.partType.findMany({ select: { code: true, name: true } }),
     ]);
 
     return {
       makes: makes.flatMap((v) => (v.make ? [v.make] : [])),
       categories: categories.map((c) => ({
         value: c.category,
+        label:
+          partTypes.find((type) => type.code === c.category)?.name ??
+          c.category,
         count: c._count._all,
       })),
       vehicles: vehicles.flatMap((v) =>
@@ -106,13 +106,5 @@ export const productRepository = {
 
   deleteById(id: string) {
     return prisma.product.delete({ where: { id } });
-  },
-
-  create(data: CreateProductInput) {
-    return prisma.product.create({ data });
-  },
-
-  update(id: string, data: UpdateProductInput) {
-    return prisma.product.update({ where: { id }, data });
   },
 };

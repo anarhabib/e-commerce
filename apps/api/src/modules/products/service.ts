@@ -1,5 +1,69 @@
 import { productRepository } from "./repository.js";
 import { NotFoundError } from "../../lib/errors.js";
+import { prisma } from "../../lib/prisma.js";
+import { randomUUID } from "node:crypto";
+import type { Prisma } from "../../generated/prisma/client.js";
+
+async function saveWithPartType<T>(
+  save: (tx: Prisma.TransactionClient) => Promise<T>,
+): Promise<T> {
+  try {
+    return await prisma.$transaction(save);
+  } catch (error) {
+    const conflict = error as {
+      code?: string;
+      meta?: { modelName?: string; target?: unknown };
+    };
+    // A concurrent product save may have just created the same normalized type.
+    // Retry the complete rolled-back transaction so it can reuse that type.
+    if (
+      conflict.code === "P2002" &&
+      (conflict.meta?.modelName === "PartType" ||
+        String(conflict.meta?.target).includes("nameKey"))
+    )
+      return prisma.$transaction(save);
+    throw error;
+  }
+}
+
+async function resolvePartType(
+  tx: Prisma.TransactionClient,
+  category: string | undefined,
+  collection: "INTERIOR" | "EXTERIOR",
+  name?: string,
+) {
+  if (name) {
+    const nameKey = name.toLowerCase();
+    const prefix =
+      name
+        .normalize("NFKD")
+        .replace(/[^a-zA-Z0-9]+/g, "_")
+        .replace(/^_|_$/g, "")
+        .toUpperCase() || "PART";
+    const type = await tx.partType.upsert({
+      where: { collection_nameKey: { collection, nameKey } },
+      update: {},
+      create: {
+        code: `${prefix.slice(0, 80)}_${randomUUID().slice(0, 8).toUpperCase()}`,
+        name,
+        nameKey,
+        collection,
+      },
+    });
+    return type.code;
+  }
+  const type = category
+    ? await tx.partType.findUnique({ where: { code: category } })
+    : null;
+  if (!type || type.collection !== collection)
+    throw Object.assign(
+      new Error(
+        "Choose a part type in the selected collection or enter a new name",
+      ),
+      { statusCode: 400 },
+    );
+  return type.code;
+}
 import {
   fitmentRangeSchema,
   type CreateProductInput,
@@ -38,10 +102,22 @@ export const productService = {
 
   async createProduct(data: CreateProductInput) {
     const imageUrls = data.imageUrls ?? (data.imageUrl ? [data.imageUrl] : []);
-    return await productRepository.create({
-      ...data,
-      imageUrls,
-      imageUrl: imageUrls[0] ?? null,
+    const { partTypeName, ...fields } = data;
+    return saveWithPartType(async (tx) => {
+      const category = await resolvePartType(
+        tx,
+        data.category,
+        data.collection,
+        partTypeName,
+      );
+      return tx.product.create({
+        data: {
+          ...fields,
+          category,
+          imageUrls,
+          imageUrl: imageUrls[0] ?? null,
+        },
+      });
     });
   },
 
@@ -55,11 +131,24 @@ export const productService = {
           ? [data.imageUrl]
           : []
         : undefined);
-    return await productRepository.update(id, {
-      ...data,
-      ...(gallery !== undefined
-        ? { imageUrls: gallery, imageUrl: gallery[0] ?? null }
-        : {}),
+    const { partTypeName, ...fields } = data;
+    return saveWithPartType(async (tx) => {
+      const category = await resolvePartType(
+        tx,
+        data.category ?? existing.category,
+        data.collection ?? existing.collection,
+        partTypeName,
+      );
+      return tx.product.update({
+        where: { id },
+        data: {
+          ...fields,
+          category,
+          ...(gallery !== undefined
+            ? { imageUrls: gallery, imageUrl: gallery[0] ?? null }
+            : {}),
+        },
+      });
     });
   },
 };

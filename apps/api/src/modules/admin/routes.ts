@@ -44,6 +44,12 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
         reply.header("Cache-Control", "no-store");
       });
       admin.get("/session", async () => ({ email: process.env.ADMIN_EMAIL }));
+      admin.get("/part-types", async () => ({
+        partTypes: await prisma.partType.findMany({
+          orderBy: [{ collection: "asc" }, { name: "asc" }],
+          select: { code: true, name: true, collection: true },
+        }),
+      }));
       admin.post("/live-orders", async () => sealOwnerOrderSummary());
       admin.get("/overview", async () => {
         const [orders, pending, products, recent] = await prisma.$transaction([
@@ -74,6 +80,7 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
           : {};
         const [products, total] = await prisma.$transaction([
           prisma.product.findMany({
+            include: { partType: { select: { name: true } } },
             where,
             orderBy: [{ createdAt: "desc" }, { id: "asc" }],
             skip: (q.page - 1) * q.limit,

@@ -41,20 +41,48 @@ test("collections default to Interior and reject unknown values", () => {
   );
 });
 
-test("carbon categories are accepted and lighting categories rejected", () => {
-  for (const category of ["PADDLES", "CONSOLE", "TRIM"]) {
+test("dynamic part type codes are accepted and malformed codes rejected", () => {
+  for (const category of [
+    "PADDLES",
+    "CONSOLE",
+    "TRIM",
+    "MIRROR_COVERS_AB123456",
+  ]) {
     assert.equal(
       createProductSchema.parse({ ...product, category }).category,
       category,
     );
   }
   assert.equal(
-    createProductSchema.safeParse({ ...product, category: "HEADLIGHT" })
+    createProductSchema.safeParse({ ...product, category: "invalid code!" })
       .success,
     false,
   );
   assert.equal(
-    listProductsQuerySchema.safeParse({ category: "TAILLIGHT" }).success,
+    listProductsQuerySchema.safeParse({ category: "invalid code!" }).success,
+    false,
+  );
+});
+
+test("new part type names are normalized and mutually exclusive with existing codes", () => {
+  assert.equal(
+    createProductSchema.parse({
+      ...product,
+      partTypeName: "  Mirror   covers  ",
+    }).partTypeName,
+    "Mirror covers",
+  );
+  assert.equal(createProductSchema.safeParse(product).success, false);
+  assert.equal(
+    createProductSchema.safeParse({
+      ...product,
+      category: "TRIM",
+      partTypeName: "Other",
+    }).success,
+    false,
+  );
+  assert.equal(
+    createProductSchema.safeParse({ ...product, partTypeName: "   " }).success,
     false,
   );
 });

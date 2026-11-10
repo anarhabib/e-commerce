@@ -15,7 +15,7 @@ async function handle(
   const target = path.join("/");
   const headers = { "Cache-Control": "no-store" };
   if (
-    !/^(login|logout|session|overview|images|live-orders|products(?:\/[^/]+)?|orders(?:\/[^/]+)?)$/.test(
+    !/^(login|logout|session|overview|images|live-orders|part-types|products(?:\/[^/]+)?|orders(?:\/[^/]+)?)$/.test(
       target,
     )
   )

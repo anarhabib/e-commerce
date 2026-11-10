@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Dialog } from "@/features/storefront/components/dialog";
 import { adminApi } from "./api";
-import type { AdminProduct } from "./types";
+import type { AdminProduct, PartType } from "./types";
 import { ProductGallery } from "./product-gallery";
 
 export function ProductEditor({
@@ -22,6 +22,43 @@ export function ProductEditor({
 }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [partTypes, setPartTypes] = useState<PartType[]>([]);
+  const [typesLoading, setTypesLoading] = useState(true);
+  const [typesLoaded, setTypesLoaded] = useState(false);
+  const [collection, setCollection] = useState<PartType["collection"]>(
+    product?.collection ?? "INTERIOR",
+  );
+  const [category, setCategory] = useState(product?.category ?? "");
+  const [newTypeName, setNewTypeName] = useState("");
+  useEffect(() => {
+    let active = true;
+    adminApi<{ partTypes: PartType[] }>("part-types")
+      .then((data) => {
+        if (!active) return;
+        setPartTypes(data.partTypes);
+        setTypesLoaded(true);
+        setCategory(
+          (current) =>
+            current ||
+            data.partTypes.find(
+              (type) => type.collection === (product?.collection ?? "INTERIOR"),
+            )?.code ||
+            "__NEW__",
+        );
+      })
+      .catch((error) => {
+        if (active) setError(error.message);
+      })
+      .finally(() => {
+        if (active) setTypesLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [product?.collection]);
+  const availableTypes = partTypes.filter(
+    (type) => type.collection === collection,
+  );
   const [images, setImages] = useState<string[]>(
     product?.imageUrls?.length
       ? product.imageUrls
@@ -47,7 +84,9 @@ export function ProductEditor({
       sku: text("sku"),
       slug: text("slug"),
       description: text("description"),
-      category: text("category"),
+      ...(category === "__NEW__"
+        ? { partTypeName: newTypeName.trim() }
+        : { category }),
       collection: text("collection"),
       price: text("price"),
       stock: number("stock"),
@@ -99,7 +138,7 @@ export function ProductEditor({
       )}
       {busy && <LoadingBar label="Saving product" />}
       <form onSubmit={submit} aria-busy={busy}>
-        <fieldset disabled={busy || uploading}>
+        <fieldset disabled={busy || uploading || typesLoading}>
           <label>
             Product name
             <input
@@ -162,19 +201,51 @@ export function ProductEditor({
               <Dropdown
                 name="category"
                 aria-label="Product category"
-                defaultValue={product?.category || "PADDLES"}
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
               >
-                <option value="PADDLES">Paddles</option>
-                <option value="CONSOLE">Console</option>
-                <option value="TRIM">Trim</option>
+                <option value="">Choose a part type</option>
+                {availableTypes.map((type) => (
+                  <option key={type.code} value={type.code}>
+                    {type.name}
+                  </option>
+                ))}
+                <option value="__NEW__">+ Add a new part type</option>
               </Dropdown>
+              {category === "__NEW__" && (
+                <span className="part-type-hint">
+                  Enter the new name below. Saving this product adds it to this
+                  collection’s dropdown.
+                </span>
+              )}
             </label>
+            {category === "__NEW__" && (
+              <label>
+                New part type name
+                <input
+                  name="partTypeName"
+                  value={newTypeName}
+                  onChange={(event) => setNewTypeName(event.target.value)}
+                  required
+                  maxLength={80}
+                  placeholder="e.g. Mirror covers"
+                />
+              </label>
+            )}
             <label>
               Collection
               <Dropdown
                 name="collection"
                 aria-label="Product collection"
-                defaultValue={product?.collection ?? "INTERIOR"}
+                value={collection}
+                onChange={(event) => {
+                  const next = event.target.value as PartType["collection"];
+                  setCollection(next);
+                  setCategory(
+                    partTypes.find((type) => type.collection === next)?.code ??
+                      "__NEW__",
+                  );
+                }}
               >
                 <option value="INTERIOR">Interior</option>
                 <option value="EXTERIOR">Exterior</option>
@@ -300,7 +371,15 @@ export function ProductEditor({
           <p className="form-error" role="alert">
             {error}
           </p>
-          <Button type="submit" endIcon={!busy && <ArrowUpRight size={16} />}>
+          <Button
+            type="submit"
+            disabled={
+              !typesLoaded ||
+              !category ||
+              (category === "__NEW__" && !newTypeName.trim())
+            }
+            endIcon={!busy && <ArrowUpRight size={16} />}
+          >
             {busy ? "Saving…" : "Save product"}
           </Button>
         </fieldset>

@@ -9,6 +9,7 @@ import { formatCategory } from "../utils";
 type Props = {
   total: number;
   children: ReactNode;
+  categoryLabels?: Record<string, string>;
 };
 
 const chipClass =
@@ -19,7 +20,7 @@ export function useCloseMobileFilters() {
   return useContext(CloseFiltersContext);
 }
 
-export function MobileFilters({ total, children }: Props) {
+export function MobileFilters({ total, children, categoryLabels = {} }: Props) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -127,9 +128,9 @@ export function MobileFilters({ total, children }: Props) {
                   type="button"
                   onClick={() => removeParams(["category"], category)}
                   className={chipClass}
-                  aria-label={`Remove ${formatCategory(category)}`}
+                  aria-label={`Remove ${categoryLabels[category] ?? formatCategory(category)}`}
                 >
-                  {formatCategory(category)}
+                  {categoryLabels[category] ?? formatCategory(category)}
                   <X className="h-3.5 w-3.5" />
                 </button>
               </li>

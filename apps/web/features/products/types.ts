@@ -1,4 +1,4 @@
-export type ProductCategory = "PADDLES" | "CONSOLE" | "TRIM";
+export type ProductCategory = string;
 
 export type Product = {
   id: string;
@@ -7,6 +7,7 @@ export type Product = {
   description: string;
   sku: string;
   category: ProductCategory;
+  partType?: { name: string };
   collection: "INTERIOR" | "EXTERIOR";
   priceCents: number;
   imageUrl: string | null;
@@ -30,7 +31,7 @@ export type VehicleOption = {
   yearTo: number | null;
 };
 
-export type FacetOptions = { value: string; count: number };
+export type FacetOptions = { value: string; count: number; label?: string };
 export type ProductFacets = {
   makes: string[];
   categories: FacetOptions[];

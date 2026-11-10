@@ -16,12 +16,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum ProductCategory {
-  PADDLES
-  CONSOLE
-  TRIM
-}
-
 enum ProductCollection {
   INTERIOR
   EXTERIOR
@@ -44,7 +38,8 @@ model Product {
   slug        String          @unique
   description String
   sku         String          @unique
-  category    ProductCategory
+  category    String
+  partType    PartType @relation(fields: [category, collection], references: [code, collection], onDelete: Restrict, onUpdate: Cascade)
   collection  ProductCollection @default(INTERIOR)
   priceCents  Int
   imageUrl    String?
@@ -64,6 +59,17 @@ model Product {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model PartType {
+  code       String @id
+  name       String
+  nameKey    String
+  collection ProductCollection
+  products   Product[]
+
+  @@unique([code, collection])
+  @@unique([collection, nameKey])
 }
 
 enum RequestStatus {

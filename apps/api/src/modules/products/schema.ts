@@ -1,6 +1,11 @@
 import { z } from "zod";
 
-export const productCategories = ["PADDLES", "CONSOLE", "TRIM"] as const;
+export const partTypeCodeSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .max(100)
+  .regex(/^[A-Z0-9_-]+$/);
 export const productCollections = ["INTERIOR", "EXTERIOR"] as const;
 export const imageUrlSchema = z
   .string()
@@ -36,7 +41,13 @@ const productFields = {
     ),
   description: z.string().trim().min(1),
   sku: z.string().trim().min(1).max(50),
-  category: z.enum(productCategories),
+  category: partTypeCodeSchema,
+  partTypeName: z
+    .string()
+    .trim()
+    .min(1)
+    .max(80)
+    .transform((value) => value.normalize("NFKC").replace(/\s+/g, " ")),
   collection: z.enum(productCollections),
   priceCents: z.number().int().positive().max(10000000),
   stock: z.number().int().min(0).max(2147483647),
@@ -89,7 +100,8 @@ export const createProductSchema = z
     slug: productFields.slug,
     description: productFields.description,
     sku: productFields.sku,
-    category: productFields.category,
+    category: productFields.category.optional(),
+    partTypeName: productFields.partTypeName.optional(),
     collection: productFields.collection.default("INTERIOR"),
     priceCents: productFields.priceCents,
     stock: productFields.stock.default(0),
@@ -106,11 +118,19 @@ export const createProductSchema = z
     yearFrom: productFields.yearFrom.optional(),
     yearTo: productFields.yearTo.optional(),
   })
-  .refine(validYearRange, yearRangeError);
+  .refine(validYearRange, yearRangeError)
+  .refine((data) => Boolean(data.category) !== Boolean(data.partTypeName), {
+    message: "Choose an existing part type or enter a new name",
+    path: ["category"],
+  });
 
 export const updateProductSchema = z
   .strictObject(productFields)
   .partial()
+  .refine((data) => !(data.category && data.partTypeName), {
+    message: "Choose an existing type or enter a new name, not both",
+    path: ["category"],
+  })
   .refine(validYearRange, yearRangeError)
   .refine((data) => Object.keys(data).length > 0, {
     message: "Send at least one field to update",
@@ -120,10 +140,7 @@ const toArray = (value: unknown) =>
   value === undefined ? undefined : Array.isArray(value) ? value : [value];
 export const listProductsQuerySchema = z.object({
   collection: z.enum(productCollections).optional(),
-  category: z.preprocess(
-    toArray,
-    z.array(z.enum(productCategories)).optional(),
-  ),
+  category: z.preprocess(toArray, z.array(partTypeCodeSchema).optional()),
   make: z.string().trim().min(1).optional(),
   model: z.string().trim().min(1).optional(),
   year: z.coerce.number().int().min(1900).max(2100).optional(),

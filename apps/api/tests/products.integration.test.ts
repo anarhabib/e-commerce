@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import test from "node:test";
 import { buildApp } from "../src/app.js";
 import { hashPassword, signIn } from "../src/modules/admin/auth.js";
+import { prisma } from "../src/lib/prisma.js";
 
 test("local carbon API: writes, vehicle/category filters, facets and PATCH validation", async () => {
   process.env.ADMIN_EMAIL = "integration@example.com";
@@ -14,6 +15,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
   const app = buildApp();
   app.log.level = "silent";
   const ids: string[] = [];
+  const typeCodes: string[] = [];
   const suffix = randomUUID();
   const make = `Integration-${suffix}`;
   const base = {
@@ -38,7 +40,9 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
         url: "/products",
         payload: {
           ...base,
-          category,
+          ...(category === "PADDLES"
+            ? { category }
+            : { partTypeName: `Integration trim ${suffix}` }),
           collection: category === "PADDLES" ? "INTERIOR" : "EXTERIOR",
           sku: `${category}-${suffix}`,
           slug: `${category.toLowerCase()}-${suffix}`,
@@ -46,6 +50,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
       });
       assert.equal(response.statusCode, 201, response.body);
       ids.push(response.json().id);
+      typeCodes.push(response.json().category);
     }
     const stored = await app.inject({
       method: "GET",
@@ -74,7 +79,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
       assert.equal(facets.json().categories.length, 1);
       assert.equal(
         facets.json().categories[0].value,
-        collection === "INTERIOR" ? "PADDLES" : "TRIM",
+        collection === "INTERIOR" ? typeCodes[0] : typeCodes[1],
       );
     }
     const query = new URLSearchParams({
@@ -146,7 +151,7 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
         .json()
         .categories.map((item: { value: string }) => item.value)
         .sort(),
-      ["PADDLES", "TRIM"],
+      [...typeCodes].sort(),
     );
     assert.ok(
       facets
@@ -189,7 +194,8 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
       method: "GET",
       url: "/products?category=HEADLIGHT",
     });
-    assert.equal(oldCategory.statusCode, 400);
+    assert.equal(oldCategory.statusCode, 200);
+    assert.equal(oldCategory.json().total, 0);
     const invalidYear = await app.inject({
       method: "GET",
       url: "/products?year=2200",
@@ -209,6 +215,8 @@ test("local carbon API: writes, vehicle/category filters, facets and PATCH valid
       });
       assert.equal(deleted.statusCode, 204, deleted.body);
     }
+    if (typeCodes[1])
+      await prisma.partType.deleteMany({ where: { code: typeCodes[1] } });
     await app.close();
   }
 });

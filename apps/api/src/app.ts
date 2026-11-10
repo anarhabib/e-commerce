@@ -41,6 +41,14 @@ export function buildApp() {
         .status(409)
         .send({ error: "A product with this SKU or slug already exists" });
     }
+    if ((error as { code?: string }).code === "P2003") {
+      return reply
+        .status(409)
+        .send({
+          error:
+            "The selected part type is in use or does not match the product collection. Refresh and try again.",
+        });
+    }
     const httpError = error as { statusCode?: number; message?: string };
     if (
       httpError.statusCode &&

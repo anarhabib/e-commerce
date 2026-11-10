@@ -491,3 +491,10 @@
   vertical-align: middle;
   flex-shrink: 0;
 }
+.carbignite .part-type-hint {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 8px;
+}

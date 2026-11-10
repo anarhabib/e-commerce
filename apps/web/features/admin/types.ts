@@ -1,5 +1,10 @@
 import type { Product } from "@/features/products/types";
 export type AdminProduct = Product & { active: boolean };
+export type PartType = {
+  code: string;
+  name: string;
+  collection: "INTERIOR" | "EXTERIOR";
+};
 export const statuses = [
   "requested",
   "in_review",
@@ -37,7 +42,12 @@ export type Order = {
     unitCents: number;
   }[];
 };
-export type Page<T> = { total: number; page: number; limit?: number; totalPages: number } & T;
+export type Page<T> = {
+  total: number;
+  page: number;
+  limit?: number;
+  totalPages: number;
+} & T;
 export type Overview = {
   orders: number;
   pending: number;

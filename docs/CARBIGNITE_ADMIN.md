@@ -117,3 +117,12 @@ Each product row now includes **Edit**, **Duplicate** and **Delete**. Delete ope
 Duplicate opens a prefilled editor and saves nothing until you choose Save product. The copy has a new SKU/slug, a name ending in “(copy)”, zero stock and hidden visibility. Review those values and set real stock/visibility before publishing it. Description, pricing, compatibility, options and gallery are copied; image uploads are shared, not uploaded again. Saving uses the normal validated POST endpoint, so the original record is not modified.
 
 The frontend sends Delete through the same owner-session and same-origin checks as other admin mutations. Fastify independently checks authorization. A successful deletion returns HTTP 204, meaning there is no JSON body to parse. Database and real Next HTTP tests cover authorization, deletion, preserved request snapshots, duplicate creation and proper empty-response forwarding. No schema migration is needed for either action.
+# Creating a part type while editing a product
+
+In Products → Add/Edit, choose Interior or Exterior, then select an existing
+Part type or “+ Add a new part type.” Enter its name and save the product.
+Saving creates the type automatically in that collection and makes it available
+in future product dropdowns. Matching names reuse the existing type regardless
+of case or extra spaces. Cancelling, or a failed product save, creates no type.
+Shop filters show type names from active products. There is no separate Part
+types management section.

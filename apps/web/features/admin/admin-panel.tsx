@@ -429,7 +429,8 @@ export function AdminPanel() {
                                     <span>
                                       {p.name}
                                       <small>
-                                        {p.category} · {p.sku}
+                                        {p.partType?.name ?? p.category} ·{" "}
+                                        {p.sku}
                                         {p.isSample ? " · Demo" : ""}
                                       </small>
                                     </span>

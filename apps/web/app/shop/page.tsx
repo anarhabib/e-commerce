@@ -25,7 +25,7 @@ export default async function ShopPage({
   const year = Number(first("year"));
   if (first("year") && Number.isInteger(year) && year >= 1900 && year <= 2100)
     params.year = String(year);
-  if (["PADDLES", "CONSOLE", "TRIM"].includes(first("category")))
+  if (/^[A-Z0-9_-]{1,100}$/.test(first("category")))
     params.category = first("category");
   params.sort = ["price-asc", "price-desc"].includes(first("sort"))
     ? first("sort")

@@ -115,9 +115,9 @@ function ShopFilterForm({ facets, params, pending, apply }: FilterProps) {
             onChange={(event) => setCategory(event.target.value)}
           >
             <option value="">All categories</option>
-            {facets.categories.map(({ value }) => (
+            {facets.categories.map(({ value, label }) => (
               <option key={value} value={value}>
-                {formatCategory(value)}
+                {label ?? formatCategory(value)}
               </option>
             ))}
           </Dropdown>
@@ -204,7 +204,15 @@ export function ShopCatalog({
         />
       </div>
       <div className="shop-mobile-controls">
-        <MobileFilters total={list.total}>
+        <MobileFilters
+          total={list.total}
+          categoryLabels={Object.fromEntries(
+            facets.categories.map((type) => [
+              type.value,
+              type.label ?? formatCategory(type.value),
+            ]),
+          )}
+        >
           <ShopFilterForm
             facets={facets}
             params={params}
