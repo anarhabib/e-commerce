@@ -1,5 +1,11 @@
 # Current implementation status
 
+## Shared dialogs, demo checkout and consistent feedback live — 10 November 2026
+
+- Final app commit `f1f1496b49dfcc6790c90abc7b43fe6b8c0f15d0` (includes demo checkout `8a64a30`) is live on the existing Render site as deployment `dep-dbp70cdbedkc73fscf60`; source pushed to `main` and `deploy/neon-render-frontend`.
+- Public verification passes matching desktop hover/mobile active styles and reduced motion. Browser modal/checkout checks pass at 375x640, 393x700 and 1440x900, including filters apply/close, shared close visibility/tap area, bag persistence/subtotal, empty states, required fields, unchanged bag after demo confirmation and zero demo write requests. Transition checks wait for colors to settle before comparing. Physical Safari touch feedback remains for the user's device check.
+- Every application modal now uses the single shared Dialog; mobile bottom Close is the default and stays reachable during scrolling, desktop retains top-right X. `/checkout` is explicitly a browser-only demo: no payment/order/email or saved contact details. No backend/schema/auth changes. Temporary scripts/server cleaned up.
+
 ## Consistent desktop hover and mobile press — 10 November 2026
 
 - Unified author-defined hover and active feedback in storefront reference/interaction/integration styles and admin overrides. Pointer hover, keyboard focus and touch press now share collection title/underline/frame colors and arrow movement; shared buttons and navigation/admin actions expose their hover feedback on press too. Added a root touch-start hook so mobile Safari enables native active feedback. Reduced-motion and disabled-state exceptions retained.
