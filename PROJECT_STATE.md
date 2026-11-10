@@ -1,5 +1,10 @@
 # Current implementation status
 
+## Collection cover photos — 10 November 2026
+
+- Replaced Interior/Exterior placeholder icons with the user's supplied photos in `features/storefront/components/collection.tsx`, using Next Image and local `public/carbignite/collection-interior.jpg` / `collection-exterior.jpg`. Shared 4:3 frames use contain to keep the full artwork visible at desktop/mobile sizes; retained existing link interactions. No generated image assets.
+- Production part-type migration is applied (8 migrations current); preservation fingerprint confirms all 6 current production products unchanged. Neon Function deployment 6 is completed and owner-only type feed returns successfully. Source implementation commit `a48c9f7`; frontend rollout follows with cover photos.
+
 ## Inline automatic product part types — 10 November 2026
 
 - User simplified the request: no Part types admin section or separate type CRUD. Product editor now offers existing types by Interior/Exterior collection and “+ Add a new part type” with an inline name field. Saving creates/reuses that type in the same transaction as the product; cancelling or failed saves leave no new records. Normalized names deduplicate per collection, including concurrent saves (whole-transaction retry for type uniqueness conflicts).

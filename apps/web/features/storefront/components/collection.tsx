@@ -3,7 +3,8 @@ import Link from "@/components/ui/navigation-link";
 import { Button } from "@/components/ui/button";
 import { productImageStyle } from "@/features/products/utils";
 import { money, type StoreProduct } from "../types";
-import { ArrowUpRight, CarFront, Gauge } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 export function ProductCard({
   product,
@@ -70,8 +71,12 @@ export function Collection() {
       <div className="collection-categories">
         <Link className="collection-category" href="/shop?collection=INTERIOR">
           <div className="collection-category-art" aria-hidden="true">
-            <Gauge strokeWidth={0.7} />
-            <span>01 / THE CABIN</span>
+            <Image
+              src="/carbignite/collection-interior.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 700px) 100vw, 50vw"
+            />
           </div>
           <div className="collection-category-copy">
             <div>
@@ -84,8 +89,12 @@ export function Collection() {
         </Link>
         <Link className="collection-category" href="/shop?collection=EXTERIOR">
           <div className="collection-category-art" aria-hidden="true">
-            <CarFront strokeWidth={0.7} />
-            <span>02 / THE SILHOUETTE</span>
+            <Image
+              src="/carbignite/collection-exterior.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 700px) 100vw, 50vw"
+            />
           </div>
           <div className="collection-category-copy">
             <div>
