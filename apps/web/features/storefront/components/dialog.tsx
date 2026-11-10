@@ -40,7 +40,10 @@ export function Dialog({
       id={id}
       aria-label={title}
       tabIndex={-1}
-      onCancel={onClose}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
       onClick={(event) => {
         if (event.target !== event.currentTarget) return;
         const box = event.currentTarget.getBoundingClientRect();

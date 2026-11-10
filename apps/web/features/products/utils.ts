@@ -16,7 +16,7 @@ export function productImageStyle(
     backgroundImage: product.imageUrl
       ? `url(${JSON.stringify(product.imageUrl)})`
       : "none",
-    backgroundSize: sheetCrop ? "200% 200%" : "contain",
+    backgroundSize: sheetCrop ? "200% 200%" : "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: sheetCrop ? positions[product.photoIndex!] : "center",
   };

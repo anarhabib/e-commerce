@@ -46,8 +46,8 @@ export const adminRoutes: FastifyPluginAsync = async (app) => {
       admin.get("/session", async () => ({ email: process.env.ADMIN_EMAIL }));
       admin.get("/part-types", async () => ({
         partTypes: await prisma.partType.findMany({
-          orderBy: [{ collection: "asc" }, { name: "asc" }],
-          select: { code: true, name: true, collection: true },
+          orderBy: { name: "asc" },
+          select: { code: true, name: true },
         }),
       }));
       admin.post("/live-orders", async () => sealOwnerOrderSummary());

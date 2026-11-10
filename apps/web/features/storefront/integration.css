@@ -280,11 +280,11 @@
     .detail-grid
     .product-gallery-viewer
     .detail-image {
-    width: min(100%, 24dvh, 190px);
-    margin-inline: auto;
+    width: 100%;
+    aspect-ratio: 1;
   }
   .carbignite #product-dialog .product-gallery-viewer {
-    background: #e8e7e2;
+    background: transparent;
   }
   .carbignite #product-dialog .detail-copy h2 {
     font-size: 23px;
@@ -330,6 +330,48 @@
 }
 .carbignite .product-gallery-viewer {
   min-width: 0;
+}
+.carbignite #product-dialog .detail-image {
+  display: block;
+  padding: 0;
+  border: 0;
+  cursor: zoom-in;
+}
+.carbignite .product-image-zoom {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+}
+.carbignite .product-enlarged-view {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+}
+.carbignite .product-image-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  min-height: 44px;
+}
+.carbignite .product-enlarged-photo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 200px);
+  object-fit: contain;
+}
+.carbignite .product-enlarged-sheet {
+  width: min(100%, 65dvh);
+  aspect-ratio: 1;
 }
 @layer components {
   /* React/Next integration only. Visual authority: style.css, then interactions.css. */

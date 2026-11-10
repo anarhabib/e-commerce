@@ -1,5 +1,11 @@
 # Current implementation status
 
+## Unique shared types and product image enlargement — 10 November 2026
+
+- User requested removing repeated names and rejecting new names already in the DB. PartType is now global (no collection column); migration `20261110030000_shared_unique_part_types` merges normalized names, rewires product category assignments, and replaces the composite FK with category-only FK. Product collection remains unchanged. Tested on Neon branch `br-long-cell-be28m1ca`: 6 types become 4, all 6 product fingerprints preserved (excluding the intentional category rewiring). API rejects existing normalized names with 409; type uniqueness conflicts from concurrent saves retry into that friendly error. Editor checks duplicates immediately and disables save. No separate types section.
+- Shop card frames are square and use cover for single-image previews, removing contain letterboxing. Mobile detail image fills its frame instead of being limited to a small centered square on a contrasting strip. Product detail image is a zoom button; enlarged mode in the same shared Dialog shows the full photo with Back to product, preserving parent variant/gallery state. Escape returns to details, then closes; shared Dialog now prevents the native cancel default to support this behavior. Legacy demo sheet crops remain supported.
+- Tests: API build, unit tests, products/part-type DB integrations, web lint and production Webpack build pass. Isolated browser checks at 375/1440px pass square previews, enlargement/Back/Escape, unique dropdown and client duplicate guard with no writes. Enlarged mobile screenshot reviewed. Production rollout follows.
+
 ## Collection cover photos — 10 November 2026
 
 - Replaced Interior/Exterior placeholder icons with the user's supplied photos in `features/storefront/components/collection.tsx`, using Next Image and local `public/carbignite/collection-interior.jpg` / `collection-exterior.jpg`. Shared 4:3 frames use contain to keep the full artwork visible at desktop/mobile sizes; retained existing link interactions. No generated image assets.

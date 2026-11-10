@@ -25,7 +25,7 @@ export function ProductEditor({
   const [partTypes, setPartTypes] = useState<PartType[]>([]);
   const [typesLoading, setTypesLoading] = useState(true);
   const [typesLoaded, setTypesLoaded] = useState(false);
-  const [collection, setCollection] = useState<PartType["collection"]>(
+  const [collection, setCollection] = useState<"INTERIOR" | "EXTERIOR">(
     product?.collection ?? "INTERIOR",
   );
   const [category, setCategory] = useState(product?.category ?? "");
@@ -38,12 +38,7 @@ export function ProductEditor({
         setPartTypes(data.partTypes);
         setTypesLoaded(true);
         setCategory(
-          (current) =>
-            current ||
-            data.partTypes.find(
-              (type) => type.collection === (product?.collection ?? "INTERIOR"),
-            )?.code ||
-            "__NEW__",
+          (current) => current || data.partTypes[0]?.code || "__NEW__",
         );
       })
       .catch((error) => {
@@ -56,8 +51,11 @@ export function ProductEditor({
       active = false;
     };
   }, [product?.collection]);
-  const availableTypes = partTypes.filter(
-    (type) => type.collection === collection,
+  const availableTypes = partTypes;
+  const duplicateType = partTypes.find(
+    (type) =>
+      type.name.normalize("NFKC").trim().replace(/\s+/g, " ").toLowerCase() ===
+      newTypeName.normalize("NFKC").trim().replace(/\s+/g, " ").toLowerCase(),
   );
   const [images, setImages] = useState<string[]>(
     product?.imageUrls?.length
@@ -74,6 +72,12 @@ export function ProductEditor({
   const [uploading, setUploading] = useState(false);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (category === "__NEW__" && duplicateType) {
+      setError(
+        "This part type already exists. Select it from the Part type dropdown.",
+      );
+      return;
+    }
     setBusy(true);
     setError("");
     const data = new FormData(event.currentTarget);
@@ -215,7 +219,7 @@ export function ProductEditor({
               {category === "__NEW__" && (
                 <span className="part-type-hint">
                   Enter the new name below. Saving this product adds it to this
-                  collection’s dropdown.
+                  shared part-type dropdown.
                 </span>
               )}
             </label>
@@ -229,7 +233,14 @@ export function ProductEditor({
                   required
                   maxLength={80}
                   placeholder="e.g. Mirror covers"
+                  aria-invalid={Boolean(duplicateType)}
                 />
+                {duplicateType && (
+                  <small role="alert">
+                    “{duplicateType.name}” already exists. Select it from Part
+                    type.
+                  </small>
+                )}
               </label>
             )}
             <label>
@@ -239,12 +250,8 @@ export function ProductEditor({
                 aria-label="Product collection"
                 value={collection}
                 onChange={(event) => {
-                  const next = event.target.value as PartType["collection"];
+                  const next = event.target.value as "INTERIOR" | "EXTERIOR";
                   setCollection(next);
-                  setCategory(
-                    partTypes.find((type) => type.collection === next)?.code ??
-                      "__NEW__",
-                  );
                 }}
               >
                 <option value="INTERIOR">Interior</option>
@@ -376,7 +383,8 @@ export function ProductEditor({
             disabled={
               !typesLoaded ||
               !category ||
-              (category === "__NEW__" && !newTypeName.trim())
+              (category === "__NEW__" &&
+                (!newTypeName.trim() || Boolean(duplicateType)))
             }
             endIcon={!busy && <ArrowUpRight size={16} />}
           >

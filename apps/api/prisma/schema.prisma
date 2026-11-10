@@ -39,7 +39,7 @@ model Product {
   description String
   sku         String          @unique
   category    String
-  partType    PartType @relation(fields: [category, collection], references: [code, collection], onDelete: Restrict, onUpdate: Cascade)
+  partType    PartType @relation(fields: [category], references: [code], onDelete: Restrict, onUpdate: Cascade)
   collection  ProductCollection @default(INTERIOR)
   priceCents  Int
   imageUrl    String?
@@ -64,12 +64,9 @@ model Product {
 model PartType {
   code       String @id
   name       String
-  nameKey    String
-  collection ProductCollection
+  nameKey    String @unique
   products   Product[]
 
-  @@unique([code, collection])
-  @@unique([collection, nameKey])
 }
 
 enum RequestStatus {

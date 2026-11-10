@@ -15,7 +15,7 @@ async function saveWithPartType<T>(
       meta?: { modelName?: string; target?: unknown };
     };
     // A concurrent product save may have just created the same normalized type.
-    // Retry the complete rolled-back transaction so it can reuse that type.
+    // Retry the rolled-back transaction to return the friendly duplicate error.
     if (
       conflict.code === "P2002" &&
       (conflict.meta?.modelName === "PartType" ||
@@ -29,7 +29,6 @@ async function saveWithPartType<T>(
 async function resolvePartType(
   tx: Prisma.TransactionClient,
   category: string | undefined,
-  collection: "INTERIOR" | "EXTERIOR",
   name?: string,
 ) {
   if (name) {
@@ -40,14 +39,18 @@ async function resolvePartType(
         .replace(/[^a-zA-Z0-9]+/g, "_")
         .replace(/^_|_$/g, "")
         .toUpperCase() || "PART";
-    const type = await tx.partType.upsert({
-      where: { collection_nameKey: { collection, nameKey } },
-      update: {},
-      create: {
+    if (await tx.partType.findUnique({ where: { nameKey } }))
+      throw Object.assign(
+        new Error(
+          "This part type already exists. Select it from the Part type dropdown.",
+        ),
+        { statusCode: 409 },
+      );
+    const type = await tx.partType.create({
+      data: {
         code: `${prefix.slice(0, 80)}_${randomUUID().slice(0, 8).toUpperCase()}`,
         name,
         nameKey,
-        collection,
       },
     });
     return type.code;
@@ -55,11 +58,9 @@ async function resolvePartType(
   const type = category
     ? await tx.partType.findUnique({ where: { code: category } })
     : null;
-  if (!type || type.collection !== collection)
+  if (!type)
     throw Object.assign(
-      new Error(
-        "Choose a part type in the selected collection or enter a new name",
-      ),
+      new Error("Choose an existing part type or enter a new name"),
       { statusCode: 400 },
     );
   return type.code;
@@ -104,12 +105,7 @@ export const productService = {
     const imageUrls = data.imageUrls ?? (data.imageUrl ? [data.imageUrl] : []);
     const { partTypeName, ...fields } = data;
     return saveWithPartType(async (tx) => {
-      const category = await resolvePartType(
-        tx,
-        data.category,
-        data.collection,
-        partTypeName,
-      );
+      const category = await resolvePartType(tx, data.category, partTypeName);
       return tx.product.create({
         data: {
           ...fields,
@@ -136,7 +132,6 @@ export const productService = {
       const category = await resolvePartType(
         tx,
         data.category ?? existing.category,
-        data.collection ?? existing.collection,
         partTypeName,
       );
       return tx.product.update({

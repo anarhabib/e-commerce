@@ -3,7 +3,6 @@ export type AdminProduct = Product & { active: boolean };
 export type PartType = {
   code: string;
   name: string;
-  collection: "INTERIOR" | "EXTERIOR";
 };
 export const statuses = [
   "requested",

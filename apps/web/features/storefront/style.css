@@ -405,7 +405,7 @@
   position: relative;
   background-color: #e5e5de;
   width: 100%;
-  aspect-ratio: 1/1.08;
+  aspect-ratio: 1;
   padding: 0;
   overflow: hidden;
 }

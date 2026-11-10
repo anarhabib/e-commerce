@@ -5,7 +5,7 @@ import { buildApp } from "../src/app.js";
 import { prisma } from "../src/lib/prisma.js";
 import { hashPassword, signIn } from "../src/modules/admin/auth.js";
 
-test("part types are created atomically with products, reused by normalized name, collection-scoped and owner-only", async () => {
+test("part types are atomic, globally unique, reject duplicate names and owner-only", async () => {
   process.env.ADMIN_EMAIL = "types-test@example.com";
   process.env.ADMIN_PASSWORD_HASH = hashPassword("temporary-part-types-test");
   process.env.ADMIN_SESSION_SECRET = randomUUID() + randomUUID();
@@ -57,23 +57,29 @@ test("part types are created atomically with products, reused by normalized name
       partTypeName: name.toUpperCase(),
       collection: "EXTERIOR",
     });
-    assert.equal(second.statusCode, 201, second.body);
-    assert.equal(second.json().category, type);
+    assert.equal(second.statusCode, 409, second.body);
+    assert.match(second.json().error, /already exists/);
     const interior = await create({
       sku: `PT3-${suffix}`,
       slug: `pt3-${suffix}`,
       partTypeName: name,
       collection: "INTERIOR",
     });
-    assert.equal(interior.statusCode, 201, interior.body);
-    assert.notEqual(interior.json().category, type);
+    assert.equal(interior.statusCode, 409, interior.body);
     const mismatch = await create({
       sku: `PT4-${suffix}`,
       slug: `pt4-${suffix}`,
       category: type,
       collection: "INTERIOR",
     });
-    assert.equal(mismatch.statusCode, 400);
+    assert.equal(mismatch.statusCode, 201, mismatch.body);
+    const reuse = await create({
+      sku: `PTr-${suffix}`,
+      slug: `pt-reuse-${suffix}`,
+      category: type,
+      collection: "EXTERIOR",
+    });
+    assert.equal(reuse.statusCode, 201, reuse.body);
     const unknown = await create({
       sku: `PT5-${suffix}`,
       slug: `pt5-${suffix}`,
@@ -144,7 +150,7 @@ test("part types are created atomically with products, reused by normalized name
       method: "PATCH",
       url: `/products/${ids[1]}`,
       headers,
-      payload: { sku: interior.json().sku, partTypeName: rollbackName },
+      payload: { sku: reuse.json().sku, partTypeName: rollbackName },
     });
     assert.equal(failedUpdate.statusCode, 409);
     assert.equal(
@@ -164,9 +170,16 @@ test("part types are created atomically with products, reused by normalized name
         }),
       ),
     );
-    for (const result of concurrent)
-      assert.equal(result.statusCode, 201, result.body);
-    assert.equal(concurrent[0].json().category, concurrent[1].json().category);
+    assert.deepEqual(
+      concurrent.map((result) => result.statusCode).sort(),
+      [201, 409],
+    );
+    assert.equal(
+      await prisma.partType.count({
+        where: { nameKey: concurrentName.toLowerCase() },
+      }),
+      1,
+    );
   } finally {
     await prisma.product.deleteMany({ where: { id: { in: ids } } });
     await prisma.partType.deleteMany({ where: { code: { in: [...codes] } } });

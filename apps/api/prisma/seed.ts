@@ -22,7 +22,6 @@ try {
         code: data.category,
         name,
         nameKey: name.toLowerCase(),
-        collection: data.collection,
       },
     });
     const { partTypeName, ...fields } = data;
