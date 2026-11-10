@@ -1,5 +1,10 @@
 # Current implementation status
 
+## Desktop collection link hover — 10 November 2026
+
+- Interior/Exterior collection cards now highlight their titles and Explore underlines in brand orange and translate their arrows 2px on desktop pointer hover. Keyboard focus highlights the text/underline; reduced motion keeps arrows static. Styles are in `apps/web/features/storefront/integration.css`.
+- Production build and lint pass. Local Edge checks confirm both cards' colors, underline and arrow motion/reduced-motion behavior, alongside matching shared-button hover, navigation, submit and disabled-state checks. The prior shared-button commit `ac86c30` is live as Render deployment `dep-dbp6fkon74is73d0tf00`; this follow-up publishes next.
+
 ## Shared branded buttons and direct Lucide icons — 10 November 2026
 
 - Replaced the unused legacy `components/ui/button.tsx` implementation with the existing branded primary/secondary styles. The shared Button supports native button props, navigation links, reliable native section/external anchors and optional `endIcon` content. Migrated matching filled storefront/admin actions, preserving native submit/button types and special Add-to-bag price/hover behavior.
