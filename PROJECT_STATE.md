@@ -4,6 +4,7 @@
 
 - Replaced Interior/Exterior placeholder icons with the user's supplied photos in `features/storefront/components/collection.tsx`, using Next Image and local `public/carbignite/collection-interior.jpg` / `collection-exterior.jpg`. Shared 4:3 frames use contain to keep the full artwork visible at desktop/mobile sizes; retained existing link interactions. No generated image assets.
 - Production part-type migration is applied (8 migrations current); preservation fingerprint confirms all 6 current production products unchanged. Neon Function deployment 6 is completed and owner-only type feed returns successfully. Source implementation commit `a48c9f7`; frontend rollout follows with cover photos.
+- Live frontend commit `5132184273ea3f992e49c5e6b0fa137c8dba7520`, Render `dep-dbp7p4bm8hqs73d3v350`. Live browser checks pass at 375/1440px: both supplied images load, owner proxy type feed returns 200, inline new-type field appears and blank save is disabled. No live records written. Cover screenshots reviewed. Lint and production build pass (Webpack fallback after local Turbopack CSS worker failure; Render standard build succeeded). Test Neon branch deleted and local test servers stopped.
 
 ## Inline automatic product part types — 10 November 2026
 
