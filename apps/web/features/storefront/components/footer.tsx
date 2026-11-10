@@ -26,7 +26,7 @@ export function Footer() {
           {products.some((product) => product.isSample)
             ? "AI-generated demo imagery · Demo catalog & prices · "
             : ""}
-          Checkout not connected
+          Demo checkout · No payments taken
         </span>
         <Link href="/shop">
           Shop <ArrowUpRight size={16} aria-hidden="true" />

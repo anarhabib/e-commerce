@@ -25,6 +25,8 @@ const StorefrontContext = createContext<{
   notify: (message: string) => void;
   products: StoreProduct[];
   catalogError: boolean;
+  bag: BagSelection[];
+  bagReady: boolean;
 } | null>(null);
 
 export function useStorefront() {
@@ -49,8 +51,15 @@ function StorefrontContent({
   const [panel, setPanel] = useState<"bag" | "account" | null>(null);
   const { notify } = useNotificationActions();
   const storefront = useMemo(
-    () => ({ openProduct: setProduct, notify, products, catalogError }),
-    [notify, products, catalogError],
+    () => ({
+      openProduct: setProduct,
+      notify,
+      products,
+      catalogError,
+      bag,
+      bagReady: ready,
+    }),
+    [notify, products, catalogError, bag, ready],
   );
 
   useEffect(() => {

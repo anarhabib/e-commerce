@@ -100,3 +100,11 @@ origins; five security regressions cover this behavior.
 Remaining: real-mailbox email delivery/code verification and production SMTP
 configuration before a commercial launch. See `DEPLOYMENT.md` for hosting,
 manual code updates and verification commands.
+# Demo checkout
+
+The bag links to `/checkout` for a demonstration of the order summary and
+contact/delivery form. Completing it creates no real order, takes no payment,
+sends no email, and keeps the bag. Form details are not saved or submitted.
+All site modals, including mobile filters, use the shared Dialog component,
+with a bottom Close control on mobile and a top-right X on desktop.
+

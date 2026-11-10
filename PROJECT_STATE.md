@@ -1,5 +1,11 @@
 # Current implementation status
 
+## Shared dialogs everywhere and demo checkout — 10 November 2026
+
+- All application modals now use `features/storefront/components/dialog.tsx`; mobile filters were the final independent native dialog and now use shared lifecycle, centering, focus restoration, Escape/backdrop close and body-scroll locking. Shared bottom Close is the default through 700px, with a sticky 44px mobile tap target; desktop retains the top-right X. Account, bag and custom brief now receive the same behavior as product/admin dialogs.
+- Added bag Go to checkout link (disabled for an empty bag) and `/checkout`: `app/checkout/page.tsx`, `features/storefront/demo-checkout.tsx`. Shared shell exposes validated bag/ready state to the page. Demo shows selected variants, repeated entries/subtotal, required contact/delivery fields and a clear no-payment confirmation. It creates no order, sends no email/request, collects no card data and preserves the bag. Entered form values are not persisted. Handles loading, catalog failure and direct empty-bag access. Footer now labels demo checkout accurately.
+- Production build/TypeScript, lint and catalog-cache HTTP regression pass. Local Edge checks at 375x640, 393x700 and 1440x900 pass public modal placement/44px close visibility, filter application, bag navigation/persistence/subtotal, required fields, empty states and demo completion with zero network writes. Screenshots visually reviewed. Raw `<dialog>` now occurs only in the shared component. No API/schema/auth changes. Deployment follows below.
+
 ## Modal centering and announcement alignment — 10 November 2026
 
 - Shared `.storefront-dialog` now explicitly uses fixed positioning, zero insets, automatic margins and a dynamic viewport height cap. Removes the browser's focus outline only from the focused dialog container; interactive controls retain keyboard indicators. Announcement anchors use inline-flex with a 6px gap and an inline-flex icon span, preventing the SVG from wrapping away from its text.

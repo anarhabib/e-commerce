@@ -9,13 +9,15 @@ export function Dialog({
   title,
   onClose,
   children,
-  closeAtEndOnMobile = false,
+  closeAtEndOnMobile = true,
+  className = "",
 }: {
   id: string;
   title: string;
   onClose: () => void;
   children: ReactNode;
   closeAtEndOnMobile?: boolean;
+  className?: string;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -33,7 +35,7 @@ export function Dialog({
   }, [closeAtEndOnMobile]);
   return (
     <dialog
-      className={`storefront-dialog m-auto${closeAtEndOnMobile ? " has-mobile-end-close" : ""}`}
+      className={`storefront-dialog m-auto${closeAtEndOnMobile ? " has-mobile-end-close" : ""} ${className}`}
       ref={ref}
       id={id}
       aria-label={title}

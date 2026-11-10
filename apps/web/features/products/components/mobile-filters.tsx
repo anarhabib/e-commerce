@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  type ReactNode,
-} from "react";
-import { lockBodyScroll } from "@/lib/scroll-lock";
+import { createContext, useContext, useState, type ReactNode } from "react";
+import { Dialog } from "@/features/storefront/components/dialog";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Car, SlidersHorizontal, X } from "lucide-react";
 import { formatCategory } from "../utils";
@@ -26,13 +20,7 @@ export function useCloseMobileFilters() {
 }
 
 export function MobileFilters({ total, children }: Props) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const releaseScroll = useRef<(() => void) | null>(null);
-  function unlockScroll() {
-    releaseScroll.current?.();
-    releaseScroll.current = null;
-  }
-  useEffect(() => () => unlockScroll(), []);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -50,17 +38,8 @@ export function MobileFilters({ total, children }: Props) {
     (search ? 1 : 0) +
     (collection ? 1 : 0);
 
-  function openSheet() {
-    const dialog = dialogRef.current;
-    if (!dialog || dialog.open) return;
-    dialog.showModal();
-    releaseScroll.current = lockBodyScroll();
-  }
-
-  function closeSheet() {
-    dialogRef.current?.close();
-    unlockScroll();
-  }
+  const openSheet = () => setOpen(true);
+  const closeSheet = () => setOpen(false);
 
   // Remove some params from the URL, keep everything else, go back to page 1
   function removeParams(keys: string[], onlyValue?: string) {
@@ -159,39 +138,19 @@ export function MobileFilters({ total, children }: Props) {
         )}
       </div>
 
-      {/* The bottom sheet */}
-      <dialog
-        ref={dialogRef}
-        aria-label="Filters"
-        onClose={unlockScroll}
-        onClick={(event) => {
-          // a click on the dark backdrop targets the dialog itself
-          if (event.target === dialogRef.current) closeSheet();
-        }}
-        className="sheet shop-filter-sheet fixed inset-x-0 bottom-0 top-auto m-0 max-h-[85dvh] w-full max-w-none overflow-hidden rounded-t-xl bg-tertiary p-0 backdrop:bg-secondary/60"
-      >
-        <div className="flex max-h-[85dvh] flex-col">
-          <header className="flex items-center justify-between border-b border-secondary/10 bg-white px-4 py-3">
-            <h2 className="font-headline text-lg font-black text-secondary">
-              Filters
-            </h2>
-            <button
-              type="button"
-              onClick={closeSheet}
-              aria-label="Close filters"
-              className="rounded-sm p-2 text-secondary hover:bg-primary-soft"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </header>
-
-          <div className="flex-1 overflow-y-auto p-4">
-            <CloseFiltersContext.Provider value={closeSheet}>
-              {children}
-            </CloseFiltersContext.Provider>
-          </div>
-        </div>
-      </dialog>
+      {open && (
+        <Dialog
+          id="shop-filters"
+          title="Filters"
+          className="shop-filter-sheet"
+          onClose={closeSheet}
+        >
+          <h2>Filters</h2>
+          <CloseFiltersContext.Provider value={closeSheet}>
+            {children}
+          </CloseFiltersContext.Provider>
+        </Dialog>
+      )}
     </div>
   );
 }

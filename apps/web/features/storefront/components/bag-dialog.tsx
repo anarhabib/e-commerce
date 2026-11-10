@@ -1,5 +1,7 @@
 "use client";
 import { Dialog } from "./dialog";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import type { StoreProduct } from "../types";
 import { money, type BagSelection } from "../types";
 
@@ -64,8 +66,22 @@ export function BagDialog({
       </div>
       <p className="preview-note">
         Catalog prices are estimates. Demo products are for design review only.
-        Checkout and payments are not connected.
+        Demo checkout only. No payment or real order will be created.
       </p>
+      {rows.length ? (
+        <Button
+          href="/checkout"
+          className="bag-checkout"
+          onClick={close}
+          endIcon={<ArrowUpRight size={16} />}
+        >
+          Go to checkout
+        </Button>
+      ) : (
+        <Button className="bag-checkout" disabled>
+          Go to checkout
+        </Button>
+      )}
       <button className="text-button" onClick={close}>
         Continue exploring
       </button>
