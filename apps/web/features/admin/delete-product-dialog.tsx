@@ -32,6 +32,7 @@ export function DeleteProductDialog({
       id="delete-product"
       title="delete product confirmation"
       onClose={close}
+      closeAtEndOnMobile
     >
       <div className="eyebrow">THE COLLECTION / DELETE PRODUCT</div>
       <h2>Remove this detail?</h2>

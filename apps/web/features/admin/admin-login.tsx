@@ -1,4 +1,5 @@
 "use client";
+import { AdminArrow } from "./admin-arrow";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { useState, type FormEvent } from "react";
 import Link from "@/components/ui/navigation-link";
@@ -59,11 +60,17 @@ export function AdminLogin() {
             {error}
           </p>
           <button className="button primary" disabled={busy}>
-            {busy ? "Signing in…" : "Sign in ↗"}
+            {busy ? (
+              "Signing in…"
+            ) : (
+              <>
+                Sign in <AdminArrow />
+              </>
+            )}
           </button>
         </form>
         <Link className="back-link" href="/">
-          Return to storefront ↗
+          Return to storefront <AdminArrow />
         </Link>
       </section>
     </main>

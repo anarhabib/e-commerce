@@ -1,4 +1,5 @@
 "use client";
+import { AdminArrow } from "./admin-arrow";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useNotificationActions } from "@/components/ui/notifications";
 import { LoadingBar } from "@/components/ui/loading-bar";
@@ -186,7 +187,7 @@ export function AdminPanel() {
               {money(o.totalCents)} estimated
             </span>
             <button className="order-detail-button" onClick={() => setOrder(o)}>
-              View request ↗
+              View request <AdminArrow />
             </button>
           </div>
         </article>
@@ -233,7 +234,7 @@ export function AdminPanel() {
           ))}
         </nav>
         <Link className="back-link" href="/">
-          ↗ View storefront
+          <AdminArrow /> View storefront
         </Link>
         <div className="admin-note">
           OWNER ACCESS
@@ -272,7 +273,7 @@ export function AdminPanel() {
                 className="text-button"
                 onClick={() => setRevision((r) => r + 1)}
               >
-                Retry ↗
+                Retry <AdminArrow />
               </button>
             )}
           </div>
@@ -283,7 +284,7 @@ export function AdminPanel() {
           <>
             <div className="admin-session">
               <button className="text-button" disabled={busy} onClick={logout}>
-                Sign out ↗
+                Sign out <AdminArrow />
               </button>
             </div>
             {busy && <LoadingBar label="Signing out" />}
@@ -321,7 +322,7 @@ export function AdminPanel() {
                     className="text-button"
                     onClick={() => switchTab("orders")}
                   >
-                    View all ↗
+                    View all <AdminArrow />
                   </button>
                 </div>
                 {cards(overview.recent)}

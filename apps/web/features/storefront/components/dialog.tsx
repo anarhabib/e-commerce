@@ -9,30 +9,35 @@ export function Dialog({
   title,
   onClose,
   children,
+  closeAtEndOnMobile = false,
 }: {
   id: string;
   title: string;
   onClose: () => void;
   children: ReactNode;
+  closeAtEndOnMobile?: boolean;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current!;
     const opener = document.activeElement as HTMLElement | null;
     dialog.showModal();
+    if (closeAtEndOnMobile && window.matchMedia("(max-width: 700px)").matches)
+      dialog.focus({ preventScroll: true });
     const releaseScroll = lockBodyScroll();
     return () => {
       dialog.close();
       releaseScroll();
       opener?.focus();
     };
-  }, []);
+  }, [closeAtEndOnMobile]);
   return (
     <dialog
-      className="storefront-dialog m-auto"
+      className={`storefront-dialog m-auto${closeAtEndOnMobile ? " has-mobile-end-close" : ""}`}
       ref={ref}
       id={id}
       aria-label={title}
+      tabIndex={-1}
       onCancel={onClose}
       onClick={(event) => {
         if (event.target !== event.currentTarget) return;
@@ -57,6 +62,17 @@ export function Dialog({
         </button>
       </div>
       {children}
+      {closeAtEndOnMobile && (
+        <button
+          type="button"
+          className="dialog-end-close"
+          onClick={onClose}
+          aria-label={`Close ${title}`}
+        >
+          <X size={14} strokeWidth={1.5} aria-hidden="true" />
+          Close
+        </button>
+      )}
     </dialog>
   );
 }

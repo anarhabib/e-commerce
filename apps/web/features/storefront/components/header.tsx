@@ -28,13 +28,14 @@ export function Header({
     <>
       <div className="announcement">
         A new expression of carbon.{" "}
-        <Link href="/#collection">
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- Native anchors resolve sections reliably after a cross-page load. */}
+        <a href="/#collection">
           Explore Interior &amp; Exterior{" "}
           <span>
             {" "}
             <ArrowUpRight size={16} />
           </span>
-        </Link>
+        </a>
       </div>
       <header className={scrolled ? "is-scrolled" : ""}>
         <Link className="wordmark" href="/" aria-label="Carbignite home">
@@ -54,20 +55,19 @@ export function Header({
             ["/#collection", "Collections"],
             ["/#material", "The material"],
             ["/#atelier", "Our approach"],
-          ].map(([href, label]) => (
-            <Link key={href} href={href} onClick={() => setMenu(false)}>
-              {label}
-            </Link>
-          ))}
+          ].map(([href, label]) =>
+            href.startsWith("/#") ? (
+              <a key={href} href={href} onClick={() => setMenu(false)}>
+                {label}
+              </a>
+            ) : (
+              <Link key={href} href={href} onClick={() => setMenu(false)}>
+                {label}
+              </Link>
+            ),
+          )}
         </nav>
         <div className="header-actions">
-          <Link
-            className="mobile-shop-link"
-            href="/shop"
-            onClick={() => setMenu(false)}
-          >
-            Shop
-          </Link>
           <button className="account-link" onClick={openAccount}>
             Account
           </button>

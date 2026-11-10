@@ -36,6 +36,7 @@ export function ProductDialog({
       id="product-dialog"
       title={`${product.name} details`}
       onClose={close}
+      closeAtEndOnMobile
     >
       <div className="detail-grid">
         <div className="product-gallery-viewer">

@@ -1,4 +1,5 @@
 "use client";
+import { AdminArrow } from "./admin-arrow";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
@@ -78,7 +79,12 @@ export function RequestEditor({
     }
   }
   return (
-    <Dialog id="new-request" title="new order request" onClose={close}>
+    <Dialog
+      id="new-request"
+      title="new order request"
+      onClose={close}
+      closeAtEndOnMobile
+    >
       {busy && <LoadingBar label="Updating workshop" />}
       <div className="eyebrow">OWNER INTAKE / PHONE OR EMAIL</div>
       <h2>A new request.</h2>
@@ -92,7 +98,7 @@ export function RequestEditor({
           <input name="sku" required />
         </label>
         <button className="text-button" disabled={busy}>
-          Find product ↗
+          Find product <AdminArrow />
         </button>
       </form>
       {product && (
@@ -157,7 +163,13 @@ export function RequestEditor({
               <textarea name="note" maxLength={2000} />
             </label>
             <button className="button primary">
-              {busy ? "Saving…" : "Save request ↗"}
+              {busy ? (
+                "Saving…"
+              ) : (
+                <>
+                  Save request <AdminArrow />
+                </>
+              )}
             </button>
           </fieldset>
         </form>

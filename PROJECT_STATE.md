@@ -1,5 +1,39 @@
 # Current implementation status
 
+## Approved UI polish and admin controls — 10 November 2026
+
+- User approved deployment of all pending storefront changes and requested the admin arrow/close fixes. This supersedes the earlier preview-only deployment hold.
+- Added `features/admin/admin-arrow.tsx` (decorative 16px Lucide SVG) and migrated all northeast text arrows in admin sign-in, panel, product editor/gallery and request/detail actions. Shared admin CSS keeps icons inline. All four admin dialogs opt into `Dialog.closeAtEndOnMobile`: bottom Close through 700px, previous top-right SVG X on larger screens.
+- Included pending collection CTA spacing, removal of duplicate mobile Shop link, reliable native section anchors, equal Account/Bag label size/weight, four-column desktop filters and mobile-only bottom product Close. No password/auth/database changes.
+- Web production build, lint, TypeScript (via build), catalog-cache HTTP regression and diff whitespace check passed. Local read-only Edge checks at 375x640, 393x700 and 1440x900 passed storefront close placement, typography, section links, desktop filter alignment, admin SVG arrows and closing product/request/order/delete dialogs. Synthetic order data was intercepted only in the test browser; admin writes were blocked, no application records modified. Publication follows below.
+
+## Owner login rejection diagnostic — 10 November 2026
+
+- User reports rejected password. Verified deployed Neon Function has all three owner configuration keys (API exposes key names only); saved local hash format/session configuration is valid. A 60-second diagnostic token signed from the existing saved owner email/session secret is accepted by live `/admin/session` (200), and public `/admin` with that session renders (200). Public `/admin/login` responds 200. No password, credential hash or session token printed; no credential change performed.
+- The website Account dialog uses customer Neon Auth, while `/admin/login` requires the separate pre-existing owner credentials. Asked which credentials user is using before choosing recovery. Cannot validate or recover their plaintext password. Existing UI changes remain local, awaiting approval before deployment.
+
+## Navbar typography alignment — 10 November 2026
+
+- `apps/web/features/storefront/integration.css` now gives header Account and Bag a shared 14px label token, weight 400 and line-height 1.4 at every breakpoint. Removed the narrow-phone 12px Account override. Local only; user approval before deployment still applies.
+- Checked project skill files and lockfile: `motion-ui-review` and seven Neon skills are installed; UI UX Pro Max and Taste are not installed in this project's `.agents`/`.codex` skill directories.
+
+## Close placement correction — 10 November 2026
+
+- User clarified that the bottom Close belongs only on mobile. Shared `Dialog.closeAtEndOnMobile` now renders responsive close controls: at widths up to 700px the product modal hides the top toolbar and shows bottom Close; larger screens retain the previous top-right X and hide bottom Close. Other dialogs keep their previous controls. Mobile initial focus stays on the dialog; desktop keeps native initial focus behavior.
+- Files: `apps/web/features/storefront/components/{dialog,product-dialog}.tsx` and `integration.css`. Prior desktop modal screenshot showing bottom Close is superseded. Changes remain local and undeployed pending user review.
+
+## Desktop shop filter row preview — 10 November 2026
+
+- Changed `.shop-filters` in `apps/web/features/storefront/integration.css` to four columns (wider search, then Collection, Part type and Sort by). Existing mobile sheet/breakpoints retained.
+- Production build and local Edge geometry checks pass at 1024, 1280 and 1440px: all four controls share one row with no overflow. Mobile controls remain available at 393px. Screenshot: `C:/Users/USER/.codex/visualizations/2026/11/09/01a1c28c-8d7d-7081-8b1e-00b30b1411e0/desktop-filters-fixed.png`. Local, uncommitted and not deployed, pending the user's review alongside the modal/navigation changes below.
+
+## Spacing, bottom Close and section navigation preview — 10 November 2026
+
+- Local uncommitted changes: collection CTA has 24px mobile spacing below the heading; product dialog opts into shared `Dialog.closeAtEnd`, replacing the top toolbar with a small bottom Close action (14px icon). Dialog itself receives initial focus, retains Escape/backdrop closing and restores opener focus. Other dialogs retain their top close controls.
+- Removed duplicate mobile header Shop link and its CSS; Shop remains in the hamburger/desktop nav. Homepage section links in `components/header.tsx` use native anchors so Collections resolves on repeated and cross-page navigation; intentional native-anchor lint exception is documented locally.
+- Production build and lint pass. Local Edge checks at 375x640, 393x700, 430x780 and 1440x900 verify CTA gap, no modal scrolling, bottom Close placement, focus restoration, Escape and Collections navigation from home/shop. Preview screenshots: `C:/Users/USER/.codex/visualizations/2026/11/09/01a1c28c-8d7d-7081-8b1e-00b30b1411e0/{collection-fixed,modal-fixed}.png`.
+- User explicitly requested images before deployment: previews shown; DO NOT deploy this revision until the user approves. No commit, push or deployment performed. Temporary preview script/server cleaned up.
+
 ## Shop-only collections update live — 10 November 2026
 
 - Commit `aef8d1513fa381ed7178c5ba8ec06ec746dc5cac` pushed to `main` and `deploy/neon-render-frontend`; existing free Render deployment `dep-dbp5k4s9v7es73am4nqg` confirmed live. Public URL remains `https://carbignite-web-dev.onrender.com`.

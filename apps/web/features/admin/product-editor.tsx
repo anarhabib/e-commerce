@@ -1,4 +1,5 @@
 "use client";
+import { AdminArrow } from "./admin-arrow";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
@@ -75,7 +76,12 @@ export function ProductEditor({
     }
   }
   return (
-    <Dialog id="edit-product" title="product editor" onClose={close}>
+    <Dialog
+      id="edit-product"
+      title="product editor"
+      onClose={close}
+      closeAtEndOnMobile
+    >
       <div className="eyebrow">THE COLLECTION / PRODUCT DETAILS</div>
       <h2>
         {duplicate
@@ -295,7 +301,9 @@ export function ProductEditor({
           </p>
           <button className="button primary" type="submit">
             {busy ? "Saving…" : "Save product"}
-            <span>↗</span>
+            <span>
+              <AdminArrow />
+            </span>
           </button>
         </fieldset>
       </form>

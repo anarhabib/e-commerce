@@ -1,4 +1,5 @@
 "use client";
+import { AdminArrow } from "./admin-arrow";
 import { LoadingBar } from "@/components/ui/loading-bar";
 import { Dropdown } from "@/components/ui/dropdown";
 import { useState, type FormEvent } from "react";
@@ -33,7 +34,12 @@ export function OrderDetail({
   }
   const c = order.customer;
   return (
-    <Dialog id="order-detail" title="order request details" onClose={close}>
+    <Dialog
+      id="order-detail"
+      title="order request details"
+      onClose={close}
+      closeAtEndOnMobile
+    >
       {busy && <LoadingBar label="Updating workshop" />}
       <div className="eyebrow">
         ORDER REQUEST / {new Date(order.createdAt).toLocaleDateString()}
@@ -98,7 +104,13 @@ export function OrderDetail({
           ))}
         </Dropdown>
         <button disabled={busy} className="button primary">
-          {busy ? "Saving…" : "Update status ↗"}
+          {busy ? (
+            "Saving…"
+          ) : (
+            <>
+              Update status <AdminArrow />
+            </>
+          )}
         </button>
       </form>
       <p className="form-error" role="alert">

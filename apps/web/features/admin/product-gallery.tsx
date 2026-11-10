@@ -1,4 +1,5 @@
 "use client";
+import { AdminArrow } from "./admin-arrow";
 import { useState, type ChangeEvent } from "react";
 import { adminApi } from "./api";
 import { productImageStyle } from "@/features/products/utils";
@@ -127,7 +128,7 @@ export function ProductGallery({
                 Remove
               </button>
               <a href={image} target="_blank" rel="noreferrer">
-                View ↗
+                View <AdminArrow />
               </a>
             </div>
           </article>
@@ -164,7 +165,7 @@ export function ProductGallery({
         onClick={addUrl}
         disabled={busy || !url.trim()}
       >
-        Add image ↗
+        Add image <AdminArrow />
       </button>
       <p className="form-error" role="alert">
         {error}
