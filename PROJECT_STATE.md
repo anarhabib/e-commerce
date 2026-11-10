@@ -1,5 +1,10 @@
 # Current implementation status
 
+## Modal centering and announcement alignment — 10 November 2026
+
+- Shared `.storefront-dialog` now explicitly uses fixed positioning, zero insets, automatic margins and a dynamic viewport height cap. Removes the browser's focus outline only from the focused dialog container; interactive controls retain keyboard indicators. Announcement anchors use inline-flex with a 6px gap and an inline-flex icon span, preventing the SVG from wrapping away from its text.
+- File: `apps/web/features/storefront/integration.css`. Lint and TypeScript pass. Production build/publication follows. Mobile Safari visual confirmation remains manual.
+
 ## Button and hover updates deployed and verified — 10 November 2026
 
 - Deployed final app commit `27fcadd7c9d328f6c4ea449983fcf61925dd86ed` (includes shared-button commit `ac86c30`) to the existing free Render service as `dep-dbp6h2rrjlhs73f0cqng`, confirmed live. Source pushed to `main` and `deploy/neon-render-frontend`.

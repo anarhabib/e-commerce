@@ -1,4 +1,23 @@
 /* Reference styles sit below Tailwind utilities in the cascade. */
+.carbignite .storefront-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-height: calc(100dvh - 32px);
+}
+.carbignite .storefront-dialog:focus {
+  outline: none;
+}
+.carbignite .announcement a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.carbignite .announcement a > span {
+  display: inline-flex;
+  margin-left: 0;
+}
 /* Input focus stays inside the field; it never adds an outside ring or changes size. */
 .carbignite input:focus,
 .carbignite textarea:focus {
