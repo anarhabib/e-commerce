@@ -1,5 +1,11 @@
 # Current implementation status
 
+## Mobile product gallery sizing — 17 November 2026
+
+- Published pending mobile-only rules in `apps/web/features/storefront/integration.css`: center and constrain gallery images through 700px, cap natural photos at 24dvh/180px and photos with gallery navigation at 18dvh/130px. Desktop styling is unchanged.
+- Existing lint and Webpack production build passed with these exact CSS changes; whitespace check passes. Commit `1d7bed39403a773d2d4bbeab2efea96aecf81b9f` pushed to `main` and `deploy/neon-render-frontend`. Temporary `tmp-image-review.mjs` remains untracked.
+- Clean-cache Render deployment `dep-dbu9rsdbedkc7397kamg` is live. Public homepage returns 200; published CSS confirms centered 24dvh/180px gallery sizing and the 18dvh/130px cap with navigation.
+
 ## Collection card sizing — 17 November 2026
 
 - Collection covers now share responsive 4:3 frames with `object-fit: cover` in `apps/web/features/storefront/integration.css`. This supersedes natural-ratio cover sizing: both desktop images and captions align, with proportional centered cropping and no letterboxing. Mobile retains the single-column layout and matching frame proportions.
