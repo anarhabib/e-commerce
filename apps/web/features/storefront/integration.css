@@ -418,6 +418,36 @@
   width: 100%;
   height: auto;
 }
+@media (max-width: 700px) {
+  .carbignite
+    #product-dialog
+    .detail-grid
+    .product-gallery-viewer
+    .detail-image {
+    width: min(100%, 24dvh, 180px);
+    margin-inline: auto;
+  }
+  .carbignite
+    #product-dialog
+    .detail-grid
+    .product-gallery-viewer
+    .detail-image.has-single-photo {
+    width: fit-content;
+    max-width: 100%;
+  }
+  .carbignite #product-dialog .detail-photo {
+    width: auto;
+    max-width: 100%;
+    max-height: min(24dvh, 180px);
+    object-fit: contain;
+  }
+  .carbignite
+    #product-dialog
+    .product-gallery-viewer:has(.product-gallery-navigation)
+    .detail-photo {
+    max-height: min(18dvh, 130px);
+  }
+}
 .carbignite .product-image-zoom {
   position: absolute;
   right: 10px;
