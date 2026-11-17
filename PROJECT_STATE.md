@@ -1,5 +1,11 @@
 # Current implementation status
 
+## Collection card sizing — 17 November 2026
+
+- Collection covers now share responsive 4:3 frames with `object-fit: cover` in `apps/web/features/storefront/integration.css`. This supersedes natural-ratio cover sizing: both desktop images and captions align, with proportional centered cropping and no letterboxing. Mobile retains the single-column layout and matching frame proportions.
+- Web lint and production Webpack build pass; local Turbopack hits the previously observed CSS worker crash. Isolated collection fix commit `fc0da0d95093e149fcb1494d42f90410d978d2c7` pushed to `main` and `deploy/neon-render-frontend`; unrelated mobile gallery CSS and `tmp-image-review.mjs` remain uncommitted.
+- Render deployment `dep-dbu9j949v7es73e4ioh0` reported live but public CSS retained previous natural sizing. Clean-cache rebuild `dep-dbu9ludckfvc73cof670` is live; public homepage returns 200 and published CSS verifies `aspect-ratio:4/3`, `height:100%` and `object-fit:cover`. Clear Render build cache if this stale-build issue recurs.
+
 ## Gallery, natural collection covers and readable 404 follow-up — 10 November 2026
 
 - The duplicate merge/API and first image update are live: app `7de0fc340a3461195464b65d188d13ce6643f699`, Render `dep-dbp82ibrjlhs73f4u4o0`. Production migration preserves all 6 products and leaves 4 globally unique types. API deployed successfully.
